@@ -1,4 +1,4 @@
-package com.empresa.training.controller;
+package com.eam.LevelUpCorp.presentationLayer.controller;
 
 import org.springframework.web.bind.annotation.*;
 
