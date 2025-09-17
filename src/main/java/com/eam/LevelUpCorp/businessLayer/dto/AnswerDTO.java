@@ -1,5 +1,14 @@
 package com.eam.LevelUpCorp.businessLayer.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "Datos para crear una respuesta de evaluacion")
 public class AnswerDTO {
 
     @Schema(description = "ID de la evaluación a la que responde",

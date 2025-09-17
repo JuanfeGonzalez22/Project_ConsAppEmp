@@ -1,5 +1,14 @@
 package com.eam.LevelUpCorp.businessLayer.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Schema(description = "Este DTO muestra un badge o recompensa dentro de la plataforma")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class GamificationDTO {
     @Schema(description = "Identificador del badge o recompensa", example = "1")
     private Long id;
