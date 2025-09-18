@@ -5,16 +5,16 @@ import java.time.LocalDate;
 public class Certificate {
 
     private int id;
-    private int usuarioId;
-    private int cursoId;
-    private LocalDate fechaEmision;
+    private int userId;
+    private int courseId;
+    private LocalDate emissionDate;
     private String hash;
 
-    public Certificate(int id, int usuarioId, int cursoId, LocalDate fechaEmision, String hash) {
+    public Certificate(int id, int userId, int courseId, LocalDate emissionDate, String hash) {
         this.id = id;
-        this.usuarioId = usuarioId;
-        this.cursoId = cursoId;
-        this.fechaEmision = fechaEmision;
+        this.userId = userId;
+        this.courseId = courseId;
+        this.emissionDate = emissionDate;
         this.hash = hash;
     }
 
@@ -26,28 +26,28 @@ public class Certificate {
         this.id = id;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getCursoId() {
-        return cursoId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCursoId(int cursoId) {
-        this.cursoId = cursoId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
-    public LocalDate getFechaEmision() {
-        return fechaEmision;
+    public LocalDate getEmissionDate() {
+        return emissionDate;
     }
 
-    public void setFechaEmision(LocalDate fechaEmision) {
-        this.fechaEmision = fechaEmision;
+    public void setEmissionDate(LocalDate emissionDate) {
+        this.emissionDate = emissionDate;
     }
 
     public String getHash() {

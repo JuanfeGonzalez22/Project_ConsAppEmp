@@ -3,14 +3,14 @@ package com.eam.LevelUpCorp.persistenceLayer.model;
 public class Gamification {
 
     private int id;
-    private String  nombre;
-    private String criterio;
+    private String  name;
+    private String criterion;
     private String icono;
 
-    public Gamification(int id, String nombre, String criterio, String icono) {
+    public Gamification(int id, String name, String criterion, String icono) {
         this.id = id;
-        this.nombre = nombre;
-        this.criterio = criterio;
+        this.name = name;
+        this.criterion = criterion;
         this.icono = icono;
     }
 
@@ -22,20 +22,20 @@ public class Gamification {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCriterio() {
-        return criterio;
+    public String getCriterion() {
+        return criterion;
     }
 
-    public void setCriterio(String criterio) {
-        this.criterio = criterio;
+    public void setCriterion(String criterion) {
+        this.criterion = criterion;
     }
 
     public String getIcono() {

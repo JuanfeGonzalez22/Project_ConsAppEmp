@@ -5,58 +5,56 @@ import java.time.LocalTime;
 public class Course {
 
     private int id;
-    private String descripcion;
-    private String titulo;
-    private LocalTime duracionEstimada;
-    private int nivel;
+    private String description;
+    private String title;
+    private LocalTime estimatedDuration;
+    private int level;
 
-    public Course(int id, String descripcion, String titulo, LocalTime duracionEstimada, int nivel) {
+    public Course(int id, String description, String title, LocalTime estimatedDuration, int level) {
         this.id = id;
-        this.descripcion = descripcion;
-        this.titulo = titulo;
-        this.duracionEstimada = duracionEstimada;
-        this.nivel = nivel;
+        this.description = description;
+        this.title = title;
+        this.estimatedDuration = estimatedDuration;
+        this.level = level;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public LocalTime getDuracionEstimada() {
-        return duracionEstimada;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setDuracionEstimada(LocalTime duracionEstimada) {
-        this.duracionEstimada = duracionEstimada;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
+    public LocalTime getEstimatedDuration() {
+        return estimatedDuration;
+    }
 
+    public void setEstimatedDuration(LocalTime estimatedDuration) {
+        this.estimatedDuration = estimatedDuration;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }

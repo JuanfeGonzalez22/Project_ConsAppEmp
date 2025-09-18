@@ -5,19 +5,18 @@ import java.time.LocalDate;
 public class Answer {
 
     private int id;
-    private int evaluacionId;
-    private int usuarioId;
-    private double puntuacion;
-    private LocalDate fecha;
+    private int evaluationId;
+    private int userId;
+    private double score;
+    private LocalDate date;
 
-    public Answer(int id, int evaluacionId, int usuarioId, double puntuacion, LocalDate fecha) {
+    public Answer(int id, int evaluationId, int userId, double score, LocalDate date) {
         this.id = id;
-        this.evaluacionId = evaluacionId;
-        this.usuarioId = usuarioId;
-        this.puntuacion = puntuacion;
-        this.fecha = fecha;
+        this.evaluationId = evaluationId;
+        this.userId = userId;
+        this.score = score;
+        this.date = date;
     }
-
 
     public int getId() {
         return id;
@@ -27,35 +26,35 @@ public class Answer {
         this.id = id;
     }
 
-    public int getEvaluacionId() {
-        return evaluacionId;
+    public int getEvaluationId() {
+        return evaluationId;
     }
 
-    public void setEvaluacionId(int evaluacionId) {
-        this.evaluacionId = evaluacionId;
+    public void setEvaluationId(int evaluationId) {
+        this.evaluationId = evaluationId;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public double getPuntuacion() {
-        return puntuacion;
+    public double getScore() {
+        return score;
     }
 
-    public void setPuntuacion(double puntuacion) {
-        this.puntuacion = puntuacion;
+    public void setScore(double score) {
+        this.score = score;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

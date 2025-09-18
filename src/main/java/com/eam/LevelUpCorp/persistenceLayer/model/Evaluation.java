@@ -3,17 +3,17 @@ package com.eam.LevelUpCorp.persistenceLayer.model;
 public class Evaluation {
 
     private int id;
-    private int moduloId;
-    private String titulo;
-    private String tipo;
-    private int puntajeMax;
+    private int moduleId;
+    private String title;
+    private String type;
+    private int maxCore;
 
-    public Evaluation(int id, int moduloId, String titulo, String tipo, int puntajeMax) {
+    public Evaluation(int id, int moduleId, String title, String type, int maxCore) {
         this.id = id;
-        this.moduloId = moduloId;
-        this.titulo = titulo;
-        this.tipo = tipo;
-        this.puntajeMax = puntajeMax;
+        this.moduleId = moduleId;
+        this.title = title;
+        this.type = type;
+        this.maxCore = maxCore;
     }
 
     public int getId() {
@@ -24,35 +24,35 @@ public class Evaluation {
         this.id = id;
     }
 
-    public int getModuloId() {
-        return moduloId;
+    public int getModuleId() {
+        return moduleId;
     }
 
-    public void setModuloId(int moduloId) {
-        this.moduloId = moduloId;
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public int getPuntajeMax() {
-        return puntajeMax;
+    public int getMaxCore() {
+        return maxCore;
     }
 
-    public void setPuntajeMax(int puntajeMax) {
-        this.puntajeMax = puntajeMax;
+    public void setMaxCore(int maxCore) {
+        this.maxCore = maxCore;
     }
 }

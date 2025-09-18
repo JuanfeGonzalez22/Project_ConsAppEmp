@@ -3,17 +3,17 @@ package com.eam.LevelUpCorp.persistenceLayer.model;
 public class Module {
 
     private int id;
-    private int cursoId;
-    private String titulo;
-    private String tipo; //video, texto, quiz y practica
-    private int orden;
+    private int courseId;
+    private String title;
+    private String type; //video, texto, quiz y practica
+    private int order;
 
-    public Module(int id, int cursoId, String titulo, String tipo, int orden) {
+    public Module(int id, int courseId, String title, String type, int order) {
         this.id = id;
-        this.cursoId = cursoId;
-        this.titulo = titulo;
-        this.tipo = tipo;
-        this.orden = orden;
+        this.courseId = courseId;
+        this.title = title;
+        this.type = type;
+        this.order = order;
     }
 
     public int getId() {
@@ -24,35 +24,35 @@ public class Module {
         this.id = id;
     }
 
-    public int getCursoId() {
-        return cursoId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCursoId(int cursoId) {
-        this.cursoId = cursoId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public int getOrden() {
-        return orden;
+    public int getOrder() {
+        return order;
     }
 
-    public void setOrden(int orden) {
-        this.orden = orden;
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
