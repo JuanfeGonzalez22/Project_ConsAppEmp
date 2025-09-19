@@ -3,27 +3,19 @@ package com.eam.LevelUpCorp.persistenceLayer.model;
 public class User {
 
     private int id;
-    private String nombre;
+    private String name;
     private String email;
     private String password;
-    private String rol;
-    private String departamento;
+    private String role;
+    private String departament;
 
-    public User(int id, String nombre, String email, String rol, String departamento, String password) {
+    public User(int id, String name, String email, String role, String departament, String password) {
         this.id = id;
         this.password = password;
-        this.nombre = nombre;
+        this.name = name;
         this.email = email;
-        this.rol = rol;
-        this.departamento = departamento;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        this.role = role;
+        this.departament = departament;
     }
 
     public int getId() {
@@ -34,12 +26,12 @@ public class User {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -50,21 +42,27 @@ public class User {
         this.email = email;
     }
 
-    public String getRol() {
-        return rol;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getDepartamento() {
-        return departamento;
+    public String getRole() {
+        return role;
     }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+    public void setRole(String role) {
+        this.role = role;
     }
 
+    public String getDepartament() {
+        return departament;
+    }
 
+    public void setDepartament(String departament) {
+        this.departament = departament;
+    }
 }

@@ -5,19 +5,19 @@ import java.time.LocalDate;
 public class Registration {
 
     private int id;
-    private int usuarioId;
-    private int cursoId;
-    private double progreso;
-    private LocalDate fechaInscripcion;
-    private String estado;
+    private int userId;
+    private int courseId;
+    private double progress;
+    private LocalDate enrollmentDate;
+    private String status;
 
-    public Registration(int id, int usuarioId, int cursoId, double progreso, LocalDate fechaInscripcion, String estado) {
+    public Registration(int id, int userId, int courseId, double progress, LocalDate enrollmentDate, String status) {
         this.id = id;
-        this.usuarioId = usuarioId;
-        this.cursoId = cursoId;
-        this.progreso = progreso;
-        this.fechaInscripcion = fechaInscripcion;
-        this.estado = estado;
+        this.userId = userId;
+        this.courseId = courseId;
+        this.progress = progress;
+        this.enrollmentDate = enrollmentDate;
+        this.status = status;
     }
 
     public int getId() {
@@ -28,43 +28,43 @@ public class Registration {
         this.id = id;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getCursoId() {
-        return cursoId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCursoId(int cursoId) {
-        this.cursoId = cursoId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
-    public double getProgreso() {
-        return progreso;
+    public double getProgress() {
+        return progress;
     }
 
-    public void setProgreso(double progreso) {
-        this.progreso = progreso;
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 
-    public LocalDate getFechaInscripcion() {
-        return fechaInscripcion;
+    public LocalDate getEnrollmentDate() {
+        return enrollmentDate;
     }
 
-    public void setFechaInscripcion(LocalDate fechaInscripcion) {
-        this.fechaInscripcion = fechaInscripcion;
+    public void setEnrollmentDate(LocalDate enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
