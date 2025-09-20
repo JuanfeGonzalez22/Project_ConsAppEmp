@@ -1,7 +1,8 @@
-package com.eam.LevelUpCorp.persistenceLayer.model;
+package com.eam.LevelUpCorp.persistenceLayer.entity;
 
 public class Gamification {
 
+//Si es fijo no es entidad, si es configurable si .
     private int id;
     private String  name;
     private String criterion;

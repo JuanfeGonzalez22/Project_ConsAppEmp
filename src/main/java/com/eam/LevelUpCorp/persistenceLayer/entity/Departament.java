@@ -1,4 +1,4 @@
-package com.eam.LevelUpCorp.persistenceLayer.model;
+package com.eam.LevelUpCorp.persistenceLayer.entity;
 
 public class Departament {
 
