@@ -1,8 +1,10 @@
-package com.eam.LevelUpCorp.persistenceLayer.model;
+package com.eam.LevelUpCorp.persistenceLayer.entity;
 
 import java.time.LocalDate;
 
 public class Report {
+
+    //PAsarlo a dto no es necesario como entidad..
 
     private int id;
     private int userId;
