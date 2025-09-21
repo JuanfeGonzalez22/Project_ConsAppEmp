@@ -10,19 +10,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Este es un objeto de datos que muestra un certificado con usuario, curso, fecha de emisión y un hash para verificar.")
+@Schema(description = "Data transfer object that represents a certificate with user, course, issue date, and a hash for verification.")
 public class CertificateDTO {
 
-    @Schema(description = "ID del usuario que recibió el certificado", example = "123")
-    private int usuarioId;
+    @Schema(description = "ID of the user who received the certificate", example = "123")
+    private int userId;
 
-    @Schema(description = "ID del curso para el que es el certificado", example = "456")
-    private int cursoId;
+    @Schema(description = "ID of the course for which the certificate was issued", example = "456")
+    private int courseId;
 
-    @Schema(description = "La fecha en que se emitió el certificado", example = "2024-01-15")
-    private LocalDate fechaEmision;
+    @Schema(description = "The issue date of the certificate", example = "2024-01-15")
+    private LocalDate issueDate;
 
-    @Schema(description = "Un hash único que representa el certificado para verificarlo", example = "a1b2c3d4e5f6g7h8i9j0")
+    @Schema(description = "Unique hash string to verify the certificate", example = "a1b2c3d4e5f6g7h8i9j0")
     private String hash;
 
 }

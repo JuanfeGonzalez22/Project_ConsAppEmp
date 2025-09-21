@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Datos para crear una respuesta de evaluacion")
+@Schema(description = "Data transfer object for creating an evaluation answer")
 public class AnswerDTO {
 
-    @Schema(description = "ID de la evaluación a la que responde",
+    @Schema(description = "ID of the evaluation being answered",
            example = "12",
            required = true)
     private Long evaluationID;
 
-    @Schema(description = "ID del usuario que responde",
+    @Schema(description = "ID of the user submitting the answer",
             example = "45",
             required = true)
     private Long userId;
 
-    @Schema(description = "Puntaje obtenido (si aplica para creación)",
+    @Schema(description = "Score obtained (if applicable when creating the answer)",
             example = "85.0")
     private Double score;
 }

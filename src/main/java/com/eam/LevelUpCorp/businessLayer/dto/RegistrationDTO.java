@@ -8,21 +8,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO usado para registrar un nuevo usuario en la plataforma")
+@Schema(description = "DTO used to register a new user in the platform")
 public class RegistrationDTO {
 
-    @Schema(description = "Nombre completo del usuario", example = "Juan Pérez")
-    private String nombre;
+    @Schema(description = "Full name of the user", example = "John Smith")
+    private String fullName;
 
-    @Schema(description = "Correo del usuario para registrarse", example = "juan.perez@empresa.com")
+    @Schema(description = "Email of the user to register", example = "john.smith@company.com")
     private String email;
 
-    @Schema(description = "Contraseña elegida por el usuario", example = "123456")
+    @Schema(description = "Password chosen by the user", example = "123456")
     private String password;
 
-    @Schema(description = "Departamento o área donde trabaja el usuario", example = "Recursos Humanos")
-    private String departamento;
+    @Schema(description = "Department or area where the user works", example = "Human Resources")
+    private String department;
 
-    @Schema(description = "Rol asignado (ADMIN, INSTRUCTOR, USER)", example = "USER")
-    private String rol;
+    @Schema(description = "Role assigned to the user (ADMIN, INSTRUCTOR, USER)", example = "USER")
+    private String role;
 }
