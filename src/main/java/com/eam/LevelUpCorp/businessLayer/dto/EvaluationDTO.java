@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Este es un objeto de datos que muestra una evaluacion con moduloId, titulo, tipo y un puntaje Maximo para asignar.")
+@Schema(description = "Data transfer object that represents an evaluation with moduleId, title, type, and maximum score.")
 public class EvaluationDTO {
 
-    @Schema(description = "ID del modulo dentro del curso", example = "001")
-    private int moduloId;
+    @Schema(description = "ID of the module inside the course", example = "001")
+    private int moduleId;
 
-    @Schema(description = "Titulo la evaluacion en la plataforma", example = "Evaluacion final")
-    private String titulo;
+    @Schema(description = "Title of the evaluation on the platform", example = "Final evaluation")
+    private String title;
 
-    @Schema(description = "Representa el tipo de evaluacion", example = "quiz")
-    private String tipo;
+    @Schema(description = "Type of the evaluation", example = "quiz")
+    private String type;
 
-    @Schema(description = "Representa el punataje maximo que se puede obtener en la evaluacion", example = "10")
-    private int puntajeMax;
+    @Schema(description = "Maximum score that can be achieved in the evaluation", example = "10")
+    private int maxScore;
 
 
 }

@@ -5,20 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Schema(description = "Este DTO muestra un badge o recompensa dentro de la plataforma")
+@Schema(description = "This DTO represents a badge or reward within the platform")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GamificationDTO {
-    @Schema(description = "Identificador del badge o recompensa", example = "1")
+    @Schema(description = "Identifier of the badge or reward", example = "1")
     private Long id;
 
-    @Schema(description = "Nombre de la recompensa", example = "Top performer")
-    private String nombre;
+    @Schema(description = "Name of the reward", example = "Top performer")
+    private String name;
 
-    @Schema(description = "Condición para obtener la recompensa", example = "Completar 3 cursos")
-    private String criterio;
+    @Schema(description = "Condition required to obtain the reward", example = "Complete 3 courses")
+    private String criteria;
 
-    @Schema(description = "Ruta o nombre del icono del badge", example = "medalla.png")
-    private String icono;
+    @Schema(description = "Path or filename of the badge icon", example = "medal.png")
+    private String icon;
 }
