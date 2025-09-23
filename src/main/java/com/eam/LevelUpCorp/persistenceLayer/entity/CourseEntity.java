@@ -17,7 +17,7 @@ public class CourseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String description;
     private String title;
     @Column(name = "estimate_Duration")

@@ -14,8 +14,8 @@ public class EvaluationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int moduleId;
+    private Long id;
+    private Long moduleId;
     private String title;
     private String type;
     private int maxCore;

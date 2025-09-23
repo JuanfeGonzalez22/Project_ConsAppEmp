@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "DTO that represents the basic information of a user in the platform")
 public class UserDTO {
 
+
+    private Long id;
     @Schema(description = "Full name of the user", example = "John Smith")
     private String fullName;
 

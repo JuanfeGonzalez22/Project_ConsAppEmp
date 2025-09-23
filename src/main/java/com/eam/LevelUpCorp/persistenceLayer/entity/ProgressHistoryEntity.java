@@ -6,22 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Entity
-@Table(name = "Answer")
+@Table(name = "progress_history")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerEntity {
+public class ProgressHistoryEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long evaluationId;
     private Long userId;
-    private double score;
-    private LocalDate date;
+    private Long courseId;
+    private Long moduleId;
+    private LocalDate accesDate;
+    private LocalTime timpoDedicated;
+    private String status;
+    private double ModuleProgress;
+    private int evaluationAttempts;
 
-
-}
+    }

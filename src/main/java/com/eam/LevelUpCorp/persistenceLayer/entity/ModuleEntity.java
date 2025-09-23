@@ -14,8 +14,8 @@ public class ModuleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int courseId;
+    private Long id;
+    private Long courseId;
     private String title;
     private String type; //video, texto, quiz y practica
     private int order;

@@ -16,9 +16,9 @@ public class CertificateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int userId;
-    private int courseId;
+    private Long id;
+    private Long userId;
+    private Long courseId;
     @Column(name = "emission_date")
     private LocalDate emissionDate;
     private String hash;
