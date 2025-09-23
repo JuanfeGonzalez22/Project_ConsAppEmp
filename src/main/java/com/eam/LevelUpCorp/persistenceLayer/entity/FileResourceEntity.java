@@ -15,11 +15,11 @@ public class FileResourceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String fileName;
     private String fileType;
-    private int moduleId;
-    private int evaluationId;
+    private Long moduleId;
+    private Long evaluationId;
 
 
 }

@@ -17,9 +17,9 @@ public class RegistrationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int userId;
-    private int courseId;
+    private Long id;
+    private Long userId;
+    private Long courseId;
     private double progress;
     @Column(name = "enrollment_date")
     private LocalDate enrollmentDate;

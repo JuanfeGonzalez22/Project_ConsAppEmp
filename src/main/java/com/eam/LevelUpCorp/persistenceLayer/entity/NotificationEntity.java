@@ -17,10 +17,10 @@ public class NotificationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int userId;
+    private Long id;
+    private Long userId;
     private String type;
-    private String menssage;
+    private String message;
     @Column(name = "sent_date")
     private LocalDate sentDate;
     private String status;

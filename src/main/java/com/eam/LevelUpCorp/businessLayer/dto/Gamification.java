@@ -1,4 +1,4 @@
-package com.eam.LevelUpCorp.persistenceLayer.entity;
+package com.eam.LevelUpCorp.businessLayer.dto;
 
 public class Gamification {
 
