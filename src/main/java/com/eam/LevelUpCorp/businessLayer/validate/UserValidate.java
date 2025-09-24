@@ -1,4 +1,4 @@
-package com.eam.LevelUpCorp.businessLayer.validate;
+/*package com.eam.LevelUpCorp.businessLayer.validate;
 
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 
@@ -57,8 +57,8 @@ public class UserValidate {
         }
     }
 }
+*/
 
-/*
 package com.eam.LevelUpCorp.businessLayer.validate;
 
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
@@ -113,4 +113,3 @@ public class UserValidate {
     }
 }
 
- */

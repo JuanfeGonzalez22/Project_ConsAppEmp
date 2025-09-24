@@ -12,45 +12,42 @@ import java.util.List;
 )
 public interface UserMapper {
 
-
     /*
-    Converts to list of UserEntity to list of UserDTO.
-     */
+    Convert a list of UserEntity to a list of UserDTO
+    */
+    @Mapping(source = "name", target = "fullName") // map name -> fullName
     List<UserDTO> toDTOList(List<UserEntity> userEntities);
 
-
     /*
-    Converts UserEntity to UserDTO.
-     */
+    Convert UserEntity to UserDTO
+    */
+    @Mapping(source = "name", target = "fullName") // map name -> fullName
     UserDTO toDTO(UserEntity userEntity);
 
     /*
-    Converts to LoginDTO to UserEntity.
-     */
+    Convert LoginDTO to UserEntity
+    */
     UserEntity toEntity(LoginDTO loginDTO);
 
     /*
-    Converts to UserEntity to LoginDTO
-     */
+    Convert UserEntity to LoginDTO
+    */
     LoginDTO toLoginDTO(UserEntity userEntity);
 
-
     /*
-      Converts a UserDTO to a UserEntity.
-      Used for creating new users in the database.
-     */
+    Convert UserDTO to UserEntity for creating a new user
+    */
+    @Mapping(source = "fullName", target = "name") // map fullName -> name
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     UserEntity toEntity(UserDTO userDTO);
 
-
     /*
-     Updates an existing UserEntity using data from a UserDTO.
-     */
+    Update an existing UserEntity using data from UserDTO
+    */
+    @Mapping(source = "fullName", target = "name") // map fullName -> name
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDTO(UserDTO userDTO, @MappingTarget UserEntity userEntity);
-
-
 
 }
