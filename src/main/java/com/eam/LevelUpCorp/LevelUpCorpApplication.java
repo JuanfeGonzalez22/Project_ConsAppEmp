@@ -1,4 +1,4 @@
-package com.eam.LevelUpCorp.config;
+package com.eam.LevelUpCorp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
