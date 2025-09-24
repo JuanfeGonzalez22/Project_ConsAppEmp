@@ -57,3 +57,60 @@ public class UserValidate {
         }
     }
 }
+
+/*
+package com.eam.LevelUpCorp.businessLayer.validate;
+
+import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserValidate {
+
+    public void validateCreate(UserDTO userDTO) {
+        if (userDTO == null) {
+            throw new IllegalArgumentException("The user is null");
+        }
+        if (userDTO.getFullName() == null) {
+            throw new IllegalArgumentException("The full name is null");
+        }
+        if (userDTO.getPassword() == null || userDTO.getPassword().length() < 6) {
+            throw new IllegalArgumentException("The password is null and must be at least 6 characters");
+        }
+        if (userDTO.getEmail() == null || userDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("The email is required");
+        }
+        if (userDTO.getEmail().contains("_")) {
+            throw new IllegalArgumentException("The email address contains an underscore character");
+        }
+    }
+
+    public void validateSearch(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+    }
+
+    public void validateUpdate(Long id, UserDTO userDTO) {
+        validateSearch(id);
+        validateCreate(userDTO);
+    }
+
+    public void validateDelete(Long id) {
+        validateSearch(id);
+    }
+
+    public void validateLogin(UserDTO userDTO) {
+        if (userDTO == null) {
+            throw new IllegalArgumentException("The user is null");
+        }
+        if (userDTO.getEmail() == null || userDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("The email is required");
+        }
+        if (userDTO.getPassword() == null || userDTO.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("The password is required");
+        }
+    }
+}
+
+ */
