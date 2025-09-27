@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 public class CourseDTO {
 
     @Schema(description = "Short description of the course")
-    private String descripcion;
+    private String description;
 
     @Schema(description = "Title of the course")
-    private String titulo;
+    private String title;
 
     @Schema(description = "Estimated duration of the course in hours")
-    private LocalTime duracionEstimada;
+    private LocalTime estimatedDuration;
 
     @Schema(description = "Difficulty level of the course", example = "basic")
-    private int nivel;
+    private int level;
 }
