@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 
 @Entity
-@Table(name = "Course")
+@Table(name = "course")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +20,7 @@ public class CourseEntity {
     private Long id;
     private String description;
     private String title;
-    @Column(name = "estimate_Duration")
+    @Column(name = "estimated_Duration")
     private LocalTime estimatedDuration;
     private int level;
 
