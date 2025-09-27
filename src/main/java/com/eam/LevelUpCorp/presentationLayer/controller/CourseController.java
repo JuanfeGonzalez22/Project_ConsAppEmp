@@ -48,4 +48,27 @@ public class CourseController {
         }
     }
 
+
+    /*
+        Get a course to ID.
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener curso por ID", description = "Obtiene un curso específico por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Curso encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Curso no encontrado")
+    })
+    public ResponseEntity<CourseDTO> getCourseById(@Parameter(description = "ID del usuario", required = true)
+                                                       @PathVariable Long id) {
+        log.debug("GET /api/v1/courses/{} - Buscando curso", id);
+        try {
+            CourseDTO course = courseService.getCourse(id);
+            return ResponseEntity.ok(course);
+        } catch (RuntimeException e) {
+            log.warn("Curso no encontrado con ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
