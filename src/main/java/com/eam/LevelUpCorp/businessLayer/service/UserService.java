@@ -4,7 +4,6 @@ import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 public interface UserService {
 
     //Create.

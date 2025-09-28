@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class EvaluationDTO {
 
     @Schema(description = "ID of the module inside the course", example = "001")
-    private int moduleId;
+    private Long moduleId;
 
     @Schema(description = "Title of the evaluation on the platform", example = "Final evaluation")
     private String title;
