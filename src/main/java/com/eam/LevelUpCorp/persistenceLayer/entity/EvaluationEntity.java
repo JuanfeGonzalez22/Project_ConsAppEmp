@@ -18,7 +18,7 @@ public class EvaluationEntity {
     private Long moduleId;
     private String title;
     private String type;
-    private int maxCore;
+    private int maxScore;
 
 
 }
