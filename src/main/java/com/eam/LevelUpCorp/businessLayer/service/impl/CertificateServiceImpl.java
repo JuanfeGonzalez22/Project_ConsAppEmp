@@ -54,7 +54,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public CertificateDTO updateCertificate(Long id, CertificateDTO certificateDTO) {
         log.info("Updating certificate with ID: {}", id);
-        getCertificate(id); // asegura existencia
+        getCertificate(id); // ensure existence
         certificateValidate.validateUpdate(id, certificateDTO);
 
         CertificateDTO updated = certificateDAO.update(id, certificateDTO)
@@ -66,7 +66,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void deleteCertificate(Long id) {
         log.info("Deleting certificate with ID: {}", id);
-        getCertificate(id); // asegura existencia
+        getCertificate(id); // ensure existence
         certificateValidate.validateDelete(id);
 
         boolean deleted = certificateDAO.deleteById(id);

@@ -6,18 +6,18 @@ import java.util.List;
 
 public interface CertificateService {
 
-    // Crear certificado
+    // Create a new certificate
     CertificateDTO createCertificate(CertificateDTO certificateDTO);
 
-    // Buscar por ID
+    // Find certificate by ID
     CertificateDTO getCertificate(Long id);
 
-    // Listar todos
+    // List all certificates
     List<CertificateDTO> getCertificates();
 
-    // Actualizar
+    // Update certificate
     CertificateDTO updateCertificate(Long id, CertificateDTO certificateDTO);
 
-    // Eliminar
+    // Delete certificate
     void deleteCertificate(Long id);
 }
