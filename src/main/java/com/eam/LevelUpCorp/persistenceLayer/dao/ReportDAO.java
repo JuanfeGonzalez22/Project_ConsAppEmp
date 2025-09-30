@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.persistenceLayer.dao;
 
 
 import com.eam.LevelUpCorp.businessLayer.dto.GeneralReportDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.ReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
@@ -22,8 +23,8 @@ public class ReportDAO {
 
 
     //Save
-    public GeneralReportDTO save(GeneralReportDTO generalReportDTO) {
-        ReportEntity reportEntity = reportMapper.toEntity(generalReportDTO);
+    public GeneralReportDTO save(ReportDTO reportDTO) {
+        ReportEntity reportEntity = reportMapper.toEntity(reportDTO);
         ReportEntity savedReportEntity = reportRepository.save(reportEntity);
         return reportMapper.toDTO(savedReportEntity);
 
@@ -38,10 +39,10 @@ public class ReportDAO {
 
 
     //Update
-    public Optional<GeneralReportDTO> update(Long id, GeneralReportDTO generalReportDTO) {
+    public Optional<GeneralReportDTO> update(Long id, ReportDTO reportDTO) {
         return reportRepository.findById(id)
                 .map(existingEntity -> {
-                    reportMapper.updateEntityFromDTO(generalReportDTO, existingEntity);
+                    reportMapper.updateEntityFromDTO(reportDTO, existingEntity);
                     ReportEntity updatedEntity = reportRepository.save(existingEntity);
                     return reportMapper.toDTO(updatedEntity);
                 });
@@ -57,7 +58,7 @@ public class ReportDAO {
         return false;
     }
 
-    //All Users.
+    //All Reports.
     public List<GeneralReportDTO> findAll() {
         return reportRepository.findAll()
                 .stream().map(reportMapper::toDTO).toList();

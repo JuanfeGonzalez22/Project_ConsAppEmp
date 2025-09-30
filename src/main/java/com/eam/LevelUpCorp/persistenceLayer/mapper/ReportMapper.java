@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.persistenceLayer.mapper;
 
 import com.eam.LevelUpCorp.businessLayer.dto.GeneralReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.LoginDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.ReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
@@ -36,7 +37,7 @@ public interface ReportMapper {
     @Mapping(source = "fullName", target = "name")
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    ReportEntity toEntity(GeneralReportDTO generalReportDTO);
+    ReportEntity toEntity(ReportDTO reportDTO);
 
     /*
     Update an existing ReportEntity using data from GeneralReportDTO
@@ -44,7 +45,7 @@ public interface ReportMapper {
     @Mapping(source = "fullName", target = "name")
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDTO(GeneralReportDTO generalReportDTO, @MappingTarget ReportEntity reportEntity);
+    void updateEntityFromDTO(ReportDTO reportDTO, @MappingTarget ReportEntity reportEntity);
 
 
 
