@@ -3,6 +3,8 @@ package com.eam.LevelUpCorp.businessLayer.validate;
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
+
 @Component
 public class CourseValidate {
 
@@ -17,8 +19,8 @@ public class CourseValidate {
         if (courseDTO.getDescription() == null || courseDTO.getDescription().trim().isEmpty()) {
             throw new IllegalArgumentException("La descripción del curso es obligatoria");
         }
-        if (courseDTO.getDescription() == null) {
-            throw new IllegalArgumentException("La duración estimada es obligatoria");
+        if (courseDTO.getEstimatedDuration() == null || courseDTO.getEstimatedDuration().equals(LocalTime.MIDNIGHT)) {
+            throw new IllegalArgumentException("La duración estimada es obligatoria y debe ser mayor a 0");
         }
         if (courseDTO.getLevel() < 1 || courseDTO.getLevel() > 3) {
             throw new IllegalArgumentException("El nivel del curso debe estar entre 1 (básico) y 3 (avanzado)");
