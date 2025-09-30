@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.businessLayer.validate;
 import com.eam.LevelUpCorp.businessLayer.dto.ModuleDTO;
 import org.springframework.stereotype.Component;
 
+@Component
 public class ModuleValidate {
 
     public void validateCreate(ModuleDTO moduleDTO){
