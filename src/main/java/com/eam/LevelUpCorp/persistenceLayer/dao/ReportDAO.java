@@ -22,35 +22,30 @@ public class ReportDAO {
     private final ReportRepository reportRepository;
 
 
-    //Save
-    public GeneralReportDTO save(ReportDTO reportDTO) {
-        ReportEntity reportEntity = reportMapper.toEntity(reportDTO);
-        ReportEntity savedReportEntity = reportRepository.save(reportEntity);
-        return reportMapper.toDTO(savedReportEntity);
-
+    // Create
+    public ReportDTO saveReport(ReportDTO reportDTO) {
+        ReportEntity entity = reportMapper.toEntity(reportDTO);
+        ReportEntity savedEntity = reportRepository.save(entity);
+        return reportMapper.toDTO(savedEntity);
     }
 
-
-    //Search
-    public Optional<GeneralReportDTO> findById(Long id) {
-        return reportRepository.findById(id).map(reportMapper::toDTO);
-
-    }
-
-
-    //Update
-    public Optional<GeneralReportDTO> update(Long id, ReportDTO reportDTO) {
+    // Find by ID
+    public Optional<ReportDTO> findById(Long id) {
         return reportRepository.findById(id)
-                .map(existingEntity -> {
-                    reportMapper.updateEntityFromDTO(reportDTO, existingEntity);
-                    ReportEntity updatedEntity = reportRepository.save(existingEntity);
-                    return reportMapper.toDTO(updatedEntity);
-                });
+                .map(reportMapper::toDTO);
     }
 
+    // Update
+    public Optional<ReportDTO> updateReport(Long id, ReportDTO reportDTO) {
+        return reportRepository.findById(id).map(existingEntity -> {
+            reportMapper.updateEntityFromDTO(reportDTO, existingEntity);
+            ReportEntity updatedEntity = reportRepository.save(existingEntity);
+            return reportMapper.toDTO(updatedEntity);
+        });
+    }
 
-    //Delete
-    public boolean deleteById(Long id) {
+    // Delete
+    public boolean deleteReportById(Long id) {
         if (reportRepository.existsById(id)) {
             reportRepository.deleteById(id);
             return true;
@@ -58,9 +53,11 @@ public class ReportDAO {
         return false;
     }
 
-    //All Reports.
-    public List<GeneralReportDTO> findAll() {
+    // Find all
+    public List<ReportDTO> findAllReports() {
         return reportRepository.findAll()
-                .stream().map(reportMapper::toDTO).toList();
+                .stream()
+                .map(reportMapper::toDTO)
+                .toList();
     }
 }

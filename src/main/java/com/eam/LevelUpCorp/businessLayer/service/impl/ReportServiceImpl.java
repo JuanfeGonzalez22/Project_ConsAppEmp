@@ -7,11 +7,13 @@ import com.eam.LevelUpCorp.businessLayer.service.ReportService;
 import com.eam.LevelUpCorp.businessLayer.validate.ReportValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ReportDAO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
+import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -23,8 +25,21 @@ public class ReportServiceImpl  implements ReportService {
 
     private final ReportDAO reportDAO;
     private final ReportValidate reportValidate;
+    private final ReportMapper reportMapper;
 
 
+
+    private GeneralReportDTO emptyGeneralReport() {
+        return new GeneralReportDTO(
+                0,          // totalUsers
+                0,          // totalCourses
+                0,          // totalRegistrations
+                0,          // totalCertificates
+                0.0,        // averageProgress
+                0.0,        // averageScores
+                new HashMap<>() // usersByRole
+        );
+    }
     /*
         Method for create report.
      */
@@ -32,81 +47,75 @@ public class ReportServiceImpl  implements ReportService {
     public GeneralReportDTO createReport(ReportDTO reportDTO) {
         log.info("Crear un nuevo reporte {}", reportDTO);
         reportValidate.validateCreate(reportDTO);
-        GeneralReportDTO  createReport = reportDAO.save(reportDTO);
-        log.info("Reporte creado correctamente con ID: {}", createReport);
-        
-        return createReport;
+
+
+        reportDAO.saveReport(reportDTO);
+        GeneralReportDTO generalReportDTO = emptyGeneralReport();
+        log.info("Reporte creado correctamente con ID: {}", generalReportDTO);
+        return generalReportDTO;
     }
 
-
-    /*
-        Method for search a report.
-     */
     @Override
     public GeneralReportDTO getReportById(Long id) {
-        log.info("Retorna un nuevo reporte {}", id);
+        log.info("Retorna un reporte por ID: {}", id);
         reportValidate.validateSearch(id);
-        return reportDAO.findById(id).orElseThrow(() -> {
-            log.warn("Report not found with ID: {}", id);
-            return new RuntimeException("Reporte no encontrado con ID: " + id);
-        });
+
+        ReportDTO reportDTO = reportDAO.findById(id)
+                .orElseThrow(() -> {
+                    log.warn("Reporte no encontrado con ID: {}", id);
+                    return new RuntimeException("Reporte no encontrado con ID: " + id);
+                });
+
+        // Retornamos un GeneralReportDTO con valores en 0
+        return emptyGeneralReport();
     }
 
-
-    /*
-       Method for get all reports.
-     */
     @Override
     public List<GeneralReportDTO> getAllReports() {
         log.info("Obtener todos los reportes");
-        List<GeneralReportDTO> reports = reportDAO.findAll();
+        List<ReportDTO> reports = reportDAO.findAllReports();
 
         if (reports.isEmpty()) {
-            log.warn("Reportes no encontrados");
-            throw new RuntimeException("No reports available");
+            log.warn("No se encontraron reportes");
+            throw new RuntimeException("No hay reportes disponibles");
         }
 
-        log.info("Encontrado {} reportes", reports.size());
-        return reports;
+        // Mapeamos cada reporte a un GeneralReportDTO con valores en 0
+        List<GeneralReportDTO> generalReports = reports.stream()
+                .map(r -> emptyGeneralReport())
+                .toList();
+
+        log.info("Encontrado {} reportes", generalReports.size());
+        return generalReports;
     }
 
-
-    /*
-       Method for delete a report.
-     */
     @Override
     public void deleteReport(Long id) {
-
-        log.info("Reporte eliminado por ID: {}", id);
-
-        getReportById(id);
+        log.info("Intentando eliminar reporte por ID: {}", id);
+        getReportById(id); // Verifica que exista
         reportValidate.validateDelete(id);
 
-        boolean deleted = reportDAO.deleteById(id);
+        boolean deleted = reportDAO.deleteReportById(id);
         if (!deleted) {
-            throw new RuntimeException("Error al eliminar un reporte con ID: " + id);
+            log.error("Error al eliminar el reporte con ID: {}", id);
+            throw new RuntimeException("No se pudo eliminar el reporte con ID: " + id);
         }
-
-        log.info("Reporte eliminado existosamente con ID: {}", id);
+        log.info("Reporte eliminado correctamente con ID: {}", id);
     }
 
 
-    /*
-       Method for update a report.
-     */
     @Override
     public GeneralReportDTO updateReport(Long id, ReportDTO reportDTO) {
-
-        log.info("Actualizar reporte por ID: {}", id);
-
-        getReportById(id);
+        log.info("Actualizando reporte con ID: {}", id);
         reportValidate.validateUpdate(id, reportDTO);
 
-        GeneralReportDTO updatedReport = reportDAO.update(id, reportDTO)
-                .orElseThrow(() -> new RuntimeException("Error actuaizando un reporte con ID: " + id));
+        reportDAO.updateReport(id, reportDTO)
+                .orElseThrow(() -> {
+                    log.warn("No se pudo actualizar el reporte con ID: {}", id);
+                    return new RuntimeException("Reporte no encontrado con ID: " + id);
+                });
 
-        log.info("Reporte actualizado exitosamente con ID: {}", id);
-        return updatedReport;
-
+        // Por ahora retornamos un GeneralReportDTO con valores en 0
+        return emptyGeneralReport();
     }
 }
