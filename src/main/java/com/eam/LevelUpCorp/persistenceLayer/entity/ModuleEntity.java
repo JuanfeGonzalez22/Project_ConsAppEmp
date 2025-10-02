@@ -17,7 +17,9 @@ public class ModuleEntity {
     private Long id;
     private Long courseId;
     private String title;
+    @Column(name = "module_type")
     private String type; //video, texto, quiz y practica
+    @Column(name = "module_order")
     private int order;
 
 

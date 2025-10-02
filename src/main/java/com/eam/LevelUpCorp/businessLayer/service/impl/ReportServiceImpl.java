@@ -11,6 +11,9 @@ import com.eam.LevelUpCorp.persistenceLayer.dao.ReportsStaticsDAO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportMapper;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportsStaticsMapper;
+import com.eam.LevelUpCorp.persistenceLayer.repository.CertificateRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.CourseRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,72 +34,61 @@ public class ReportServiceImpl  implements ReportService {
 
     private final ReportDAO reportDAO;
     private final ReportValidate reportValidate;
-    private final ReportMapper reportMapper;               // Mapper de ReportDTO y GeneralReportDTO
 
-    private final ReportsStaticsDAO reportStaticsDAO;      // DAO para guardar reportes generados automáticamente
-    private final ReportsStaticsMapper reportStaticsMapper; // Mapper para ReportStaticsDTO <-> Entity
+    private final ReportsStaticsDAO reportStaticsDAO;
 
-    // Método auxiliar para generar un GeneralReportDTO vacío (totales en 0)
-    private GeneralReportDTO emptyGeneralReport() {
+
+    private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
+    private final CertificateRepository certificateRepository;
+
+
+    private GeneralReportDTO buildGeneralReport() {
+        long totalUsers = userRepository.count();
+        long totalCourses = courseRepository.count();
+        long totalCertificates = certificateRepository.count();
+
+        Map<String, Long> usersByRole = userRepository.countUsersByRole().stream()
+                .collect(Collectors.toMap(
+                        row -> (String) row[0],
+                        row -> (Long) row[1]
+                ));
+
         return new GeneralReportDTO(
-                0,          // totalUsers
-                0,          // totalCourses
-                0,          // totalRegistrations
-                0,          // totalCertificates
-                0.0,        // averageProgress
-                0.0,        // averageScores
-                new HashMap<>() // usersByRole
+                (int) totalUsers,
+                (int) totalCourses,
+                (int) totalCertificates,
+                0,
+                0.0,
+                0.0,
+                usersByRole
         );
     }
 
-    /*
-     * Crear un reporte manual (por admin) y generar automáticamente su reporte estadístico
-     */
     @Override
     public GeneralReportDTO createReport(ReportDTO reportDTO) {
         log.info("Crear un nuevo reporte {}", reportDTO);
         reportValidate.validateCreate(reportDTO);
 
-        // Guardamos el reporte manual primero
+
         reportDAO.saveReport(reportDTO);
 
-        // Creamos un reporte estadístico automático con valores iniciales en 0
-        ReportStaticsDTO staticsDTO = new ReportStaticsDTO(
-                null,               // reportId, null para que la BD lo genere
-                0,                  // totalUsers
-                0,                  // totalCourses
-                0,                  // totalRegistrations
-                0,                  // totalCertificates
-                0.0,                // averageProgress
-                0.0,                // averageScores
-                new HashMap<>(),    // usersByRole
-                LocalDateTime.now(),// createdAt
-                LocalDateTime.now() // updatedAt
-        );
 
-        // Guardamos el reporte estadístico
-        reportStaticsDAO.save(staticsDTO);
-
-        // Retornamos un GeneralReportDTO con valores iniciales
-        return emptyGeneralReport();
+        return buildGeneralReport();
     }
-
-
-
 
     @Override
     public GeneralReportDTO getReportById(Long id) {
         log.info("Retorna un reporte manual por ID: {}", id);
         reportValidate.validateSearch(id);
 
-        ReportDTO reportDTO = reportDAO.findById(id)
+        reportDAO.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Reporte no encontrado con ID: {}", id);
                     return new RuntimeException("Reporte no encontrado con ID: " + id);
                 });
 
-        // Por ahora retornamos un GeneralReportDTO vacío
-        return emptyGeneralReport();
+        return buildGeneralReport();
     }
 
     @Override
@@ -107,16 +101,15 @@ public class ReportServiceImpl  implements ReportService {
             throw new RuntimeException("No hay reportes disponibles");
         }
 
-        // Por ahora, cada reporte manual se muestra como GeneralReportDTO vacío
         return reports.stream()
-                .map(r -> emptyGeneralReport())
+                .map(r -> buildGeneralReport())
                 .toList();
     }
 
     @Override
     public void deleteReport(Long id) {
         log.info("Intentando eliminar reporte manual por ID: {}", id);
-        getReportById(id); // Verifica que exista
+        getReportById(id);
         reportValidate.validateDelete(id);
 
         boolean deleted = reportDAO.deleteReportById(id);
@@ -125,7 +118,6 @@ public class ReportServiceImpl  implements ReportService {
             throw new RuntimeException("No se pudo eliminar el reporte con ID: " + id);
         }
 
-        // También podemos eliminar el reporte estadístico generado automáticamente
         reportStaticsDAO.deleteById(id);
 
         log.info("Reporte manual y su estadístico eliminado correctamente con ID: {}", id);
@@ -142,8 +134,7 @@ public class ReportServiceImpl  implements ReportService {
                     return new RuntimeException("Reporte no encontrado con ID: " + id);
                 });
 
-        // Podríamos actualizar también el reporte estadístico si se desea
-        // Por ahora retornamos GeneralReportDTO vacío
-        return emptyGeneralReport();
+
+        return buildGeneralReport();
     }
 }
