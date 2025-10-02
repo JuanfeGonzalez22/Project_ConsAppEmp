@@ -22,12 +22,12 @@ public class ReportStaticsEntity {
 
     private Long reportId;
 
-    private long totalUsers = 0;
-    private long totalCourses = 0;
-    private long totalRegistrations = 0;
-    private long totalCertificates = 0;
-    private double averageProgress = 0.0;
-    private double averageScores = 0.0;
+    private long totalUsers;
+    private long totalCourses;
+    private long totalRegistrations;
+    private long totalCertificates;
+    private double averageProgress;
+    private double averageScores;
 
     @ElementCollection
     @CollectionTable(name = "report_stats_users_by_role", joinColumns = @JoinColumn(name = "report_stats_id"))

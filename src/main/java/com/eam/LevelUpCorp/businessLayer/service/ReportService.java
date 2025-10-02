@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.businessLayer.service;
 
 import com.eam.LevelUpCorp.businessLayer.dto.GeneralReportDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.InstructorReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.ReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 
@@ -24,5 +25,7 @@ public interface ReportService {
 
     //Update.
     GeneralReportDTO updateReport(Long id, ReportDTO reportDTO);
+
+    //InstructorReportDTO generateInstructorReport(Long instructorId);
 
 }

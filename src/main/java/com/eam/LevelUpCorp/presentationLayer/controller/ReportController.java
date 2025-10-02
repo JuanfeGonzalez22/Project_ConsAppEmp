@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.presentationLayer.controller;
 
 
 import com.eam.LevelUpCorp.businessLayer.dto.GeneralReportDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.InstructorReportDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.ReportDTO;
 import com.eam.LevelUpCorp.businessLayer.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -145,6 +146,31 @@ public class ReportController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /**
+     * Generate report for a specific instructor
+     */
+//    @GetMapping("/instructor/{instructorId}")
+//    @Operation(summary = "Generate instructor report", description = "Generates a report for a specific instructor with their assigned courses")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Instructor report generated",
+//                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstructorReportDTO.class))),
+//            @ApiResponse(responseCode = "404", description = "Instructor not found")
+//    })
+//    public ResponseEntity<InstructorReportDTO> generateInstructorReport(
+//            @Parameter(description = "ID of the instructor", required = true)
+//            @PathVariable Long instructorId
+//    ) {
+//        log.info("GET /api/v1/reports/instructor/{} - Generating instructor report", instructorId);
+//        try {
+//            InstructorReportDTO report = reportService.generateInstructorReport(instructorId);
+//            return ResponseEntity.ok(report);
+//        } catch (RuntimeException e) {
+//            log.warn("Instructor report could not be generated for ID {}: {}", instructorId, e.getMessage());
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
 
 
 

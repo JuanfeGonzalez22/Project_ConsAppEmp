@@ -1,14 +1,14 @@
 package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 
-import com.eam.LevelUpCorp.businessLayer.dto.GeneralReportDTO;
-import com.eam.LevelUpCorp.businessLayer.dto.ReportDTO;
-import com.eam.LevelUpCorp.businessLayer.dto.ReportStaticsDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.*;
 import com.eam.LevelUpCorp.businessLayer.service.ReportService;
 import com.eam.LevelUpCorp.businessLayer.validate.ReportValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ReportDAO;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ReportsStaticsDAO;
+import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
+import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportMapper;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportsStaticsMapper;
 import com.eam.LevelUpCorp.persistenceLayer.repository.CertificateRepository;
@@ -41,6 +41,10 @@ public class ReportServiceImpl  implements ReportService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final CertificateRepository certificateRepository;
+
+
+
+
 
 
     private GeneralReportDTO buildGeneralReport() {
@@ -137,4 +141,35 @@ public class ReportServiceImpl  implements ReportService {
 
         return buildGeneralReport();
     }
+
+//    @Override
+//    public InstructorReportDTO generateInstructorReport(Long instructorId) {
+//        log.info("Generando reporte para instructor con ID: {}", instructorId);
+//
+//        UserEntity instructor = userRepository.findById(instructorId)
+//                .orElseThrow(() -> new RuntimeException("Instructor no encontrado"));
+//
+//        List<CourseEntity> courses = courseRepository.findByInstructorId(instructorId);
+//
+//        List<CourseSummaryDTO> courseSummaries = courses.stream().map(course -> {
+//            long totalApprentices = 0;
+//
+//            double averageProgress = 0.0;
+//            double averageScores = 0.0;
+//
+//            return new CourseSummaryDTO(
+//                    course.getId(),
+//                    course.getTitle(),
+//                    totalApprentices,
+//                    averageProgress,
+//                    averageScores
+//            );
+//        }).toList();
+//
+//        return new InstructorReportDTO(
+//                instructor.getId(),
+//                instructor.getName(),
+//                courseSummaries
+//        );
+//    }
 }
