@@ -5,24 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "DTO used to register a new user in the platform")
 public class RegistrationDTO {
 
-    @Schema(description = "Full name of the user", example = "John Smith")
-    private String fullName;
+    @Schema(description = "ID of the user to enroll", example = "12")
+    private Long userId;
 
-    @Schema(description = "Email of the user to register", example = "john.smith@company.com")
-    private String email;
+    @Schema(description = "ID of the course to enroll in", example = "5")
+    private Long courseId;
 
-    @Schema(description = "Password chosen by the user", example = "123456")
-    private String password;
+    @Schema(description = "Date of enrollment", example = "")
+    private LocalDate enrollmentDate = LocalDate.now();
 
-    @Schema(description = "Department or area where the user works", example = "Human Resources")
-    private String department;
-
-    @Schema(description = "Role assigned to the user (ADMIN, INSTRUCTOR, USER)", example = "USER")
-    private String role;
+    @Schema(description = "Status of the registration (e.g., ACTIVE, COMPLETED, DROPPED)", example = "ACTIVE")
+    private String status = "ACTIVE";
 }
