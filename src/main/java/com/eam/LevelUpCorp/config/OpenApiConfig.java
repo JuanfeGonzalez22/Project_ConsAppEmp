@@ -38,18 +38,18 @@ import org.springframework.context.annotation.Configuration;
 )
 public class OpenApiConfig {
 
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .components(new Components()
-                        .addSecuritySchemes("Bearer Authentication",
-                                new SecurityScheme()
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")
-                                        .description("Ingresa tu token JWT")
-                        )
-                );
-    }
+//    @Bean
+//    public OpenAPI customOpenAPI() {
+        //return new OpenAPI()
+//                .components(new Components()
+//                        .addSecuritySchemes("Bearer Authentication",
+//                                new SecurityScheme()
+//                                        .type(SecurityScheme.Type.HTTP)
+//                                        .scheme("bearer")
+//                                        .bearerFormat("JWT")
+//                                        .description("Ingresa tu token JWT")
+//                        )
+//                );
+    //}
 }
 
