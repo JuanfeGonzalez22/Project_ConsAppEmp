@@ -5,22 +5,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "Module")
+@Table(name = "reports")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModuleEntity {
+public class ReportEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long userId;
+
     private Long courseId;
+
     private String title;
-    @Column(name = "module_type")
-    private String type; //video, texto, quiz y practica
-    @Column(name = "module_order")
-    private int order;
+
+    private String description;
+
+    private LocalDateTime date = LocalDateTime.now();
+
+    private LocalDateTime updateDate;
 
 
 }
