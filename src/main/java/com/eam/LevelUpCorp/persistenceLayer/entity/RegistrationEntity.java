@@ -22,7 +22,7 @@ public class RegistrationEntity {
     private Long courseId;
     private double progress;
     @Column(name = "enrollment_date")
-    private LocalDate enrollmentDate;
+    private LocalDate enrollmentDate = LocalDate.now();
     private String status;
 
 

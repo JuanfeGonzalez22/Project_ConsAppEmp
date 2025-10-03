@@ -36,5 +36,5 @@ public class ReportStaticsEntity {
     private Map<String, Long> usersByRole;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt =  LocalDateTime.now();
 }

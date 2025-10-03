@@ -19,8 +19,7 @@ public class RegistrationDTO {
     @Schema(description = "ID of the course to enroll in", example = "5")
     private Long courseId;
 
-    @Schema(description = "Date of enrollment", example = "")
-    private LocalDate enrollmentDate = LocalDate.now();
+
 
     @Schema(description = "Status of the registration (e.g., ACTIVE, COMPLETED, DROPPED)", example = "ACTIVE")
     private String status = "ACTIVE";

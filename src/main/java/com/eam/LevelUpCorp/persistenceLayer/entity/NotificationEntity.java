@@ -22,7 +22,7 @@ public class NotificationEntity {
     private String type;
     private String message;
     @Column(name = "sent_date")
-    private LocalDate sentDate;
+    private LocalDate sentDate =  LocalDate.now();
     private String status;
 
 

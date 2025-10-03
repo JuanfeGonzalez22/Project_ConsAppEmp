@@ -23,7 +23,7 @@ public class ProgressHistoryEntity {
     private Long userId;
     private Long courseId;
     private Long moduleId;
-    private LocalDate accesDate;
+    private LocalDate accesDate =  LocalDate.now();
     private LocalTime timpoDedicated;
     private String status;
     private double ModuleProgress;

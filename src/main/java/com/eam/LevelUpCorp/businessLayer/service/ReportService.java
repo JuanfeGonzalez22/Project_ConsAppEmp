@@ -26,6 +26,6 @@ public interface ReportService {
     //Update.
     GeneralReportDTO updateReport(Long id, ReportDTO reportDTO);
 
-    //InstructorReportDTO generateInstructorReport(Long instructorId);
+    InstructorReportDTO generateInstructorReport(Long instructorId);
 
 }

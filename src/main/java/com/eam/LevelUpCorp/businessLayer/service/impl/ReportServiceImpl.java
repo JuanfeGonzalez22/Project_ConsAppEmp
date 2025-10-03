@@ -7,13 +7,12 @@ import com.eam.LevelUpCorp.businessLayer.validate.ReportValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ReportDAO;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ReportsStaticsDAO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
+import com.eam.LevelUpCorp.persistenceLayer.entity.CourseInstructorEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ReportEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportMapper;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.ReportsStaticsMapper;
-import com.eam.LevelUpCorp.persistenceLayer.repository.CertificateRepository;
-import com.eam.LevelUpCorp.persistenceLayer.repository.CourseRepository;
-import com.eam.LevelUpCorp.persistenceLayer.repository.UserRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,10 +33,10 @@ public class ReportServiceImpl  implements ReportService {
 
     private final ReportDAO reportDAO;
     private final ReportValidate reportValidate;
-
+    private final EvaluationRepository evaluationRepository;
     private final ReportsStaticsDAO reportStaticsDAO;
-
-
+    private final RegistrationRepository registrationRepository;
+    private final CourseInstructorRepository courseInstructorRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final CertificateRepository certificateRepository;
@@ -142,34 +141,40 @@ public class ReportServiceImpl  implements ReportService {
         return buildGeneralReport();
     }
 
-//    @Override
-//    public InstructorReportDTO generateInstructorReport(Long instructorId) {
-//        log.info("Generando reporte para instructor con ID: {}", instructorId);
-//
-//        UserEntity instructor = userRepository.findById(instructorId)
-//                .orElseThrow(() -> new RuntimeException("Instructor no encontrado"));
-//
-//        List<CourseEntity> courses = courseRepository.findByInstructorId(instructorId);
-//
-//        List<CourseSummaryDTO> courseSummaries = courses.stream().map(course -> {
-//            long totalApprentices = 0;
-//
-//            double averageProgress = 0.0;
-//            double averageScores = 0.0;
-//
-//            return new CourseSummaryDTO(
-//                    course.getId(),
-//                    course.getTitle(),
-//                    totalApprentices,
-//                    averageProgress,
-//                    averageScores
-//            );
-//        }).toList();
-//
-//        return new InstructorReportDTO(
-//                instructor.getId(),
-//                instructor.getName(),
-//                courseSummaries
-//        );
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public InstructorReportDTO generateInstructorReport(Long instructorId) {
+        log.info("Generando reporte para instructor con ID: {}", instructorId);
+
+        UserEntity instructor = userRepository.findById(instructorId)
+                .orElseThrow(() -> new RuntimeException("Instructor no encontrado"));
+
+        List<CourseInstructorEntity> assignments = courseInstructorRepository.findByInstructorId(instructorId);
+
+        List<CourseSummaryDTO> courseSummaries = assignments.stream()
+                .map(ci -> {
+                    CourseEntity course = courseRepository.findById(ci.getCourseId())
+                            .orElseThrow(() -> new RuntimeException("Curso no encontrado con ID: " + ci.getCourseId()));
+
+                    long totalApprentices = registrationRepository.countByCourseId(course.getId());
+                    double averageProgress = registrationRepository.findAverageProgressByCourseId(course.getId());
+                    double averageScores = evaluationRepository.findAverageScoreByCourse(course.getId());
+
+                    return new CourseSummaryDTO(
+                            course.getId(),
+                            course.getTitle(),
+                            totalApprentices,
+                            averageProgress,
+                            averageScores
+                    );
+                })
+                .toList();
+
+        return new InstructorReportDTO(
+                instructor.getId(),
+                instructor.getName(),
+                courseSummaries
+        );
+
+    }
 }

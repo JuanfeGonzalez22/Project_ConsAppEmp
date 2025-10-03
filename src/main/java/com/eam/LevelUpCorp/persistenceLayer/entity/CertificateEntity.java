@@ -20,7 +20,7 @@ public class CertificateEntity {
     private Long userId;
     private Long courseId;
     @Column(name = "emission_date")
-    private LocalDate emissionDate;
+    private LocalDate emissionDate =  LocalDate.now();
     private String hash;
 
 
