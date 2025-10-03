@@ -62,6 +62,7 @@ public class UserValidate {
 package com.eam.LevelUpCorp.businessLayer.validate;
 
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.UserRegisterDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -109,6 +110,39 @@ public class UserValidate {
         }
         if (userDTO.getPassword() == null || userDTO.getPassword().trim().isEmpty()) {
             throw new IllegalArgumentException("The password is required");
+        }
+    }
+
+
+
+    public void validateRegister(UserRegisterDTO registerDTO) {
+        if (registerDTO == null) {
+            throw new IllegalArgumentException("The registration data is null");
+        }
+
+        if (registerDTO.getName() == null || registerDTO.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("The full name is required");
+        }
+
+        if (registerDTO.getEmail() == null || registerDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("The email is required");
+        }
+
+        if (registerDTO.getEmail().contains("_")) {
+            throw new IllegalArgumentException("The email address contains an underscore character");
+        }
+
+        if (registerDTO.getPassword() == null || registerDTO.getPassword().length() < 6) {
+            throw new IllegalArgumentException("The password must be at least 6 characters");
+        }
+
+        if (registerDTO.getRole() == null || registerDTO.getRole().trim().isEmpty()) {
+            throw new IllegalArgumentException("The role is required (Aprendiz or Instructor)");
+        }
+
+        if (!registerDTO.getRole().equalsIgnoreCase("Aprendiz") &&
+                !registerDTO.getRole().equalsIgnoreCase("Instructor")) {
+            throw new IllegalArgumentException("The role must be either 'Aprendiz' or 'Instructor'");
         }
     }
 }

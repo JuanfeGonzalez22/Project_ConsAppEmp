@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.UserRegisterDTO;
 import com.eam.LevelUpCorp.businessLayer.service.UserService;
 import com.eam.LevelUpCorp.businessLayer.validate.UserValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.UserDAO;
@@ -87,6 +88,26 @@ public class UserServiceImpl implements UserService {
         log.info("Login successful for email: {}", email);
         return user;
     }
+
+
+    @Override
+    public UserDTO register(UserRegisterDTO registerDTO) {
+        log.info("Registering new user: {}", registerDTO.getName());
+
+        valiUser.validateRegister(registerDTO);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setFullName(registerDTO.getName());
+        userDTO.setEmail(registerDTO.getEmail());
+        userDTO.setPassword(registerDTO.getPassword());
+        userDTO.setRole(registerDTO.getRole());
+
+        UserDTO createdUser = userDAO.saveRegister(registerDTO);
+        log.info("User registered successfully with ID: {}", createdUser.getId());
+
+        return createdUser;
+    }
+
 
 
     /*
