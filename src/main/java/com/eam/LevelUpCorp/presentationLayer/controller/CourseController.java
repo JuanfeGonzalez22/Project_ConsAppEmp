@@ -17,12 +17,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/v1/courses")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Courses", description = "Courses management")
+@Tag(name = "Cursos", description = "Gestión de cursos")
 @CrossOrigin(origins = "*")
 public class CourseController {
 
@@ -32,43 +31,46 @@ public class CourseController {
         Create a course.
      */
     @PostMapping
-    @Operation(summary = "Create course", description = "Create a new course in the system")
+    @Operation(summary = "Crear curso", description = "Crea un nuevo curso en el sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Course create",
+            @ApiResponse(responseCode = "201", description = "Curso creado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Dates invalid")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    public ResponseEntity<CourseDTO> createCourse(@Parameter(description = "Dates of course", required = true)
-                                                      @RequestBody CourseDTO courseDTO) {
-        log.info("POST /api/v1/courses - Create course: {}", courseDTO.getTitle());
+    public ResponseEntity<CourseDTO> createCourse(
+            @Parameter(description = "Datos del curso", required = true)
+            @RequestBody CourseDTO courseDTO
+    ) {
+        log.info("POST /api/v1/courses - Crear curso: {}", courseDTO.getTitle());
         try {
             CourseDTO createdCourse = courseService.createCourse(courseDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
         } catch (IllegalArgumentException e) {
-            log.warn("Error creating a course: {}", e.getMessage());
+            log.warn("Error al crear el curso: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
-
 
     /*
         Get a course to ID.
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Get a course to ID", description = "Get a specific course by your ID")
+    @Operation(summary = "Obtener curso por ID", description = "Obtiene un curso específico por su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Course found",
+            @ApiResponse(responseCode = "200", description = "Curso encontrado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Course not found")
+            @ApiResponse(responseCode = "404", description = "Curso no encontrado")
     })
-    public ResponseEntity<CourseDTO> getCourseById(@Parameter(description = "ID of course", required = true)
-                                                       @PathVariable Long id) {
-        log.debug("GET /api/v1/courses/{} - Search course", id);
+    public ResponseEntity<CourseDTO> getCourseById(
+            @Parameter(description = "ID del curso", required = true)
+            @PathVariable Long id
+    ) {
+        log.debug("GET /api/v1/courses/{} - Buscando curso", id);
         try {
             CourseDTO course = courseService.getCourse(id);
             return ResponseEntity.ok(course);
         } catch (RuntimeException e) {
-            log.warn("Course not found with ID: {}", id);
+            log.warn("Curso no encontrado con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
@@ -77,19 +79,21 @@ public class CourseController {
         Delete a course.
      */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete course", description = "Delete a course Existing")
+    @Operation(summary = "Eliminar curso", description = "Elimina un curso existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Course delete"),
-            @ApiResponse(responseCode = "404", description = "Course not found")
+            @ApiResponse(responseCode = "204", description = "Curso eliminado"),
+            @ApiResponse(responseCode = "404", description = "Curso no encontrado")
     })
-    public ResponseEntity<Void> deleteCourse(@Parameter(description = "ID of course", required = true)
-                                                 @PathVariable Long id) {
-        log.info("DELETE /api/v1/courses/{} - Delete course", id);
+    public ResponseEntity<Void> deleteCourse(
+            @Parameter(description = "ID del curso", required = true)
+            @PathVariable Long id
+    ) {
+        log.info("DELETE /api/v1/courses/{} - Eliminando curso", id);
         try {
             courseService.deleteCourse(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            log.warn("Course not found for delete with ID: {}", id);
+            log.warn("Curso no encontrado para eliminar con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
@@ -98,23 +102,23 @@ public class CourseController {
         Update a course.
      */
     @PutMapping("/{id}")
-    @Operation(summary = "Update course", description = "Update a course existing")
+    @Operation(summary = "Actualizar curso", description = "Actualiza un curso existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Course update",
+            @ApiResponse(responseCode = "200", description = "Curso actualizado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Dates inválid"),
-            @ApiResponse(responseCode = "404", description = "Course not found")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+            @ApiResponse(responseCode = "404", description = "Curso no encontrado")
     })
     public ResponseEntity<CourseDTO> updateCourse(
             @PathVariable Long id,
             @RequestBody CourseDTO courseDTO
     ) {
-        log.info("PUT /api/v1/courses/{} - Update course", id);
+        log.info("PUT /api/v1/courses/{} - Actualizando curso", id);
         try {
             CourseDTO updatedCourse = courseService.updateCourse(id, courseDTO);
             return ResponseEntity.ok(updatedCourse);
         } catch (RuntimeException e) {
-            log.warn("Error updating course ID {}: {}", id, e.getMessage());
+            log.warn("Error al actualizar el curso con ID {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -123,16 +127,15 @@ public class CourseController {
         Get all courses.
      */
     @GetMapping
-    @Operation(summary = "List courses", description = "Get all the courses available")
+    @Operation(summary = "Listar cursos", description = "Obtiene todos los cursos disponibles")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of courses",
+            @ApiResponse(responseCode = "200", description = "Lista de cursos",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class)))
     })
     public ResponseEntity<List<CourseDTO>> getAllCourses() {
-        log.debug("GET /api/v1/courses - Get all courses");
+        log.debug("GET /api/v1/courses - Obteniendo todos los cursos");
         List<CourseDTO> courses = courseService.getCourses();
         return ResponseEntity.ok(courses);
     }
-
 
 }

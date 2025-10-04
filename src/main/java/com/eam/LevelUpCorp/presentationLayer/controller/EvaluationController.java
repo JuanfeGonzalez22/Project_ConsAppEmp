@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/evaluations")
+@RequestMapping("/api/v1/evaluaciones")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Evaluations", description = "Evaluations management")
+@Tag(name = "Evaluaciones", description = "Gestion de evaluaciones")
 @CrossOrigin(origins = "*")
 public class EvaluationController {
 
@@ -33,23 +33,23 @@ public class EvaluationController {
         Create an evaluation.
      */
     @PostMapping
-    @Operation(summary = "Create evaluatión", description = "Create a new evaluatión in the system")
+    @Operation(summary = "Crear una evaluación", description = "Crear una nueva  evaluación en el sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created evaluation",
+            @ApiResponse(responseCode = "201", description = "Evaluacion creado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EvaluationDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Dates inválid")
+            @ApiResponse(responseCode = "400", description = "Datos validos")
     })
     public ResponseEntity<EvaluationDTO> createEvaluation(
-            @Parameter(description = "Evaluations data to be created", required = true)
+            @Parameter(description = "Datos de la evaluacion a crear", required = true)
             @RequestBody EvaluationDTO evaluationDTO
     ) {
-        log.info("POST /api/v1/evaluations - Creating evaluatión: {}", evaluationDTO.getTitle());
+        log.info("POST /api/v1/evaluations - Creando evaluacionn: {}", evaluationDTO.getTitle());
         try {
             EvaluationDTO created = evaluationService.create(evaluationDTO);
             log.info("Evaluatión created con ID: {}", created);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IllegalArgumentException e) {
-            log.warn("Error create evaluation: {}", e.getMessage());
+            log.warn("Error al crear una evaluacion: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -58,22 +58,22 @@ public class EvaluationController {
         Get an evaluation by ID.
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Get evaluatión by ID", description = "Get an specífic evaluatión by your ID")
+    @Operation(summary = "Obtener evaluacion por ID", description = "Obtener una evaluacion especifico por su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Evaluatión found",
+            @ApiResponse(responseCode = "200", description = "Evaluacion encontrada",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EvaluationDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Evaluatión not found")
+            @ApiResponse(responseCode = "404", description = "Evaluacion no encontrada")
     })
     public ResponseEntity<EvaluationDTO> getById(
-            @Parameter(description = "ID of the  evaluatión", required = true)
+            @Parameter(description = "ID de la evaluacion", required = true)
             @PathVariable Long id
     ) {
-        log.debug("GET /api/v1/evaluations/{} - Search evaluatión", id);
+        log.debug("GET /api/v1/evaluations/{} - Buscar evaluacion", id);
         try {
             EvaluationDTO evaluation = evaluationService.getById(id);
             return ResponseEntity.ok(evaluation);
         } catch (RuntimeException e) {
-            log.warn("Evaluatión not found with ID: {}", id);
+            log.warn("Evaluacion no encontrada con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
@@ -82,15 +82,15 @@ public class EvaluationController {
      Get list of evaluations.
  */
     @GetMapping
-    @Operation(summary = "List evaluations", description = "Gets all evaluations in the system")
+    @Operation(summary = "Lista de evaluaciones", description = "Obtener todas las evaluaciones en el sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of evaluations",
+            @ApiResponse(responseCode = "200", description = "Lista de evaluaciones",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EvaluationDTO.class)))
     })
     public ResponseEntity<List<EvaluationDTO>> findAll() {
-        log.debug("GET /api/v1/evaluations - Getting all evaluations");
+        log.debug("GET /api/v1/evaluations - Obtener todas las evaluaciones");
         List<EvaluationDTO> evaluations = evaluationService.findAll();
-        log.debug("Found {} evaluations", evaluations.size());
+        log.debug("Found {} evaluaciones", evaluations.size());
         return ResponseEntity.ok(evaluations);
     }
 
@@ -98,22 +98,22 @@ public class EvaluationController {
         Get list of evaluations by module.
     */
     @GetMapping("/module/{moduleId}")
-    @Operation(summary = "List evaluations by module", description = "Gets all evaluations associated with a module")
+    @Operation(summary = "Listar evaluaciones por módulo", description = "Obtiene todas las evaluaciones asociadas a un módulo")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of module evaluations",
+            @ApiResponse(responseCode = "200", description = "Lista de evaluaciones del módulo",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EvaluationDTO.class))),
-            @ApiResponse(responseCode = "404", description = "No evaluations found")
+            @ApiResponse(responseCode = "404", description = "No se encontraron evaluaciones")
     })
     public ResponseEntity<List<EvaluationDTO>> getByModuleId(
-            @Parameter(description = "Module ID", required = true)
+            @Parameter(description = "ID del módulo", required = true)
             @PathVariable Long moduleId
     ) {
-        log.debug("GET /api/v1/evaluations/module/{} - Searching evaluations by module", moduleId);
+        log.debug("GET /api/v1/evaluations/module/{} - Buscando evaluaciones por módulo", moduleId);
         try {
             List<EvaluationDTO> evaluations = evaluationService.getEvaluationByModuleId(moduleId);
             return ResponseEntity.ok(evaluations);
         } catch (RuntimeException e) {
-            log.warn("No evaluations found for module ID: {}", moduleId);
+            log.warn("No se encontraron evaluaciones para el módulo con ID: {}", moduleId);
             return ResponseEntity.notFound().build();
         }
     }
@@ -122,52 +122,54 @@ public class EvaluationController {
         Update an evaluation.
     */
     @PutMapping("/{id}")
-    @Operation(summary = "Update evaluation", description = "Updates an existing evaluation")
+    @Operation(summary = "Actualizar evaluación", description = "Actualiza una evaluación existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Evaluation updated",
+            @ApiResponse(responseCode = "200", description = "Evaluación actualizada",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EvaluationDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid data"),
-            @ApiResponse(responseCode = "404", description = "Evaluation not found")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+            @ApiResponse(responseCode = "404", description = "Evaluación no encontrada")
     })
     public ResponseEntity<EvaluationDTO> update(
-            @Parameter(description = "ID of the evaluation to update", required = true)
+            @Parameter(description = "ID de la evaluación a actualizar", required = true)
             @PathVariable Long id,
-            @Parameter(description = "Evaluation data to update", required = true)
+            @Parameter(description = "Datos de la evaluación a actualizar", required = true)
             @RequestBody EvaluationDTO evaluationDTO
     ) {
-        log.info("PUT /api/v1/evaluations/{} - Updating evaluation", id);
+        log.info("PUT /api/v1/evaluations/{} - Actualizando evaluación", id);
         try {
             EvaluationDTO updated = evaluationService.update(id, evaluationDTO);
-            log.info("Evaluation updated with ID: {}", id);
+            log.info("Evaluación actualizada con ID: {}", id);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
-            log.warn("Error updating evaluation ID {}: {}", id, e.getMessage());
+            log.warn("Error al actualizar la evaluación con ID {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
+
 
     /*
         Delete an evaluation.
     */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete evaluation", description = "Deletes an existing evaluation")
+    @Operation(summary = "Eliminar evaluación", description = "Elimina una evaluación existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Evaluation deleted"),
-            @ApiResponse(responseCode = "404", description = "Evaluation not found")
+            @ApiResponse(responseCode = "204", description = "Evaluación eliminada"),
+            @ApiResponse(responseCode = "404", description = "Evaluación no encontrada")
     })
     public ResponseEntity<Void> delete(
-            @Parameter(description = "ID of the evaluation to delete", required = true)
+            @Parameter(description = "ID de la evaluación a eliminar", required = true)
             @PathVariable Long id
     ) {
-        log.info("DELETE /api/v1/evaluations/{} - Deleting evaluation", id);
+        log.info("DELETE /api/v1/evaluations/{} - Eliminando evaluación", id);
         try {
             evaluationService.deleteById(id);
-            log.info("Evaluation deleted with ID: {}", id);
+            log.info("Evaluación eliminada con ID: {}", id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            log.warn("Evaluation not found to delete ID: {}", id);
+            log.warn("Evaluación no encontrada para eliminar con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
+
     }
 
 

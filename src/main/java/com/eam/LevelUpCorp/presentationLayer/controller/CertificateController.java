@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/certificates")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Certificates", description = "Gestión de certificados")
+@Tag(name = "Certificados", description = "Gestión de certificados")
 @CrossOrigin(origins = "*")
 public class CertificateController {
 
