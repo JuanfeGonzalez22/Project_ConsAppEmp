@@ -21,7 +21,7 @@ public class AnswerEntity {
     private Long evaluationId;
     private Long userId;
     private double score;
-    private LocalDate date;
+    private LocalDate date =  LocalDate.now();
 
 
 }

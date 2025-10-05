@@ -22,8 +22,6 @@ public class CreateReportDTO {
     @Schema(description = "Short description of the report", example = "Monthly performance evaluation of sales team")
     private String description;
 
-    @Schema(description = "Date when the report is created", example = "2025-09-20")
-    private LocalDate creationDate;
 
     @Schema(description = "Format of the report", example = "PDF")
     private String format;

@@ -19,12 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/reports")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Reports", description = "Management of platform reports")
+@Tag(name = "Reportes", description = "Gestión de reportes de la plataforma")
 @CrossOrigin(origins = "*")
 public class ReportController {
 
@@ -34,23 +33,23 @@ public class ReportController {
      * Create a new report
      */
     @PostMapping
-    @Operation(summary = "Create report", description = "Creates a new report in the system")
+    @Operation(summary = "Crear reporte", description = "Crea un nuevo reporte en el sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Report created",
+            @ApiResponse(responseCode = "201", description = "Reporte creado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = GeneralReportDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid data")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
     public ResponseEntity<GeneralReportDTO> createReport(
-            @Parameter(description = "Report data to create", required = true)
+            @Parameter(description = "Datos del reporte a crear", required = true)
             @RequestBody ReportDTO reportDTO
     ) {
-        log.info("POST /api/v1/reports - Creating report: {}", reportDTO);
+        log.info("POST /api/v1/reports - Creando reporte: {}", reportDTO);
         try {
             GeneralReportDTO createdReport = reportService.createReport(reportDTO);
-            log.info("Report created with ID: {}", createdReport);
+            log.info("Reporte creado con ID: {}", createdReport);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdReport);
         } catch (IllegalArgumentException e) {
-            log.warn("Error creating report: {}", e.getMessage());
+            log.warn("Error al crear el reporte: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -59,22 +58,22 @@ public class ReportController {
      * Get report by ID
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Get report by ID", description = "Fetches a specific report by its ID")
+    @Operation(summary = "Obtener reporte por ID", description = "Obtiene un reporte específico según su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report found",
+            @ApiResponse(responseCode = "200", description = "Reporte encontrado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = GeneralReportDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Report not found")
+            @ApiResponse(responseCode = "404", description = "Reporte no encontrado")
     })
     public ResponseEntity<GeneralReportDTO> getReportById(
-            @Parameter(description = "ID of the report", required = true)
+            @Parameter(description = "ID del reporte", required = true)
             @PathVariable Long id
     ) {
-        log.debug("GET /api/v1/reports/{} - Searching report", id);
+        log.debug("GET /api/v1/reports/{} - Buscando reporte", id);
         try {
             GeneralReportDTO report = reportService.getReportById(id);
             return ResponseEntity.ok(report);
         } catch (RuntimeException e) {
-            log.warn("Report not found with ID: {}", id);
+            log.warn("Reporte no encontrado con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
@@ -83,15 +82,15 @@ public class ReportController {
      * Get all reports
      */
     @GetMapping
-    @Operation(summary = "List reports", description = "Fetches all reports in the system")
+    @Operation(summary = "Listar reportes", description = "Obtiene todos los reportes registrados en el sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of reports",
+            @ApiResponse(responseCode = "200", description = "Lista de reportes obtenida correctamente",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = GeneralReportDTO.class)))
     })
     public ResponseEntity<List<GeneralReportDTO>> getAllReports() {
-        log.debug("GET /api/v1/reports - Fetching all reports");
+        log.debug("GET /api/v1/reports - Obteniendo todos los reportes");
         List<GeneralReportDTO> reports = reportService.getAllReports();
-        log.debug("Found {} reports", reports.size());
+        log.debug("Se encontraron {} reportes", reports.size());
         return ResponseEntity.ok(reports);
     }
 
@@ -99,26 +98,26 @@ public class ReportController {
      * Update a report
      */
     @PutMapping("/{id}")
-    @Operation(summary = "Update report", description = "Updates an existing report")
+    @Operation(summary = "Actualizar reporte", description = "Actualiza los datos de un reporte existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report updated",
+            @ApiResponse(responseCode = "200", description = "Reporte actualizado correctamente",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = GeneralReportDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid data"),
-            @ApiResponse(responseCode = "404", description = "Report not found")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+            @ApiResponse(responseCode = "404", description = "Reporte no encontrado")
     })
     public ResponseEntity<GeneralReportDTO> updateReport(
-            @Parameter(description = "ID of the report to update", required = true)
+            @Parameter(description = "ID del reporte a actualizar", required = true)
             @PathVariable Long id,
-            @Parameter(description = "Updated report data", required = true)
+            @Parameter(description = "Datos actualizados del reporte", required = true)
             @RequestBody ReportDTO reportDTO
     ) {
-        log.info("PUT /api/v1/reports/{} - Updating report", id);
+        log.info("PUT /api/v1/reports/{} - Actualizando reporte", id);
         try {
             GeneralReportDTO updatedReport = reportService.updateReport(id, reportDTO);
-            log.info("Report updated with ID: {}", id);
+            log.info("Reporte actualizado con ID: {}", id);
             return ResponseEntity.ok(updatedReport);
         } catch (RuntimeException e) {
-            log.warn("Error updating report ID {}: {}", id, e.getMessage());
+            log.warn("Error al actualizar el reporte con ID {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -127,22 +126,22 @@ public class ReportController {
      * Delete a report
      */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete report", description = "Deletes an existing report")
+    @Operation(summary = "Eliminar reporte", description = "Elimina un reporte existente del sistema")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Report deleted"),
-            @ApiResponse(responseCode = "404", description = "Report not found")
+            @ApiResponse(responseCode = "204", description = "Reporte eliminado"),
+            @ApiResponse(responseCode = "404", description = "Reporte no encontrado")
     })
     public ResponseEntity<Void> deleteReport(
-            @Parameter(description = "ID of the report to delete", required = true)
+            @Parameter(description = "ID del reporte a eliminar", required = true)
             @PathVariable Long id
     ) {
-        log.info("DELETE /api/v1/reports/{} - Deleting report", id);
+        log.info("DELETE /api/v1/reports/{} - Eliminando reporte", id);
         try {
             reportService.deleteReport(id);
-            log.info("Report deleted with ID: {}", id);
+            log.info("Reporte eliminado con ID: {}", id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            log.warn("Report not found to delete ID: {}", id);
+            log.warn("No se encontró el reporte a eliminar con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
@@ -150,29 +149,25 @@ public class ReportController {
     /**
      * Generate report for a specific instructor
      */
-//    @GetMapping("/instructor/{instructorId}")
-//    @Operation(summary = "Generate instructor report", description = "Generates a report for a specific instructor with their assigned courses")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Instructor report generated",
-//                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstructorReportDTO.class))),
-//            @ApiResponse(responseCode = "404", description = "Instructor not found")
-//    })
-//    public ResponseEntity<InstructorReportDTO> generateInstructorReport(
-//            @Parameter(description = "ID of the instructor", required = true)
-//            @PathVariable Long instructorId
-//    ) {
-//        log.info("GET /api/v1/reports/instructor/{} - Generating instructor report", instructorId);
-//        try {
-//            InstructorReportDTO report = reportService.generateInstructorReport(instructorId);
-//            return ResponseEntity.ok(report);
-//        } catch (RuntimeException e) {
-//            log.warn("Instructor report could not be generated for ID {}: {}", instructorId, e.getMessage());
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-
-
-
+    @GetMapping("/instructor/{instructorId}")
+    @Operation(summary = "Generar reporte de instructor", description = "Genera un reporte para un instructor específico con sus cursos asignados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reporte del instructor generado correctamente",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstructorReportDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Instructor no encontrado")
+    })
+    public ResponseEntity<InstructorReportDTO> generateInstructorReport(
+            @Parameter(description = "ID del instructor", required = true)
+            @PathVariable Long instructorId
+    ) {
+        log.info("GET /api/v1/reports/instructor/{} - Generando reporte del instructor", instructorId);
+        try {
+            InstructorReportDTO report = reportService.generateInstructorReport(instructorId);
+            return ResponseEntity.ok(report);
+        } catch (RuntimeException e) {
+            log.warn("No se pudo generar el reporte del instructor con ID {}: {}", instructorId, e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

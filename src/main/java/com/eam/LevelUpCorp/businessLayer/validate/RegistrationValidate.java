@@ -7,22 +7,19 @@ import org.springframework.stereotype.Component;
 public class RegistrationValidate {
 
     public void validateCreate(RegistrationDTO dto) {
-        if (dto == null) throw new IllegalArgumentException("El registro esta nulo");
+        if (dto == null)
+            throw new IllegalArgumentException("El registro está nulo");
 
-        if (dto.getFullName() == null || dto.getFullName().isBlank()) {
-            throw new IllegalArgumentException("Es requerido el nombre completo");
+        if (dto.getUserId() == null) {
+            throw new IllegalArgumentException("El ID del usuario es requerido");
         }
 
-        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-            throw new IllegalArgumentException("El email es requerido");
+        if (dto.getCourseId() == null) {
+            throw new IllegalArgumentException("El ID del curso es requerido");
         }
 
-        if (dto.getPassword() == null || dto.getPassword().length() < 8) {
-            throw new IllegalArgumentException("La contraseña debe ser de 8 caracteres de largo");
-        }
-
-        if (dto.getRole() == null || dto.getRole().isBlank()) {
-            throw new IllegalArgumentException("El rol es requerido");
+        if (dto.getStatus() == null || dto.getStatus().isBlank()) {
+            throw new IllegalArgumentException("El estado es requerido");
         }
     }
 

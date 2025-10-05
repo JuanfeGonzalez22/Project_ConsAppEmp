@@ -20,71 +20,84 @@ import java.util.List;
 @RequestMapping("/api/v1/modules")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Modules", description = "Modules management")
+@Tag(name = "Modulos", description = "Gestión de módulos del sistema")
 @CrossOrigin(origins = "*")
 public class ModuleController {
 
     private final ModuleService moduleService;
 
-    // CREATE
-    @Operation(summary = "Create module", description = "Create a new module in the system")
+    // CREAR
+    @Operation(summary = "Crear módulo", description = "Registra un nuevo módulo en el sistema")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Module created", content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Data invalid", content = @Content)
+            @ApiResponse(responseCode = "201", description = "Módulo creado exitosamente",
+                    content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content)
     })
     @PostMapping
     public ResponseEntity<ModuleDTO> createModule(@RequestBody ModuleDTO moduleDTO) {
-        log.info("Creating a new module: {}", moduleDTO);
-        return ResponseEntity.status(201).body(moduleService.createModule(moduleDTO));
+        log.info("Creando un nuevo módulo: {}", moduleDTO);
+        ModuleDTO created = moduleService.createModule(moduleDTO);
+        return ResponseEntity.status(201).body(created);
     }
 
-    // READ ONE
-    @Operation(summary = "Get a module by ID", description = "Get a specific module by its ID")
+    // OBTENER UNO
+    @Operation(summary = "Obtener módulo por ID", description = "Devuelve la información de un módulo específico por su ID")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Module found", content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Module not found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Módulo encontrado",
+                    content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Módulo no encontrado", content = @Content)
     })
-    @Parameter(name = "id", description = "ID of module", required = true)
     @GetMapping("/{id}")
-    public ResponseEntity<ModuleDTO> getModule(@PathVariable Long id) {
-        log.info("Fetching module with id: {}", id);
-        return ResponseEntity.ok(moduleService.getModule(id));
+    public ResponseEntity<ModuleDTO> getModule(
+            @Parameter(description = "ID del módulo a buscar", required = true)
+            @PathVariable Long id) {
+        log.info("Consultando módulo con ID: {}", id);
+        ModuleDTO module = moduleService.getModule(id);
+        return ResponseEntity.ok(module);
     }
 
-    // READ ALL
-    @Operation(summary = "List modules", description = "Get all modules available")
+    // OBTENER TODOS
+    @Operation(summary = "Listar módulos", description = "Obtiene todos los módulos registrados en el sistema")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Modules found", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ModuleDTO.class))))
+            @ApiResponse(responseCode = "200", description = "Listado de módulos obtenido correctamente",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ModuleDTO.class))))
     })
     @GetMapping
     public ResponseEntity<List<ModuleDTO>> getModules() {
-        log.info("Fetching all modules");
-        return ResponseEntity.ok(moduleService.getModules());
+        log.info("Listando todos los módulos disponibles");
+        List<ModuleDTO> modules = moduleService.getModules();
+        return ResponseEntity.ok(modules);
     }
 
-    // UPDATE
-    @Operation(summary = "Update module", description = "Update an existing module")
+    // ACTUALIZAR
+    @Operation(summary = "Actualizar módulo", description = "Modifica los datos de un módulo existente por su ID")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Module updated", content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Data invalid", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Module not found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Módulo actualizado exitosamente",
+                    content = @Content(schema = @Schema(implementation = ModuleDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Módulo no encontrado", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ModuleDTO> updateModule(@PathVariable Long id, @RequestBody ModuleDTO moduleDTO) {
-        log.info("Updating module with id: {}", id);
-        return ResponseEntity.ok(moduleService.updateModule(id, moduleDTO));
+    public ResponseEntity<ModuleDTO> updateModule(
+            @Parameter(description = "ID del módulo a actualizar", required = true)
+            @PathVariable Long id,
+            @RequestBody ModuleDTO moduleDTO) {
+        log.info("Actualizando módulo con ID: {}", id);
+        ModuleDTO updated = moduleService.updateModule(id, moduleDTO);
+        return ResponseEntity.ok(updated);
     }
 
-    // DELETE
-    @Operation(summary = "Delete module", description = "Delete an existing module")
+    // ELIMINAR
+    @Operation(summary = "Eliminar módulo", description = "Elimina un módulo del sistema por su ID")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Module deleted", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Module not found", content = @Content)
+            @ApiResponse(responseCode = "204", description = "Módulo eliminado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Módulo no encontrado", content = @Content)
     })
-    @Parameter(name = "id", description = "ID of module", required = true)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteModule(@PathVariable Long id) {
-        log.info("Deleting module with id: {}", id);
+    public ResponseEntity<Void> deleteModule(
+            @Parameter(description = "ID del módulo a eliminar", required = true)
+            @PathVariable Long id) {
+        log.info("Eliminando módulo con ID: {}", id);
         moduleService.deleteModule(id);
         return ResponseEntity.noContent().build();
     }

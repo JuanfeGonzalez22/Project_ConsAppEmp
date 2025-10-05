@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.persistenceLayer.mapper;
 import com.eam.LevelUpCorp.businessLayer.dto.LoginDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.UserRegisterDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import org.mapstruct.*;
 
@@ -28,6 +29,13 @@ public interface UserMapper {
     Convert LoginDTO to UserEntity
     */
     UserEntity toEntity(LoginDTO loginDTO);
+
+    /*
+     * Convert UserRegisterDTO to UserEntity for registration
+     */
+    @Mapping(target = "id", ignore = true)       
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    UserEntity toEntity(UserRegisterDTO registerDTO);
 
     /*
     Convert UserEntity to LoginDTO

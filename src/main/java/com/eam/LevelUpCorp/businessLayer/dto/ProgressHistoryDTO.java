@@ -22,8 +22,6 @@ public class ProgressHistoryDTO {
     @Schema(description = "ID of the module", example = "303")
     private int moduleId;
 
-    @Schema(description = "Date when the user accessed the module", example = "2025-03-15")
-    private LocalDate accesDate;
 
     @Schema(description = "Time dedicated by the user during this access", example = "01:30")
     private LocalTime timpoDedicated;

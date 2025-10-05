@@ -16,109 +16,108 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/registrations")
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(origins = "*")
-@Tag(name = "Registrations", description = "Manage user registrations in the platform")
+@Tag(name = "Registros", description = "Gestión de registros de usuarios en la plataforma")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @Operation(summary = "Create registration", description = "Register a new user in the system")
+    @Operation(summary = "Crear registro", description = "Registra un nuevo usuario en el sistema")
     @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Registration created",
-            content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid data", content = @Content)
+            @ApiResponse(responseCode = "201", description = "Registro creado",
+                    content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content)
     })
-    // Create a new user registration.
+    // Crear un nuevo registro de usuario.
     @PostMapping
     public ResponseEntity<RegistrationDTO> create(@RequestBody RegistrationDTO dto) {
-        log.info("POST /api/v1/registrations - Create registration");
+        log.info("POST /api/v1/registrations - Crear registro");
         try {
             RegistrationDTO createdRegistration = registrationService.createRegistration(dto);
             return ResponseEntity.status(201).body(createdRegistration);
         } catch (IllegalArgumentException e) {
-            log.warn("Error creating registration: {}", e.getMessage());
+            log.warn("Error al crear el registro: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @Operation(summary = "Get registration by ID", description = "Retrieve a registration by its ID")
+    @Operation(summary = "Obtener registro por ID", description = "Obtiene un registro específico según su ID")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Registration found",
-            content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Registration not found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Registro encontrado",
+                    content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Registro no encontrado", content = @Content)
     })
-    // Retrieve a specific registration by ID.
+    // Obtener un registro específico por su ID.
     @GetMapping("/{id}")
     public ResponseEntity<RegistrationDTO> getOne(
-        @Parameter(description = "ID of the registration to retrieve", required = true)
-        @PathVariable Long id) {
-        log.debug("GET /api/v1/registrations/{} - Get registration", id);
+            @Parameter(description = "ID del registro a obtener", required = true)
+            @PathVariable Long id) {
+        log.debug("GET /api/v1/registrations/{} - Obtener registro", id);
         try {
             RegistrationDTO registration = registrationService.getRegistration(id);
             return ResponseEntity.ok(registration);
         } catch (RuntimeException e) {
-            log.warn("Registration with ID {} not found: {}", id, e.getMessage());
+            log.warn("Registro con ID {} no encontrado: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @Operation(summary = "Get all registrations", description = "Retrieve all registrations")
+    @Operation(summary = "Listar registros", description = "Obtiene todos los registros de usuarios del sistema")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "List of registrations",
-            content = @Content(array = @ArraySchema(schema = @Schema(implementation = RegistrationDTO.class))))
+            @ApiResponse(responseCode = "200", description = "Lista de registros obtenida correctamente",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = RegistrationDTO.class))))
     })
-    // Retrieve all user registrations.
+    // Obtener todos los registros de usuarios.
     @GetMapping
     public ResponseEntity<List<RegistrationDTO>> getAll() {
-        log.debug("GET /api/v1/registrations - Get all registrations");
+        log.debug("GET /api/v1/registrations - Obtener todos los registros");
         List<RegistrationDTO> registrations = registrationService.getAllRegistrations();
         return ResponseEntity.ok(registrations);
     }
 
-    @Operation(summary = "Update registration", description = "Update an existing registration by ID")
+    @Operation(summary = "Actualizar registro", description = "Actualiza un registro existente según su ID")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Registration updated",
-            content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid data", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Registration not found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Registro actualizado correctamente",
+                    content = @Content(schema = @Schema(implementation = RegistrationDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Registro no encontrado", content = @Content)
     })
-    // Update an existing registration by ID.
+    // Actualizar un registro existente por su ID.
     @PutMapping("/{id}")
     public ResponseEntity<RegistrationDTO> update(
-            @Parameter(description = "ID of the registration to update", required = true)
+            @Parameter(description = "ID del registro a actualizar", required = true)
             @PathVariable Long id,
             @RequestBody RegistrationDTO dto) {
-        log.info("PUT /api/v1/registrations/{} - Update registration", id);
+        log.info("PUT /api/v1/registrations/{} - Actualizar registro", id);
         try {
             RegistrationDTO updatedRegistration = registrationService.updateRegistration(id, dto);
             return ResponseEntity.ok(updatedRegistration);
         } catch (RuntimeException e) {
-            log.warn("Error updating registration ID {}: {}", id, e.getMessage());
+            log.warn("Error al actualizar el registro con ID {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @Operation(summary = "Delete registration", description = "Delete a registration by ID")
+    @Operation(summary = "Eliminar registro", description = "Elimina un registro según su ID")
     @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "Registration deleted", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Registration not found", content = @Content)
+            @ApiResponse(responseCode = "204", description = "Registro eliminado", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Registro no encontrado", content = @Content)
     })
-    // Delete a registration by ID.
+    // Eliminar un registro por su ID.
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
-        @Parameter(description = "ID of the registration to delete", required = true)
-        @PathVariable Long id) {
-        log.info("DELETE /api/v1/registrations/{} - Delete registration", id);
+            @Parameter(description = "ID del registro a eliminar", required = true)
+            @PathVariable Long id) {
+        log.info("DELETE /api/v1/registrations/{} - Eliminar registro", id);
         try {
             registrationService.deleteRegistration(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            log.warn("Error deleting registration ID {}: {}", id, e.getMessage());
+            log.warn("Error al eliminar el registro con ID {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }

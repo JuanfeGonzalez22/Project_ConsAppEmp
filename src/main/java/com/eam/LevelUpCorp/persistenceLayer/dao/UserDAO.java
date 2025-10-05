@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.persistenceLayer.dao;
 
 
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.UserRegisterDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.UserMapper;
 import com.eam.LevelUpCorp.persistenceLayer.repository.UserRepository;
@@ -48,6 +49,14 @@ public class UserDAO {
     //Login.
     public Optional<UserDTO> finByEmail(String email) {
         return userRepository.findByEmail(email).map(userMapper::toDTO);
+    }
+
+
+    // Save a new user.
+    public UserDTO saveRegister(UserRegisterDTO registerDTO) {
+        UserEntity userEntity = userMapper.toEntity(registerDTO);
+        UserEntity savedUser = userRepository.save(userEntity);
+        return userMapper.toDTO(savedUser);
     }
 
 

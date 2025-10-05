@@ -25,7 +25,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public RegistrationDTO createRegistration(RegistrationDTO dto) {
-        log.info("Creating new registration for {}", dto.getEmail());
+        log.info("Creating new registration for {}", dto);
         registrationValidate.validateCreate(dto);
         return registrationDAO.save(dto);
     }
