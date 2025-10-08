@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Data transfer object for creating an evaluation answer")
-
 public class GradeAnswerDTO {
 
 
