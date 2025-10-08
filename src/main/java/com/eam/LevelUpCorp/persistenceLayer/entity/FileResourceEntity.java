@@ -20,6 +20,9 @@ public class FileResourceEntity {
     private String fileType;
     private Long moduleId;
     private Long evaluationId;
+    private Long answerId;
+
+
 
 
 }
