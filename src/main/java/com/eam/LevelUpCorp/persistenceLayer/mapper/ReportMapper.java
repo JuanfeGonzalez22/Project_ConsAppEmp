@@ -18,15 +18,40 @@ import java.util.Map;
 public interface ReportMapper {
 
     // De Entity a DTO
+    @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "courseId", source = "courseId")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "description", source = "description")
     ReportDTO toDTO(ReportEntity entity);
 
     // De DTO a Entity
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "date", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "updateDate", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "courseId", source = "courseId")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "description", source = "description")
     ReportEntity toEntity(ReportDTO dto);
 
     // Actualizar una entidad existente con datos de un DTO
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "date", ignore = true)
+    @Mapping(target = "updateDate", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "courseId", source = "courseId")
+    @Mapping(target = "title", source = "title")
+    @Mapping(target = "description", source = "description")
     void updateEntityFromDTO(ReportDTO dto, @MappingTarget ReportEntity entity);
 
-    // Si necesitas mapear a GeneralReportDTO lo haces con métodos específicos
+    // Mapear a GeneralReportDTO desde parámetros individuales
+    @Mapping(target = "totalUsers", source = "totalUsers")
+    @Mapping(target = "totalCourses", source = "totalCourses")
+    @Mapping(target = "totalRegistrations", source = "totalRegistrations")
+    @Mapping(target = "totalCertificates", source = "totalCertificates")
+    @Mapping(target = "averageProgress", source = "averageProgress")
+    @Mapping(target = "averageScores", source = "averageScores")
+    @Mapping(target = "usersByRole", source = "usersByRole")
     GeneralReportDTO toGeneralReportDTO(long totalUsers,
                                         long totalCourses,
                                         long totalRegistrations,
@@ -34,6 +59,5 @@ public interface ReportMapper {
                                         double averageProgress,
                                         double averageScores,
                                         Map<String, Long> usersByRole);
-
 
 }

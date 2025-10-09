@@ -109,7 +109,15 @@ public class AnswerDAO {
     }
 
 
+    // Count answers by user - Contar respuestas de un usuario
+    public Long countByUserId(Long userId) {
+        return answerRepository.countByUserId(userId);
+    }
 
+    // Count high scores by user - Contar respuestas con alta calificación
+    public Long countByUserIdAndScoreGreaterThanEqual(Long userId, Double minScore) {
+        return answerRepository.countByUserIdAndScoreGreaterThanEqual(userId, minScore);
+    }
 
 
 }

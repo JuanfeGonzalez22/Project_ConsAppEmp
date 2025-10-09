@@ -14,7 +14,7 @@ public class ModuleDTO {
 
 
     @Schema(description = "ID of the course this module belongs to", example = "1001")
-    private int courseId;
+    private Long courseId;
 
     @Schema(description = "Name or title of the module", example = "Introduction to the platform")
     private String title;
