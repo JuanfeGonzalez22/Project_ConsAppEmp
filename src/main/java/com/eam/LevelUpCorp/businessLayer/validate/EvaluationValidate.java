@@ -18,9 +18,9 @@ public class EvaluationValidate {
         if (!StringUtils.hasText(evaluationDTO.getType())) {
             throw new IllegalArgumentException("Evaluation type cannot be empty");
         }
-//        if (evaluationDTO.getModuleId() == null) {
-//            throw new IllegalArgumentException("Module ID cannot be null");
-//        }
+        if (evaluationDTO.getModuleId() == null) {
+            throw new IllegalArgumentException("Module ID cannot be null");
+        }
         if (evaluationDTO.getMaxScore() < 0) {
             throw new IllegalArgumentException("Max score cannot be negative");
         }

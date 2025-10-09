@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Schema(description = "This DTO is used to perform login in the platform")
 public class LoginDTO {
+
     @Schema(description = "Email used by the user to log in", example = "maria.gonzalez@company.com")
     private String email;
 

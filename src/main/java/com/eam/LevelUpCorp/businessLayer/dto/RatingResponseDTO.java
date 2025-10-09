@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RatingResponseDTO {
 
+    @Schema(description = "ID del rating", example = "1")
     private Long id;
 
     @Schema(description = "Name of the reward", example = "Top performer")

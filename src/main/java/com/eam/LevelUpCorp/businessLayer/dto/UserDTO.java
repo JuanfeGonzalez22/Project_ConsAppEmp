@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "DTO that represents the basic information of a user in the platform")
 public class UserDTO {
 
-
+    @Schema(description = "ID del usuario", example = "1")
     private Long id;
 
     @Schema(description = "Full name of the user", example = "John Smith")

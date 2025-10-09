@@ -24,7 +24,7 @@ public class ProgressHistoryDTO {
 
 
     @Schema(description = "Time dedicated by the user during this access", example = "01:30")
-    private LocalTime timpoDedicated;
+    private LocalTime timeDedicated;
 
     @Schema(description = "Current status of the module for the user (e.g., in progress, completed)", example = "completed")
     private String status;

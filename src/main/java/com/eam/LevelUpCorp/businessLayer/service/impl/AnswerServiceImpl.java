@@ -5,6 +5,7 @@ import com.eam.LevelUpCorp.businessLayer.dto.AnswerResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.GradeAnswerDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.SubmitAnswerDTO;
 import com.eam.LevelUpCorp.businessLayer.service.AnswerService;
+import com.eam.LevelUpCorp.businessLayer.validate.AnswerValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.AnswerDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 
     private final AnswerDAO answerDAO;
+    private final AnswerValidate answerValidate;
 
 
 
@@ -33,7 +35,7 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerResponseDTO submitAnswer(SubmitAnswerDTO submitAnswerDTO, Long userId, Long fileId) {
         log.info("Estudiante {} enviando respuesta para evaluación: {}", userId, submitAnswerDTO.getEvaluationId());
 
-        // valiAnswer.validateSubmit(submitAnswerDTO, userId);
+        answerValidate.validateSubmitAnswer(submitAnswerDTO, userId);
 
         AnswerResponseDTO respuestaCreada = answerDAO.save(submitAnswerDTO, userId, fileId);
         log.info("Respuesta enviada exitosamente con ID: {}", respuestaCreada.getId());
@@ -48,7 +50,7 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerResponseDTO gradeAnswer(Long answerId, GradeAnswerDTO gradeAnswerDTO) {
         log.info("Calificando respuesta con ID: {}", answerId);
 
-        // valiAnswer.validateGrade(gradeAnswerDTO);
+        answerValidate.validateGradeAnswer(gradeAnswerDTO);
 
         AnswerResponseDTO respuestaCalificada = answerDAO.update(answerId, gradeAnswerDTO)
                 .orElseThrow(() -> {
@@ -67,6 +69,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional(readOnly = true)
     public AnswerResponseDTO getAnswerById(Long id) {
         log.info("Obteniendo respuesta por ID: {}", id);
+        answerValidate.validateAnswerId(id);
         return answerDAO.findById(id).orElseThrow(() -> {
             log.warn("Error al obtener respuesta por ID: {}", id);
             return new RuntimeException("Respuesta no encontrada con ID: " + id);
@@ -131,7 +134,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional(readOnly = true)
     public AnswerResponseDTO getAnswerByEvaluationAndUser(Long evaluationId, Long userId) {
         log.info("Obteniendo respuesta para evaluación {} y usuario {}", evaluationId, userId);
-
+        answerValidate.validateEvaluationAndUser(userId, evaluationId);
         return answerDAO.findByEvaluationIdAndUserId(evaluationId, userId)
                 .orElseThrow(() -> {
                     log.warn("No se encontró respuesta para evaluación {} y usuario {}", evaluationId, userId);
@@ -150,7 +153,7 @@ public class AnswerServiceImpl implements AnswerService {
         log.info("Eliminando respuesta con ID: {}", id);
 
         getAnswerById(id);
-        // valiAnswer.validateDelete(id);
+        answerValidate.validateDeleteAnswer(id);
 
         boolean eliminado = answerDAO.deleteById(id);
         if (!eliminado) {

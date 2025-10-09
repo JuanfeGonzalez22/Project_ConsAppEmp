@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 public class GradeAnswerDTO {
 
 
+    @Schema(description = "Numerical score assigned to the answer", example = "8.5")
     private Double score;
 
-    private String feedBack;
+    @Schema(description = "Feedback comments for the evaluated answer", example = "Excellent work! Well structured and comprehensive.")
+    private String feedback;
+
 }

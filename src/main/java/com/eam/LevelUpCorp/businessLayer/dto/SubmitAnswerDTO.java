@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class SubmitAnswerDTO {
 
 
+    @Schema(description = "Unique identifier of the evaluation to submit the answer for", example = "12")
     private Long evaluationId;
 
 

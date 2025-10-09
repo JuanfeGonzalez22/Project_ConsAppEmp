@@ -9,13 +9,13 @@ import java.util.Optional;
 public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
 
 
-    Optional<RatingEntity> findByCode(String codigo);
+    Optional<RatingEntity> findByCode(String code);
 
-    boolean existsByCode(String codigo);
+    boolean existsByCode(String code);
 
-    List<RatingEntity> findByNameContainingIgnoreCase(String nombre);
+    List<RatingEntity> findByNameContainingIgnoreCase(String name);
 
-    List<RatingEntity> findByCriterioContainingIgnoreCase(String criterio);
+    List<RatingEntity> findByCriterionContainingIgnoreCase(String criterion);
 
 
 }

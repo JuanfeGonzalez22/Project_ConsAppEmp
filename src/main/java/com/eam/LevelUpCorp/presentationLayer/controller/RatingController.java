@@ -17,7 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+
+
 /**
  * Controlador REST para operaciones CRUD de gamificacion
  */
@@ -214,4 +217,57 @@ public class RatingController {
         log.debug("Código {} existe: {}", code, exists);
         return ResponseEntity.ok(exists);
     }
+
+
+
+    /**
+     * Obtener logros de un usuario
+     */
+    @GetMapping("/users/{userId}/achievements")
+    @Operation(summary = "Obtener logros de usuario", description = "Obtiene todos los logros de un usuario específico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de logros del usuario",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RatingResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
+    public ResponseEntity<List<RatingResponseDTO>> getLogrosUsuario(
+            @Parameter(description = "ID del usuario", required = true)
+            @PathVariable Long userId
+    ) {
+        log.debug("GET /api/v1/ratings/users/{}/achievements - Obteniendo logros del usuario", userId);
+        try {
+            List<RatingResponseDTO> logros = ratingService.getLogrosUsuario(userId);
+            log.debug("Usuario {} tiene {} logros", userId, logros.size());
+            return ResponseEntity.ok(logros);
+        } catch (RuntimeException e) {
+            log.warn("Error al obtener logros del usuario {}: {}", userId, e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    /**
+     * Obtener tipos de logros disponibles
+     */
+    @GetMapping("/tipos-disponibles")
+    @Operation(summary = "Tipos de logros disponibles", description = "Obtiene los tipos de logros que el sistema puede asignar automáticamente")
+    public ResponseEntity<List<String>> getTiposLogrosDisponibles() {
+        log.debug("GET /api/v1/ratings/tipos-disponibles - Obteniendo tipos de logros");
+        List<String> tipos = Arrays.asList(
+                "PRIMERA_RESPUESTA - Primera respuesta enviada",
+                "RESPONDEDOR_NOVATO - 5 respuestas enviadas",
+                "RESPONDEDOR_ACTIVO - 10 respuestas enviadas",
+                "RESPONDEDOR_EXPERTO - 25 respuestas enviadas",
+                "EXPERTO_RESPUESTAS - 50 respuestas enviadas",
+                "MAESTRO_RESPUESTAS - 100 respuestas enviadas",
+                "BUEN_ESTUDIANTE - Calificación >= 80%",
+                "EXCELENTE_CALIFICACION - Calificación >= 90%",
+                "SOBRESALIENTE - Calificación >= 95%",
+                "PERFECTO_EVALUACION - Calificación 100%",
+                "GENIO_CALIFICACIONES - 5 evaluaciones con 95%+"
+        );
+        return ResponseEntity.ok(tipos);
+    }
+
+
 }

@@ -23,5 +23,9 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
     List<AnswerEntity> findByEvaluationIdAndScore(Long evaluationId, double score);
 
+    Long countByUserId(Long userId);
+
+    Long countByUserIdAndScoreGreaterThanEqual(Long userId, Double minScore);
+
 
 }
