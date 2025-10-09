@@ -5,11 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Data transfer object for creating an evaluation answer")
-public class AnswerDTO {
+public class AnswerResponseDTO {
+
+
+    private Long id;
+
+    private String answerFileUrl;
+
+    private LocalDateTime date;
 
     @Schema(description = "ID of the evaluation being answered",
            example = "12",

@@ -1,28 +1,20 @@
-package com.eam.LevelUpCorp.persistenceLayer.entity;
+package com.eam.LevelUpCorp.businessLayer.dto;
 
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "file_resource")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileResourceEntity {
+public class FileResourceDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String fileName;
     private String fileType;
     private Long moduleId;
     private Long evaluationId;
     private Long answerId;
-
-
-
-
 }
