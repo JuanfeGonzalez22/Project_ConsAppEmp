@@ -9,16 +9,19 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GamificationDTO {
-    @Schema(description = "Identifier of the badge or reward", example = "1")
-    private Long id;
+public class RatingDTO {
+
+
 
     @Schema(description = "Name of the reward", example = "Top performer")
     private String name;
 
     @Schema(description = "Condition required to obtain the reward", example = "Complete 3 courses")
-    private String criteria;
+    private String criterion;
 
     @Schema(description = "Path or filename of the badge icon", example = "medal.png")
     private String icon;
+
+    private String code;
+
 }
