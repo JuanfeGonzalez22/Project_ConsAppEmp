@@ -20,7 +20,8 @@ public class FileResourceEntity {
     private String fileType;
     private Long moduleId;
     private Long evaluationId;
-    private Long answerId;
+    @Column(name = "file_url")
+    private String fileUrl;
 
 
 

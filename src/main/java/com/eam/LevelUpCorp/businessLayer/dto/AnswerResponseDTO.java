@@ -17,8 +17,7 @@ public class AnswerResponseDTO {
     @Schema(description = "Unique identifier of the answer", example = "1")
     private Long id;
 
-    @Schema(description = "URL to the answer file if submitted as file", example = "https://storage.com/answers/answer-123.pdf")
-    private String answerFileUrl;
+
 
     @Schema(description = "Date and time when the answer was submitted", example = "2024-01-15T14:30:00")
     private LocalDateTime date;

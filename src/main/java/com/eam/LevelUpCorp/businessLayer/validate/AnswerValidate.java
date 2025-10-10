@@ -30,7 +30,7 @@ public class AnswerValidate {
         if (gradeAnswerDTO.getScore() < 0 || gradeAnswerDTO.getScore() > 100) {
             throw new IllegalArgumentException("La calificación debe estar entre 0 y 100");
         }
-        if (gradeAnswerDTO.getFeedBack() != null && gradeAnswerDTO.getFeedBack().length() > 500) {
+        if (gradeAnswerDTO.getFeedback() != null && gradeAnswerDTO.getFeedback().length() > 500) {
             throw new IllegalArgumentException("El feedback no puede exceder 500 caracteres");
         }
     }

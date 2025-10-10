@@ -22,7 +22,7 @@ public class RatingResponseDTO {
     private String criterion;
 
     @Schema(description = "Path or filename of the badge icon", example = "medal.png")
-    private String icon;
+    private String icono;
 
     private String code;
 }

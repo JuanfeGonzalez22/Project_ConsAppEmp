@@ -22,7 +22,6 @@ public class AnswerEntity {
     private Long userId;
     private double score;
     private LocalDate date =  LocalDate.now();
-    private Long answerFileId;
     @Column(name = "instructor_feedback")
     private String feedBack;
 

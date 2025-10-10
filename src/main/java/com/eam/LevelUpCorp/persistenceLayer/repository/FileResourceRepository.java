@@ -15,8 +15,6 @@ public interface FileResourceRepository extends JpaRepository<FileResourceEntity
     // Archivos de evaluación (subidos por instructor)
     List<FileResourceEntity> findByEvaluationId(Long evaluationId);
 
-    // Archivos de respuesta (subidos por estudiantes)
-    List<FileResourceEntity> findByAnswerId(Long answerId);
 
     // Buscar archivo específico por evaluación
     Optional<FileResourceEntity> findByEvaluationIdAndFileName(Long evaluationId, String fileName);

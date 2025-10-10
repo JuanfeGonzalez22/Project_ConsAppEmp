@@ -24,7 +24,6 @@ public class AnswerDAO {
 
         AnswerEntity answerEntity = answerMapper.toEntity(submitAnswerDTO);
         answerEntity.setUserId(userId);
-        answerEntity.setAnswerFileId(fileId);
 
         AnswerEntity savedEntity = answerRepository.save(answerEntity);
         return answerMapper.toDTO(savedEntity);
