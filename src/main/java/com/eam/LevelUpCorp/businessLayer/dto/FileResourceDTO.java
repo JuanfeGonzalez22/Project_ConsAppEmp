@@ -27,7 +27,10 @@ public class FileResourceDTO {
     @Schema(description = "ID of the evaluation this file belongs to", example = "25")
     private Long evaluationId;
 
-    @Schema(description = "ID of the answer this file belongs to", example = "50")
-    private Long answerId;
+//    @Schema(description = "ID of the answer this file belongs to", example = "50")
+//    private Long answerId;
+
+    @Schema(description = "URL to the answer file if submitted as file", example = "https://storage.com/answers/answer-123.pdf")
+    private String fileUrl;
 
 }

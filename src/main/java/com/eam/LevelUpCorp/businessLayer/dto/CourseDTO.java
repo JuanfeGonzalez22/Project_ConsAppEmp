@@ -29,6 +29,6 @@ public class CourseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime estimatedDuration;
 
-    @Schema(description = "Difficulty level of the course", example = "basic")
+    @Schema(description = "Difficulty level of the course", example = "1")
     private int level;
 }

@@ -22,6 +22,9 @@ public class UserRegisterDTO {
     @Schema(description = "Contraseña del usuario, mínimo 6 caracteres", example = "password123")
     private String password;
 
+    @Schema(description = "Departamento o área del usuario", example = "Recursos Humanos")
+    private String department;
+
     @Schema(description = "Tipo de usuario: 'Aprendiz' o 'Instructor'", example = "Aprendiz")
     private String role; // opcional: si decides que el usuario elija el rol en registro
 

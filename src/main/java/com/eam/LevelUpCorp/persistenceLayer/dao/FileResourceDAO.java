@@ -40,7 +40,6 @@ public class FileResourceDAO {
                     existingEntity.setFileType(fileResourceDTO.getFileType());
                     existingEntity.setModuleId(fileResourceDTO.getModuleId());
                     existingEntity.setEvaluationId(fileResourceDTO.getEvaluationId());
-                    existingEntity.setAnswerId(fileResourceDTO.getAnswerId());
 
                     FileResourceEntity updatedEntity = fileResourceRepository.save(existingEntity);
                     return fileResourceMapper.toDTO(updatedEntity);
@@ -80,13 +79,7 @@ public class FileResourceDAO {
                 .toList();
     }
 
-    // Find by Answer ID
-    public List<FileResourceDTO> findByAnswerId(Long answerId) {
-        return fileResourceRepository.findByAnswerId(answerId)
-                .stream()
-                .map(fileResourceMapper::toDTO)
-                .toList();
-    }
+
 
     // Check if evaluation has files
     public boolean existsByEvaluationId(Long evaluationId) {

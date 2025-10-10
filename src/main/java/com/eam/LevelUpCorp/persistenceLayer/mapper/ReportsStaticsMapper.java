@@ -16,14 +16,14 @@ public interface ReportsStaticsMapper {
 
 
     // Convert Entity to DTO
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "reportId", source = "id")
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "updatedAt", source = "updatedAt")
     @Mapping(target = "usersByRole", source = "usersByRole")
     ReportStaticsDTO toDTO(ReportStaticsEntity entity);
 
     // Convert DTO to Entity
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", source = "reportId")
     @Mapping(target = "createdAt", expression = "java(dto.getCreatedAt() != null ? dto.getCreatedAt() : java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "usersByRole", source = "usersByRole")

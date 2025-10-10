@@ -26,14 +26,18 @@ public interface UserMapper {
     UserDTO toDTO(UserEntity userEntity);
 
     /*
-    Convert LoginDTO to UserEntity
+    Convert LoginDTO to UserEntity (SOLO para autenticación)
     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "department", ignore = true)
     UserEntity toEntity(LoginDTO loginDTO);
 
     /*
      * Convert UserRegisterDTO to UserEntity for registration
      */
-    @Mapping(target = "id", ignore = true)       
+    @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     UserEntity toEntity(UserRegisterDTO registerDTO);
 
@@ -57,5 +61,4 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDTO(UserDTO userDTO, @MappingTarget UserEntity userEntity);
-
 }

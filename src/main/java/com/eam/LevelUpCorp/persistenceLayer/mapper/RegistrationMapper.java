@@ -20,22 +20,19 @@ public interface RegistrationMapper {
      */
     List<RegistrationDTO> toDTOList(List<RegistrationEntity> registrationEntities);
 
-    /*
-      Converts a single RegistrationEntity to RegistrationDTO.
-     */
+    // Entity -> DTO: MapStruct mapea automáticamente los campos que coinciden
     RegistrationDTO toDTO(RegistrationEntity registrationEntity);
 
-    /*
-      Converts an RegistrationDTO to RegistrationEntity.
-      Used for creating new registrations in the db.
-     */
-    @Mapping(target = "id", ignore = true) // id is auto-generated
+    // DTO -> Entity: Fecha automática, progress por defecto
+    @Mapping(target = "id", ignore = true) // id se genera en BD
+    @Mapping(target = "enrollmentDate", expression = "java(java.time.LocalDate.now())") // ✅ Fecha automática
+    @Mapping(target = "progress", constant = "0.0") // ✅ Progress siempre empieza en 0
     RegistrationEntity toEntity(RegistrationDTO registrationDTO);
 
-    /*
-     Updates an existing RegistrationEntity using data from an RegistrationDTO.
-     */
+    // Update: Solo actualizar campos permitidos
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "enrollmentDate", ignore = true) // ✅ No cambiar fecha original
+    @Mapping(target = "progress", ignore = true) // ✅ No cambiar progress desde DTO
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDTO(RegistrationDTO registrationDTO, @MappingTarget RegistrationEntity registrationEntity);
 }
