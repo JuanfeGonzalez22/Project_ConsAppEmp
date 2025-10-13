@@ -1,8 +1,13 @@
 package com.eam.LevelUpCorp.persistenceLayer.dao;
 import com.eam.LevelUpCorp.businessLayer.dto.RegistrationDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.RegistrationResponseDTO;
+import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.RegistrationEntity;
+import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.RegistrationMapper;
+import com.eam.LevelUpCorp.persistenceLayer.repository.CourseRepository;
 import com.eam.LevelUpCorp.persistenceLayer.repository.RegistrationRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,17 +21,19 @@ public class RegistrationDAO {
 
     private final RegistrationRepository registrationRepository;
     private final RegistrationMapper registrationMapper;
+    private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
     //Save
-    public RegistrationDTO save(RegistrationDTO registrationDTO){
+    public RegistrationResponseDTO save(RegistrationDTO registrationDTO){
         RegistrationEntity registrationEntity = registrationMapper.toEntity(registrationDTO);
         RegistrationEntity savedRegistrationEntity = registrationRepository.save(registrationEntity);
-        return registrationMapper.toDTO(savedRegistrationEntity);
+        return convertToResponseDTO(savedRegistrationEntity);
     }
 
     //Search
-    public Optional<RegistrationDTO> findById(Long id){
-        return registrationRepository.findById(id).map(registrationMapper::toDTO);
+    public Optional<RegistrationResponseDTO> findById(Long id){
+        return registrationRepository.findById(id).map(this::convertToResponseDTO);
     }
 
     //Update
@@ -47,7 +54,28 @@ public class RegistrationDAO {
     }
 
     //All Registration
-    public List<RegistrationDTO> findAll(){
-        return registrationRepository.findAll().stream().map(registrationMapper::toDTO).toList();
+    public List<RegistrationResponseDTO> findAll(){
+        return registrationRepository.findAll().stream().map(this::convertToResponseDTO).toList();
+    }
+
+    //Convert entity -> ResponseDTO
+    private RegistrationResponseDTO convertToResponseDTO(RegistrationEntity registrationEntity) {
+
+        UserEntity user = userRepository.findById(registrationEntity.getId()).orElse(null);
+
+        CourseEntity course = courseRepository.findById(registrationEntity.getId()).orElse(null);
+
+        return new RegistrationResponseDTO(
+                registrationEntity.getId(),
+                registrationEntity.getUserId(),
+                user != null ? user.getName() : "Unknown",
+                user != null ? user.getEmail() : "Unknown",
+                registrationEntity.getCourseId(),
+                course != null ? course.getTitle() : "Unknown",
+                registrationEntity.getProgress(),
+                registrationEntity.getEnrollmentDate(),
+                registrationEntity.getStatus()
+        );
+
     }
 }

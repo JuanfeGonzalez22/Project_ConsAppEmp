@@ -10,4 +10,10 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 //    @Query("SELECT c FROM CourseEntity c WHERE c.instructor.id = :instructorId")
 //    List<CourseEntity> findByInstructorId(Long instructorId);
+
+    List<CourseEntity> findByTitle(String title);
+
+
+
+
 }

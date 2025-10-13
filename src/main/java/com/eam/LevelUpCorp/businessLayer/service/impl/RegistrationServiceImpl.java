@@ -1,5 +1,6 @@
 package com.eam.LevelUpCorp.businessLayer.service.impl;
 import com.eam.LevelUpCorp.businessLayer.dto.RegistrationDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.RegistrationResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.RegistrationService;
 import com.eam.LevelUpCorp.businessLayer.validate.RegistrationValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.RegistrationDAO;
@@ -24,14 +25,14 @@ public class RegistrationServiceImpl implements RegistrationService {
      */
 
     @Override
-    public RegistrationDTO createRegistration(RegistrationDTO dto) {
+    public RegistrationResponseDTO createRegistration(RegistrationDTO dto) {
         log.info("Creating new registration for {}", dto);
         registrationValidate.validateCreate(dto);
         return registrationDAO.save(dto);
     }
 
     @Override
-    public RegistrationDTO getRegistration(Long id) {
+    public RegistrationResponseDTO getRegistration(Long id) {
         log.debug("Fetching registration with id {}", id);
         registrationValidate.validateSearch(id);
         return registrationDAO.findById(id)
@@ -39,7 +40,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public List<RegistrationDTO> getAllRegistrations() {
+    public List<RegistrationResponseDTO> getAllRegistrations() {
         log.debug("Fetching all registrations");
         return registrationDAO.findAll();
     }

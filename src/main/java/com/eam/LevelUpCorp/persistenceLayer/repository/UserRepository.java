@@ -12,7 +12,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 
 
+
+
     Optional<UserEntity> findByEmail(String email);
+
     @Query("SELECT u.role, COUNT(u) FROM UserEntity u GROUP BY u.role")
     List<Object[]> countUsersByRole();
 
