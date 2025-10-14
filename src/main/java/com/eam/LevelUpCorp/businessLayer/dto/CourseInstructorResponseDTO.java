@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Schema(description = "DTO representing the instructor assigned to a course")
 public class CourseInstructorResponseDTO {
 
-
+    @Schema(description = "ID de la asignacion de instructor a un curso", example = "1")
     private Long id;
 
     @Schema(description = "ID of the course", example = "5")

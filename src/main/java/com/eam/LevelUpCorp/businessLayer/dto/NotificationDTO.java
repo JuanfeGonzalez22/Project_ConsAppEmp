@@ -12,16 +12,21 @@ import java.time.LocalDate;
 @Schema(description = "DTO that represents a notification sent to a user. It includes who receives it, the type, the message, when it was sent, and the current status.")
 public class NotificationDTO {
 
-    @Schema(description = "ID of the user who receives the notification", example = "101")
-    private int userId;
+    @Schema(description = "ID of the notification", example = "1")
+    private Long id;
 
-    @Schema(description = "Type of notification", example = "REMINDER")
+    @Schema(description = "ID of the user", example = "101")
+    private Long userId;
+
+    @Schema(description = "Type of notification", example = "PROGRESS_UPDATE")
     private String type;
 
-    @Schema(description = "The content of the notification message", example = "Your course starts tomorrow!")
+    @Schema(description = "Notification message", example = "¡Curso completado!")
     private String message;
 
+    @Schema(description = "Sent date", example = "2024-01-15")
+    private LocalDate sentDate;
 
-    @Schema(description = "Current status of the notification", example = "READ")
+    @Schema(description = "Status of notification", example = "UNREAD")
     private String status;
 }

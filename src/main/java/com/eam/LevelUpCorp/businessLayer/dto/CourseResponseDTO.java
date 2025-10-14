@@ -1,21 +1,23 @@
 package com.eam.LevelUpCorp.businessLayer.dto;
 
-import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Data transfer object that represents a course with description, title, estimated duration, and difficulty level.")
-public class CourseDTO {
+public class CourseResponseDTO {
 
 
+    @Schema(description = "ID del curso", example = "1")
+    private Long id;
 
     @Schema(description = "Short description of the course")
     private String description;
@@ -33,4 +35,6 @@ public class CourseDTO {
 
     @Schema(description = "Difficulty level of the course", example = "1")
     private int level;
+
+
 }

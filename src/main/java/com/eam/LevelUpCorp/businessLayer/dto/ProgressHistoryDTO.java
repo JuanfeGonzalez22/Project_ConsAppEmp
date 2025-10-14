@@ -14,14 +14,16 @@ import java.time.LocalTime;
 public class ProgressHistoryDTO {
 
     @Schema(description = "ID of the user", example = "101")
-    private int userId;
+    private Long userId;
 
     @Schema(description = "ID of the course", example = "202")
-    private int courseId;
+    private Long courseId;
 
     @Schema(description = "ID of the module", example = "303")
-    private int moduleId;
+    private Long moduleId;
 
+    @Schema(description = "ID of the registration", example = "404")
+    private Long registrationId;
 
     @Schema(description = "Time dedicated by the user during this access", example = "01:30")
     private LocalTime timeDedicated;
@@ -30,7 +32,7 @@ public class ProgressHistoryDTO {
     private String status;
 
     @Schema(description = "Percentage of progress in the module", example = "75.5")
-    private double ModuleProgress;
+    private double moduleProgress;
 
     @Schema(description = "Number of evaluation attempts made by the user", example = "2")
     private int evaluationAttempts;

@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.presentationLayer.controller;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CertificateDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CertificateResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.CertificateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,13 +35,13 @@ public class CertificateController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CertificateDTO.class))),
             @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    public ResponseEntity<CertificateDTO> createCertificate(
+    public ResponseEntity<CertificateResponseDTO> createCertificate(
             @Parameter(description = "Datos del certificado", required = true)
             @RequestBody CertificateDTO certificateDTO
     ) {
         log.info("POST /api/v1/certificates - Creando certificado para usuario {}", certificateDTO.getUserId());
         try {
-            CertificateDTO created = certificateService.createCertificate(certificateDTO);
+            CertificateResponseDTO created = certificateService.createCertificate(certificateDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IllegalArgumentException e) {
             log.warn("Error al crear certificado: {}", e.getMessage());
@@ -50,7 +51,7 @@ public class CertificateController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener certificado por ID", description = "Obtiene un certificado por su ID")
-    public ResponseEntity<CertificateDTO> getCertificate(
+    public ResponseEntity<CertificateResponseDTO> getCertificate(
             @Parameter(description = "ID del certificado", required = true)
             @PathVariable Long id
     ) {
@@ -64,19 +65,19 @@ public class CertificateController {
 
     @GetMapping
     @Operation(summary = "Listar certificados", description = "Obtiene todos los certificados")
-    public ResponseEntity<List<CertificateDTO>> getCertificates() {
+    public ResponseEntity<List<CertificateResponseDTO>> getCertificates() {
         return ResponseEntity.ok(certificateService.getCertificates());
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar certificado", description = "Actualiza un certificado existente")
-    public ResponseEntity<CertificateDTO> updateCertificate(
+    public ResponseEntity<CertificateResponseDTO> updateCertificate(
             @Parameter(description = "ID del certificado", required = true)
             @PathVariable Long id,
             @RequestBody CertificateDTO certificateDTO
     ) {
         try {
-            CertificateDTO updated = certificateService.updateCertificate(id, certificateDTO);
+            CertificateResponseDTO updated = certificateService.updateCertificate(id, certificateDTO);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
             log.warn("Error al actualizar certificado con ID {}: {}", id, e.getMessage());

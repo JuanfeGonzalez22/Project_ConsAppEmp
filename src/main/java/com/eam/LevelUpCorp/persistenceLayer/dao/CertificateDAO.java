@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.persistenceLayer.dao;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CertificateDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CertificateResponseDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CertificateEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.CertificateMapper;
 import com.eam.LevelUpCorp.persistenceLayer.repository.CertificateRepository;
@@ -18,7 +19,7 @@ public class CertificateDAO {
     private final CertificateMapper certificateMapper;
 
     // Save certificate
-    public CertificateDTO save(CertificateDTO certificateDTO) {
+    public CertificateResponseDTO save(CertificateDTO certificateDTO) {
         CertificateEntity entity = certificateMapper.toEntity(certificateDTO);
 
         // explicit int -> Long conversion
@@ -30,12 +31,12 @@ public class CertificateDAO {
     }
 
     // Find certificate by ID
-    public Optional<CertificateDTO> findById(Long id) {
+    public Optional<CertificateResponseDTO> findById(Long id) {
         return certificateRepository.findById(id).map(certificateMapper::toDTO);
     }
 
     // Update certificate
-    public Optional<CertificateDTO> update(Long id, CertificateDTO certificateDTO) {
+    public Optional<CertificateResponseDTO> update(Long id, CertificateDTO certificateDTO) {
         return certificateRepository.findById(id)
                 .map(existingEntity -> {
                     certificateMapper.updateEntityFromDTO(certificateDTO, existingEntity);
@@ -59,7 +60,7 @@ public class CertificateDAO {
     }
 
     // List all certificates
-    public List<CertificateDTO> findAll() {
+    public List<CertificateResponseDTO> findAll() {
         return certificateRepository.findAll()
                 .stream()
                 .map(certificateMapper::toDTO)

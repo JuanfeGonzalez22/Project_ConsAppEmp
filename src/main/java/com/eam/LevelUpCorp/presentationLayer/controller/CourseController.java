@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.presentationLayer.controller;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,13 +38,13 @@ public class CourseController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    public ResponseEntity<CourseDTO> createCourse(
+    public ResponseEntity<CourseResponseDTO> createCourse(
             @Parameter(description = "Datos del curso", required = true)
             @RequestBody CourseDTO courseDTO
     ) {
         log.info("POST /api/v1/courses - Crear curso: {}", courseDTO.getTitle());
         try {
-            CourseDTO createdCourse = courseService.createCourse(courseDTO);
+            CourseResponseDTO createdCourse = courseService.createCourse(courseDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
         } catch (IllegalArgumentException e) {
             log.warn("Error al crear el curso: {}", e.getMessage());
@@ -61,13 +62,13 @@ public class CourseController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Curso no encontrado")
     })
-    public ResponseEntity<CourseDTO> getCourseById(
+    public ResponseEntity<CourseResponseDTO> getCourseById(
             @Parameter(description = "ID del curso", required = true)
             @PathVariable Long id
     ) {
         log.debug("GET /api/v1/courses/{} - Buscando curso", id);
         try {
-            CourseDTO course = courseService.getCourse(id);
+            CourseResponseDTO course = courseService.getCourse(id);
             return ResponseEntity.ok(course);
         } catch (RuntimeException e) {
             log.warn("Curso no encontrado con ID: {}", id);
@@ -109,13 +110,13 @@ public class CourseController {
             @ApiResponse(responseCode = "400", description = "Datos inválidos"),
             @ApiResponse(responseCode = "404", description = "Curso no encontrado")
     })
-    public ResponseEntity<CourseDTO> updateCourse(
+    public ResponseEntity<CourseResponseDTO> updateCourse(
             @PathVariable Long id,
             @RequestBody CourseDTO courseDTO
     ) {
         log.info("PUT /api/v1/courses/{} - Actualizando curso", id);
         try {
-            CourseDTO updatedCourse = courseService.updateCourse(id, courseDTO);
+            CourseResponseDTO updatedCourse = courseService.updateCourse(id, courseDTO);
             return ResponseEntity.ok(updatedCourse);
         } catch (RuntimeException e) {
             log.warn("Error al actualizar el curso con ID {}: {}", id, e.getMessage());
@@ -132,9 +133,9 @@ public class CourseController {
             @ApiResponse(responseCode = "200", description = "Lista de cursos",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseDTO.class)))
     })
-    public ResponseEntity<List<CourseDTO>> getAllCourses() {
+    public ResponseEntity<List<CourseResponseDTO>> getAllCourses() {
         log.debug("GET /api/v1/courses - Obteniendo todos los cursos");
-        List<CourseDTO> courses = courseService.getCourses();
+        List<CourseResponseDTO> courses = courseService.getCourses();
         return ResponseEntity.ok(courses);
     }
 
