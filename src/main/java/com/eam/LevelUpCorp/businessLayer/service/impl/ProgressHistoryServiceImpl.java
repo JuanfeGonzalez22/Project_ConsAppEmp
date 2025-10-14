@@ -2,10 +2,13 @@ package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 
 import com.eam.LevelUpCorp.businessLayer.dto.ProgressHistoryDTO;
+import com.eam.LevelUpCorp.businessLayer.service.NotificationService;
 import com.eam.LevelUpCorp.businessLayer.service.ProgressHistoryService;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ProgressHistoryDAO;
+import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ModuleEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.RegistrationEntity;
+import com.eam.LevelUpCorp.persistenceLayer.repository.CourseRepository;
 import com.eam.LevelUpCorp.persistenceLayer.repository.ModuleRepository;
 import com.eam.LevelUpCorp.persistenceLayer.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,9 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
     private final ProgressHistoryDAO progressHistoryDAO;
     private final RegistrationRepository registrationRepository;
     private final ModuleRepository moduleRepository;
+    private final NotificationService notificationService;
+    private final CourseRepository courseRepository;
+
 
 
 
@@ -75,6 +81,8 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
             registration.setStatus("COMPLETED");
         }
         registrationRepository.save(registration);
+
+        createProgressNotification(registration.getUserId(), courseId, newProgress);
 
         log.info("Module marked as completed successfully - Progress: {}%", newProgress);
         return savedProgress;
@@ -141,6 +149,49 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
         boolean completed = progressHistoryDAO.isModuleCompleted(registrationId, moduleId);
         log.info("Module completed check - Result: {}", completed);
         return completed;
+    }
+
+    private void createProgressNotification(Long userId, Long courseId, double progress) {
+
+        try {
+            CourseEntity course = courseRepository.findById(courseId).orElse(null);
+
+            String courseTitle = course != null ? course.getTitle() : "Curso";
+
+            String message = "";
+            String type = "";
+
+            if (progress >= 100.0) {
+
+                message = "Felicidades has completado un curso: " + courseTitle;
+                type = "COURSE_COMPLETED";
+
+            } else if (progress >= 80.0) {
+
+                message = "¡Ya casi terminas! Progreso en:  " + courseTitle + (int)progress + "%";
+                type = "PROGRESS_MILESTONE";
+
+            } else if (progress >= 50.0 ) {
+
+                message = "¡Vas por la mitad! Progreso en:  " + courseTitle + ": " + (int)progress + "%";
+                type = "PROGRESS_MILESTONE";
+
+            } else if (progress >= 25.0) {
+                message = "Buen comienzo en:  " + courseTitle + ". Progreso: " + (int)progress + "%";
+                type = "PROGRESS_UPDATE";
+            }
+
+            if (!message.isEmpty()) {
+
+                notificationService.createProgressNotification(userId, type, message);
+
+                log.info("Notificacion creada por usuario {} - Progreso: {}%", userId, progress);
+            }
+
+        } catch (Exception e) {
+            log.warn("Error creando notificacion de progreso para usuario {}: {}", userId, e.getMessage());
+        }
+
     }
 
 

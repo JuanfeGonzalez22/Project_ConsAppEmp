@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.presentationLayer.controller;
 
 import com.eam.LevelUpCorp.businessLayer.dto.RegistrationDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.RegistrationResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.RegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,10 +35,10 @@ public class RegistrationController {
     })
     // Crear un nuevo registro de usuario.
     @PostMapping
-    public ResponseEntity<RegistrationDTO> create(@RequestBody RegistrationDTO dto) {
+    public ResponseEntity<RegistrationResponseDTO> create(@RequestBody RegistrationDTO dto) {
         log.info("POST /api/v1/registrations - Crear registro");
         try {
-            RegistrationDTO createdRegistration = registrationService.createRegistration(dto);
+            RegistrationResponseDTO createdRegistration = registrationService.createRegistration(dto);
             return ResponseEntity.status(201).body(createdRegistration);
         } catch (IllegalArgumentException e) {
             log.warn("Error al crear el registro: {}", e.getMessage());
@@ -53,12 +54,12 @@ public class RegistrationController {
     })
     // Obtener un registro específico por su ID.
     @GetMapping("/{id}")
-    public ResponseEntity<RegistrationDTO> getOne(
+    public ResponseEntity<RegistrationResponseDTO> getOne(
             @Parameter(description = "ID del registro a obtener", required = true)
             @PathVariable Long id) {
         log.debug("GET /api/v1/registrations/{} - Obtener registro", id);
         try {
-            RegistrationDTO registration = registrationService.getRegistration(id);
+            RegistrationResponseDTO registration = registrationService.getRegistration(id);
             return ResponseEntity.ok(registration);
         } catch (RuntimeException e) {
             log.warn("Registro con ID {} no encontrado: {}", id, e.getMessage());
@@ -73,9 +74,9 @@ public class RegistrationController {
     })
     // Obtener todos los registros de usuarios.
     @GetMapping
-    public ResponseEntity<List<RegistrationDTO>> getAll() {
+    public ResponseEntity<List<RegistrationResponseDTO>> getAll() {
         log.debug("GET /api/v1/registrations - Obtener todos los registros");
-        List<RegistrationDTO> registrations = registrationService.getAllRegistrations();
+        List<RegistrationResponseDTO> registrations = registrationService.getAllRegistrations();
         return ResponseEntity.ok(registrations);
     }
 

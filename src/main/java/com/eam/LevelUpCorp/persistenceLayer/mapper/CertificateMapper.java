@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.persistenceLayer.mapper;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CertificateDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CertificateResponseDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CertificateEntity;
 import org.mapstruct.*;
 
@@ -16,13 +17,13 @@ public interface CertificateMapper {
      * Converts a list of CertificateEntity to a list of CertificateDTOs.
      */
     @Mapping(source = "emissionDate", target = "issueDate") // mapea emissionDate -> issueDate
-    List<CertificateDTO> toDTOList(List<CertificateEntity> certificateEntities);
+    List<CertificateResponseDTO> toDTOList(List<CertificateEntity> certificateEntities);
 
     /*
      * Converts a single CertificateEntity to CertificateDTO.
      */
     @Mapping(source = "emissionDate", target = "issueDate") // mapea emissionDate -> issueDate
-    CertificateDTO toDTO(CertificateEntity certificateEntity);
+    CertificateResponseDTO toDTO(CertificateEntity certificateEntity);
 
     /*
      * Converts a CertificateDTO to CertificateEntity.

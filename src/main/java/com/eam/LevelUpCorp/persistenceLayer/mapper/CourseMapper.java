@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.persistenceLayer.mapper;
 
 
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import org.mapstruct.*;
 
@@ -16,13 +17,13 @@ public interface CourseMapper {
     /*
     Converts a List of CourseEntity to a list of CourseDTO.
      */
-    List<CourseDTO> toDTOList(List<CourseEntity> courseEntities);
+    List<CourseResponseDTO> toDTOList(List<CourseEntity> courseEntities);
 
     /*
     Converts a single CourseEntity to CourseDTO
     Used for reading or showing a course.
      */
-    CourseDTO toDTO(CourseEntity courseEntity);
+    CourseResponseDTO toDTO(CourseEntity courseEntity);
 
     /*
     Converts a CourseDTO to CourseEntity

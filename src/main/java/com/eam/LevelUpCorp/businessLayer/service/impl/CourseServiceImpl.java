@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.CourseService;
 import com.eam.LevelUpCorp.businessLayer.validate.CourseValidate;
 import com.eam.LevelUpCorp.businessLayer.validate.UserValidate;
@@ -27,10 +28,10 @@ public class CourseServiceImpl implements CourseService {
     Method create a course.
      */
     @Override
-    public CourseDTO createCourse(CourseDTO courseDTO) {
+    public CourseResponseDTO createCourse(CourseDTO courseDTO) {
         log.info("createCourse new Course : {}", courseDTO);
         courseValidate.validateCreate(courseDTO);
-        CourseDTO createCourseDTO = courseDAO.save(courseDTO);
+        CourseResponseDTO createCourseDTO = courseDAO.save(courseDTO);
         log.info("createCourse create Course : {}", createCourseDTO);
 
         return createCourseDTO;
@@ -42,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
     Method for search a course.
      */
     @Override
-    public CourseDTO getCourse(Long id) {
+    public CourseResponseDTO getCourse(Long id) {
         log.info("Get course by ID: {}", id);
         courseValidate.validateSearch(id);
         return courseDAO.findById(id).orElseThrow(() -> {
@@ -56,9 +57,9 @@ public class CourseServiceImpl implements CourseService {
     Method to obtain all courses.
      */
     @Override
-    public List<CourseDTO> getCourses() {
+    public List<CourseResponseDTO> getCourses() {
         log.info("Get courses by course");
-        List<CourseDTO> courses =  courseDAO.findAll();
+        List<CourseResponseDTO> courses =  courseDAO.findAll();
         if (courses.isEmpty()) {
             log.warn("No course found");
             throw new RuntimeException("No courses available");
@@ -93,13 +94,13 @@ public class CourseServiceImpl implements CourseService {
     Method update a course.
      */
     @Override
-    public CourseDTO updateCourse(Long id, CourseDTO courseDTO) {
+    public CourseResponseDTO updateCourse(Long id, CourseDTO courseDTO) {
 
         log.info("Update course by ID: {}", id);
         getCourse(id);
 
         courseValidate.validateUpdate(id, courseDTO);
-        CourseDTO updatedCourse = courseDAO.update(id, courseDTO)
+        CourseResponseDTO updatedCourse = courseDAO.update(id, courseDTO)
                 .orElseThrow(() -> new RuntimeException("Error al actualizar curso con ID: " + id));
 
         log.info("Course updated successfully ID: {}", id);

@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.persistenceLayer.dao;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.UserDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
@@ -22,7 +23,7 @@ public class CourseDAO {
     private final CourseMapper courseMapper;
 
     //Save
-    public CourseDTO save(CourseDTO courseDTO) {
+    public CourseResponseDTO save(CourseDTO courseDTO) {
         CourseEntity courseEntity = courseMapper.toEntity(courseDTO);
         CourseEntity savedCourseEntity = courseRepository.save(courseEntity);
         return courseMapper.toDTO(savedCourseEntity);
@@ -31,14 +32,14 @@ public class CourseDAO {
 
 
     //Search
-    public Optional<CourseDTO> findById(Long id) {
+    public Optional<CourseResponseDTO> findById(Long id) {
         return courseRepository.findById(id).map(courseMapper::toDTO);
 
     }
 
 
     //Update
-    public Optional<CourseDTO> update(Long id, CourseDTO courseDTO) {
+    public Optional<CourseResponseDTO> update(Long id, CourseDTO courseDTO) {
         return courseRepository.findById(id)
                 .map(existingEntity -> {
                     courseMapper.updateEntity(courseDTO, existingEntity);
@@ -58,7 +59,7 @@ public class CourseDAO {
     }
 
     //All courses.
-    public List<CourseDTO> findAll() {
+    public List<CourseResponseDTO> findAll() {
         return courseRepository.findAll()
                 .stream().map(courseMapper::toDTO).toList();
     }

@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CertificateDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CertificateResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.CertificateService;
 import com.eam.LevelUpCorp.businessLayer.validate.CertificateValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.CertificateDAO;
@@ -21,16 +22,16 @@ public class CertificateServiceImpl implements CertificateService {
     private final CertificateValidate certificateValidate;
 
     @Override
-    public CertificateDTO createCertificate(CertificateDTO certificateDTO) {
+    public CertificateResponseDTO createCertificate(CertificateDTO certificateDTO) {
         log.info("Creating new certificate: {}", certificateDTO);
         certificateValidate.validateCreate(certificateDTO);
-        CertificateDTO created = certificateDAO.save(certificateDTO);
+        CertificateResponseDTO created = certificateDAO.save(certificateDTO);
         log.info("Certificate created successfully: {}", created);
         return created;
     }
 
     @Override
-    public CertificateDTO getCertificate(Long id) {
+    public CertificateResponseDTO getCertificate(Long id) {
         log.info("Fetching certificate with ID: {}", id);
         certificateValidate.validateSearch(id);
         return certificateDAO.findById(id).orElseThrow(() -> {
@@ -40,9 +41,9 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDTO> getCertificates() {
+    public List<CertificateResponseDTO> getCertificates() {
         log.info("Fetching all certificates");
-        List<CertificateDTO> certificates = certificateDAO.findAll();
+        List<CertificateResponseDTO> certificates = certificateDAO.findAll();
         if (certificates.isEmpty()) {
             log.warn("No certificates found");
             throw new RuntimeException("No certificates available");
@@ -52,12 +53,12 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public CertificateDTO updateCertificate(Long id, CertificateDTO certificateDTO) {
+    public CertificateResponseDTO updateCertificate(Long id, CertificateDTO certificateDTO) {
         log.info("Updating certificate with ID: {}", id);
         getCertificate(id); // ensure existence
         certificateValidate.validateUpdate(id, certificateDTO);
 
-        CertificateDTO updated = certificateDAO.update(id, certificateDTO)
+        CertificateResponseDTO updated = certificateDAO.update(id, certificateDTO)
                 .orElseThrow(() -> new RuntimeException("Error updating certificate with ID: " + id));
         log.info("Certificate updated successfully with ID: {}", id);
         return updated;

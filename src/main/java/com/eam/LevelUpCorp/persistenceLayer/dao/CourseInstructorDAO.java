@@ -9,6 +9,8 @@ import com.eam.LevelUpCorp.persistenceLayer.entity.CourseInstructorEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.UserEntity;
 import com.eam.LevelUpCorp.persistenceLayer.mapper.CourseInstructorMapper;
 import com.eam.LevelUpCorp.persistenceLayer.repository.CourseInstructorRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.CourseRepository;
+import com.eam.LevelUpCorp.persistenceLayer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,8 @@ public class CourseInstructorDAO {
 
     private final CourseInstructorRepository courseInstructorRepository;
     private final CourseInstructorMapper courseInstructorMapper;
+    private final CourseRepository  courseRepository;
+    private final UserRepository userRepository;
 
     // Save
     public CourseInstructorResponseDTO save(CourseInstructorDTO requestDTO) {
@@ -34,7 +38,20 @@ public class CourseInstructorDAO {
     // Find by ID
     public Optional<CourseInstructorResponseDTO> findById(Long id) {
         return courseInstructorRepository.findById(id)
-                .map(courseInstructorMapper::toResponseDTO);
+                .map(entity -> {
+                    // Mapear a DTO primero
+                    CourseInstructorResponseDTO dto = courseInstructorMapper.toResponseDTO(entity);
+
+                    // Cargar courseTitle
+                    courseRepository.findById(entity.getCourseId())
+                            .ifPresent(course -> dto.setCourseName(course.getTitle()));
+
+                    // Cargar instructorName
+                    userRepository.findById(entity.getInstructorId())
+                            .ifPresent(user -> dto.setInstructorName(user.getName()));
+
+                    return dto;
+                });
     }
 
 
@@ -61,8 +78,21 @@ public class CourseInstructorDAO {
 
     //All CourseInstructor Assignments
     public List<CourseInstructorResponseDTO> findAll() {
-        return courseInstructorRepository.findAll()
-                .stream().map(courseInstructorMapper::toResponseDTO)
+        List<CourseInstructorEntity> entities = courseInstructorRepository.findAll();
+        return entities.stream()
+                .map(entity -> {
+                    CourseInstructorResponseDTO dto = courseInstructorMapper.toResponseDTO(entity);
+
+                    // Cargar courseTitle
+                    courseRepository.findById(entity.getCourseId())
+                            .ifPresent(course -> dto.setCourseName(course.getTitle()));
+
+                    // Cargar instructorName
+                    userRepository.findById(entity.getInstructorId())
+                            .ifPresent(user -> dto.setInstructorName(user.getName()));
+
+                    return dto;
+                })
                 .toList();
     }
 
