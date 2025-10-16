@@ -6,35 +6,33 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-@Schema(description = "DTO representing the progress history of a user in a course/module.")
+@Schema(description = "DTO que representa el historial de progreso de un usuario en un curso o módulo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProgressHistoryDTO {
 
-    @Schema(description = "ID of the user", example = "101")
+    @Schema(description = "ID del usuario", example = "101")
     private Long userId;
 
-    @Schema(description = "ID of the course", example = "202")
+    @Schema(description = "ID del curso", example = "202")
     private Long courseId;
 
-    @Schema(description = "ID of the module", example = "303")
+    @Schema(description = "ID del módulo", example = "303")
     private Long moduleId;
 
-    @Schema(description = "ID of the registration", example = "404")
+    @Schema(description = "ID del registro de inscripción", example = "404")
     private Long registrationId;
 
-    @Schema(description = "Time dedicated by the user during this access", example = "01:30")
+    @Schema(description = "Tiempo dedicado por el usuario durante este acceso", example = "01:30")
     private LocalTime timeDedicated;
 
-    @Schema(description = "Current status of the module for the user (e.g., in progress, completed)", example = "completed")
+    @Schema(description = "Estado actual del módulo para el usuario (por ejemplo: en progreso, completado)", example = "completado")
     private String status;
 
-    @Schema(description = "Percentage of progress in the module", example = "75.5")
+    @Schema(description = "Porcentaje de progreso en el módulo", example = "75.5")
     private double moduleProgress;
 
-    @Schema(description = "Number of evaluation attempts made by the user", example = "2")
+    @Schema(description = "Número de intentos de evaluación realizados por el usuario", example = "2")
     private int evaluationAttempts;
-
 }

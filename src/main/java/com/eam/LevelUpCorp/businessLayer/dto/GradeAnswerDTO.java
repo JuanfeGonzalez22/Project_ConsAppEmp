@@ -5,18 +5,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data transfer object for creating an evaluation answer")
+@Schema(description = "DTO para calificar una respuesta de evaluación")
 public class GradeAnswerDTO {
 
-
-    @Schema(description = "Numerical score assigned to the answer", example = "8.5")
+    @Schema(description = "Puntaje numérico asignado a la respuesta", example = "8.5")
     private Double score;
 
-    @Schema(description = "Feedback comments for the evaluated answer", example = "Excellent work! Well structured and comprehensive.")
+    @Schema(description = "Comentarios o retroalimentación para la respuesta evaluada", example = "¡Excelente trabajo! Bien estructurado y completo.")
     private String feedback;
-
 }

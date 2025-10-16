@@ -28,7 +28,7 @@ public interface RatingMapper {
     @Mapping(target = "id", ignore = true)
     RatingEntity toEntity(RatingDTO createDTO);
 
-    // Update Entity from CreateDTO (para actualizar)
+    // Update Entity from CreateDTO
     @Mapping(target = "id", ignore = true)
     void updateEntityFromDTO(RatingDTO createDTO, @MappingTarget RatingEntity entity);
 

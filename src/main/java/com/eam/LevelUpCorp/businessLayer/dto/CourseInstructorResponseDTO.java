@@ -6,28 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO representing the instructor assigned to a course")
+@Schema(description = "DTO que representa al instructor asignado a un curso")
 public class CourseInstructorResponseDTO {
 
-    @Schema(description = "ID de la asignacion de instructor a un curso", example = "1")
+    @Schema(description = "Identificador de la asignación del instructor al curso", example = "1")
     private Long id;
 
-    @Schema(description = "ID of the course", example = "5")
+    @Schema(description = "Identificador del curso", example = "5")
     private Long courseId;
 
-    @Schema(description = "Name of the course", example = "Java Programming")
+    @Schema(description = "Nombre del curso", example = "Programación en Java")
     private String courseName;
 
-    @Schema(description = "ID of the instructor", example = "2")
+    @Schema(description = "Identificador del instructor", example = "2")
     private Long instructorId;
 
-    @Schema(description = "Name of the instructor", example = "John Smith")
+    @Schema(description = "Nombre del instructor", example = "John Smith")
     private String instructorName;
 
-    @Schema(description = "Date of assignment", example = "2025-10-03T14:30:00")
+    @Schema(description = "Fecha de asignación", example = "2025-10-03")
     private LocalDate assignedAt = LocalDate.now();
 }

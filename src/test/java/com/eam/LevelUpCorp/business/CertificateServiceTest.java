@@ -1,6 +1,7 @@
 package com.eam.LevelUpCorp.business;
 
 import com.eam.LevelUpCorp.businessLayer.dto.CertificateDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CertificateResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.impl.CertificateServiceImpl;
 import com.eam.LevelUpCorp.persistenceLayer.dao.CertificateDAO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CertificateEntity;
@@ -25,7 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 @DisplayName("CertificateService - Unit Tests")
 public class CertificateServiceTest {
@@ -40,12 +40,12 @@ public class CertificateServiceTest {
     private CertificateServiceImpl certificateService;
 
     private CertificateDTO validCertificateDTO;
+    private CertificateResponseDTO validCertificateResponseDTO;
     private CertificateEntity validCertificateEntity;
     private Long validCertificateId;
     private Long validUserId;
     private Long validCourseId;
     private LocalDate validEmissionDate;
-
 
     @BeforeEach
     void setUp(){
@@ -55,11 +55,20 @@ public class CertificateServiceTest {
         validEmissionDate = LocalDate.now();
 
         validCertificateDTO = new CertificateDTO(
-                5,
-                10,
-                LocalDate.now(),
+                validUserId.intValue(),
+                validCourseId.intValue(),
+                validEmissionDate,
                 "ABC123XYZ"
         );
+
+        validCertificateResponseDTO = new CertificateResponseDTO(
+                validCertificateId,
+                validUserId.intValue(),
+                validCourseId.intValue(),
+                validEmissionDate,
+                "ABC123XYZ"
+        );
+
         validCertificateEntity = new CertificateEntity();
         validCertificateEntity.setId(validCertificateId);
         validCertificateEntity.setUserId(validUserId);
@@ -72,7 +81,8 @@ public class CertificateServiceTest {
     @Test
     @DisplayName("CREATE - Certificado válido debe retornar DTO creado")
     void createCertificate_ValidData_ShouldReturnCreatedCertificate(){
-        CertificateDTO expectedCertificate = new CertificateDTO(
+        CertificateResponseDTO expectedCertificate = new CertificateResponseDTO(
+                validCertificateId,
                 validUserId.intValue(),
                 validCourseId.intValue(),
                 validEmissionDate,
@@ -80,7 +90,7 @@ public class CertificateServiceTest {
         );
         when(certificateDAO.save(any(CertificateDTO.class))).thenReturn(expectedCertificate);
 
-        CertificateDTO result = certificateService.createCertificate(validCertificateDTO);
+        CertificateResponseDTO result = certificateService.createCertificate(validCertificateDTO);
 
         assertThat(result).isNotNull();
         assertThat(result.getUserId()).isEqualTo(validUserId.intValue());
@@ -141,21 +151,15 @@ public class CertificateServiceTest {
     @Test
     @DisplayName("READ - Certificado existente debe retornarse correctamente")
     void getCertificateById_Found_ShouldReturnCertificate() {
-        CertificateDTO certificate = new CertificateDTO();
-        certificate.setUserId(5);
-        certificate.setCourseId(10);
-        certificate.setHash("ABC123XYZ");
+        when(certificateDAO.findById(1L)).thenReturn(Optional.of(validCertificateResponseDTO));
 
-        when(certificateDAO.findById(1L)).thenReturn(Optional.of(certificate));
-
-        CertificateDTO result = certificateService.getCertificate(1L);
+        CertificateResponseDTO result = certificateService.getCertificate(1L);
 
         assertNotNull(result);
         assertEquals(5, result.getUserId());
         assertEquals("ABC123XYZ", result.getHash());
         verify(certificateDAO, times(1)).findById(1L);
     }
-
 
     @Test
     @DisplayName("READ - Certificado inexistente debe lanzar excepción")
@@ -169,17 +173,17 @@ public class CertificateServiceTest {
     @Test
     @DisplayName("READ - Debe retornar lista de certificados existentes")
     void getCertificates_ShouldReturnList(){
-        CertificateDTO c1 = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 1), "HASH001");
-        CertificateDTO c2 = new CertificateDTO(6, 11, LocalDate.of(2025, 10, 2), "HASH002");
+        CertificateResponseDTO c1 = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 1), "HASH001");
+        CertificateResponseDTO c2 = new CertificateResponseDTO(2L, 6, 11, LocalDate.of(2025, 10, 2), "HASH002");
 
-         when(certificateDAO.findAll()).thenReturn(List.of(c1,c2));
+        when(certificateDAO.findAll()).thenReturn(List.of(c1,c2));
 
-         List<CertificateDTO> result = certificateService.getCertificates();
+        List<CertificateResponseDTO> result = certificateService.getCertificates();
 
-         assertThat(result).hasSize(2);
-         assertThat(result.get(0).getUserId()).isEqualTo(5);
-         assertThat(result.get(1).getCourseId()).isEqualTo(11);
-         verify(certificateDAO, times(1)).findAll();
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getUserId()).isEqualTo(5);
+        assertThat(result.get(1).getCourseId()).isEqualTo(11);
+        verify(certificateDAO, times(1)).findAll();
     }
 
     @Test
@@ -200,13 +204,14 @@ public class CertificateServiceTest {
     void updateCertificate_Existing_ShouldReturnUpdatedCertificate(){
         Long certificateId = 1L;
 
-        CertificateDTO existingCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 1), "HASH001");
-        CertificateDTO updatedCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 5), "HASH999XYZ");
+        CertificateResponseDTO existingCertificate = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 1), "HASH001");
+        CertificateDTO updateData = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 5), "HASH999XYZ");
+        CertificateResponseDTO updatedCertificate = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 5), "HASH999XYZ");
 
         when(certificateDAO.findById(certificateId)).thenReturn(Optional.of(existingCertificate));
         when(certificateDAO.update(eq(certificateId), any(CertificateDTO.class))).thenReturn(Optional.of(updatedCertificate));
 
-        CertificateDTO result = certificateService.updateCertificate(certificateId, updatedCertificate);
+        CertificateResponseDTO result = certificateService.updateCertificate(certificateId, updateData);
 
         assertNotNull(result);
         assertEquals("HASH999XYZ", result.getHash());
@@ -233,7 +238,7 @@ public class CertificateServiceTest {
     @DisplayName("UPDATE - Error en DAO al actualizar debe lanzar excepción")
     void updateCertificate_DAOError_ShouldThrowException() {
         Long certificateId = 1L;
-        CertificateDTO existingCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 1), "HASH001");
+        CertificateResponseDTO existingCertificate = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 1), "HASH001");
         CertificateDTO updatedCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 5), "HASH_FAIL");
 
         when(certificateDAO.findById(certificateId)).thenReturn(Optional.of(existingCertificate));
@@ -251,7 +256,7 @@ public class CertificateServiceTest {
     @DisplayName("DELETE - Certificado existente debe eliminarse correctamente")
     void deleteCertificate_Existing_ShouldDeleteSuccessfully() {
         Long certificateId = 1L;
-        CertificateDTO existingCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 1), "HASH001");
+        CertificateResponseDTO existingCertificate = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 1), "HASH001");
 
         when(certificateDAO.findById(certificateId)).thenReturn(Optional.of(existingCertificate));
         when(certificateDAO.deleteById(certificateId)).thenReturn(true);
@@ -280,7 +285,7 @@ public class CertificateServiceTest {
     @DisplayName("DELETE - Falla en eliminación debe lanzar excepción")
     void deleteCertificate_DAOFailure_ShouldThrowException() {
         Long certificateId = 1L;
-        CertificateDTO existingCertificate = new CertificateDTO(5, 10, LocalDate.of(2025, 10, 1), "HASH001");
+        CertificateResponseDTO existingCertificate = new CertificateResponseDTO(1L, 5, 10, LocalDate.of(2025, 10, 1), "HASH001");
 
         when(certificateDAO.findById(certificateId)).thenReturn(Optional.of(existingCertificate));
         when(certificateDAO.deleteById(certificateId)).thenReturn(false);

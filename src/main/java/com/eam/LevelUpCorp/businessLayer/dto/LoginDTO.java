@@ -6,12 +6,12 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "This DTO is used to perform login in the platform")
+@Schema(description = "DTO utilizado para iniciar sesión en la plataforma")
 public class LoginDTO {
 
-    @Schema(description = "Email used by the user to log in", example = "maria.gonzalez@company.com")
+    @Schema(description = "Correo electrónico utilizado por el usuario para iniciar sesión", example = "maria.gonzalez@company.com")
     private String email;
 
-    @Schema(description = "Password used by the user to log in", example = "54321")
+    @Schema(description = "Contraseña utilizada por el usuario para iniciar sesión", example = "54321")
     private String password;
 }

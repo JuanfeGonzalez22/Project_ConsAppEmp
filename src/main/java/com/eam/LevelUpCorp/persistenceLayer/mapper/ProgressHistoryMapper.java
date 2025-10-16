@@ -13,16 +13,21 @@ import java.util.List;
 )
 public interface ProgressHistoryMapper {
 
-
+    //Entity to DTO
     ProgressHistoryDTO toDTO(ProgressHistoryEntity progressHistoryEntity);
 
+
+    //List of Entity to List of DTO
     List<ProgressHistoryDTO> toDTOList(List<ProgressHistoryEntity> progressHistoryEntityList);
 
+    //DTO to Entity
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "accessDate", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     ProgressHistoryEntity toEntity(ProgressHistoryDTO progressHistoryDTO);
 
+
+    //Update
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "accessDate", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

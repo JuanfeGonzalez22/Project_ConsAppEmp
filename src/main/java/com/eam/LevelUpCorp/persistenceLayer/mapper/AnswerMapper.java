@@ -32,7 +32,6 @@ public interface AnswerMapper {
     AnswerEntity toEntity(SubmitAnswerDTO submitAnswerDTO);
 
     //Update AnswerEntity for rating
-    // Update AnswerEntity for grading - SOLO score y feedback
     @Mapping(target = "score", source = "score")
     @Mapping(target = "feedBack", source = "feedback")
     @Mapping(target = "id", ignore = true)

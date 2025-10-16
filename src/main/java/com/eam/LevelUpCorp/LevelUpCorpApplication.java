@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LevelUpCorpApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LevelUpCorpApplication.class, args);
+
+        SpringApplication.run(LevelUpCorpApplication.class, args);
 	}
 
 }

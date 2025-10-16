@@ -5,24 +5,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-@Schema(description = "This DTO represents a badge or reward within the platform")
+@Schema(description = "DTO que representa una insignia o recompensa dentro de la plataforma")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingResponseDTO {
 
-    @Schema(description = "ID del rating", example = "1")
+    @Schema(description = "Identificador del rating", example = "1")
     private Long id;
 
-    @Schema(description = "Name of the reward", example = "Top performer")
+    @Schema(description = "Nombre de la recompensa", example = "Mejor desempeño")
     private String name;
 
-    @Schema(description = "Condition required to obtain the reward", example = "Complete 3 courses")
+    @Schema(description = "Condición requerida para obtener la recompensa", example = "Completar 3 cursos")
     private String criterion;
 
-    @Schema(description = "Path or filename of the badge icon", example = "medal.png")
+    @Schema(description = "Ruta o nombre del archivo del ícono de la insignia", example = "medal.png")
     private String icono;
 
+    @Schema(description = "Código único de la recompensa", example = "RWD-001")
     private String code;
 }

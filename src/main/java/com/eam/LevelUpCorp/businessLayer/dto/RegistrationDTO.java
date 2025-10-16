@@ -6,19 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO used to register a new user in the platform")
+@Schema(description = "DTO utilizado para registrar un nuevo usuario en la plataforma")
 public class RegistrationDTO {
 
-    @Schema(description = "ID of the user to enroll", example = "12")
+    @Schema(description = "ID del usuario a inscribir", example = "12")
     private Long userId;
 
-    @Schema(description = "ID of the course to enroll in", example = "5")
+    @Schema(description = "ID del curso en el que se inscribirá", example = "5")
     private Long courseId;
 
-    @Schema(description = "Status of the registration (e.g., ACTIVE, COMPLETED, DROPPED)", example = "ACTIVE")
-    private String status = "ACTIVE";
+    @Schema(description = "Estado de la inscripción (ACTIVO, COMPLETADO, RETIRADO)", example = "ACTIVO")
+    private String status = "ACTIVO";
 }

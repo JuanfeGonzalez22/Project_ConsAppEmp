@@ -5,32 +5,27 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "DTO que representa un recurso de archivo subido (asociado a un módulo o una evaluación)")
 public class FileResourceDTO {
 
-
-    @Schema(description = "Unique identifier of the file resource", example = "1")
+    @Schema(description = "Identificador único del recurso de archivo", example = "1")
     private Long id;
 
-    @Schema(description = "Name of the uploaded file", example = "document.pdf")
+    @Schema(description = "Nombre del archivo subido", example = "document.pdf")
     private String fileName;
 
-    @Schema(description = "MIME type of the file", example = "application/pdf")
+    @Schema(description = "Tipo MIME del archivo", example = "application/pdf")
     private String fileType;
 
-    @Schema(description = "ID of the module this file belongs to", example = "10")
+    @Schema(description = "ID del módulo al que pertenece este archivo", example = "10")
     private Long moduleId;
 
-    @Schema(description = "ID of the evaluation this file belongs to", example = "25")
+    @Schema(description = "ID de la evaluación a la que pertenece este archivo", example = "25")
     private Long evaluationId;
 
-//    @Schema(description = "ID of the answer this file belongs to", example = "50")
-//    private Long answerId;
-
-    @Schema(description = "URL to the answer file if submitted as file", example = "https://storage.com/answers/answer-123.pdf")
+    @Schema(description = "URL al archivo de la respuesta si fue enviado como archivo", example = "https://storage.com/answers/answer-123.pdf")
     private String fileUrl;
-
 }

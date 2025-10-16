@@ -18,11 +18,10 @@ public class CertificateDAO {
     private final CertificateRepository certificateRepository;
     private final CertificateMapper certificateMapper;
 
-    // Save certificate
+    // Save
     public CertificateResponseDTO save(CertificateDTO certificateDTO) {
         CertificateEntity entity = certificateMapper.toEntity(certificateDTO);
 
-        // explicit int -> Long conversion
         entity.setUserId((long) certificateDTO.getUserId());
         entity.setCourseId((long) certificateDTO.getCourseId());
 
@@ -30,18 +29,17 @@ public class CertificateDAO {
         return certificateMapper.toDTO(savedEntity);
     }
 
-    // Find certificate by ID
+    // Find by ID
     public Optional<CertificateResponseDTO> findById(Long id) {
         return certificateRepository.findById(id).map(certificateMapper::toDTO);
     }
 
-    // Update certificate
+    // Update
     public Optional<CertificateResponseDTO> update(Long id, CertificateDTO certificateDTO) {
         return certificateRepository.findById(id)
                 .map(existingEntity -> {
                     certificateMapper.updateEntityFromDTO(certificateDTO, existingEntity);
 
-                    // explicit int -> Long conversion
                     existingEntity.setUserId((long) certificateDTO.getUserId());
                     existingEntity.setCourseId((long) certificateDTO.getCourseId());
 
@@ -50,7 +48,7 @@ public class CertificateDAO {
                 });
     }
 
-    // Delete certificate
+    // Delete
     public boolean deleteById(Long id) {
         if (certificateRepository.existsById(id)) {
             certificateRepository.deleteById(id);
@@ -59,7 +57,7 @@ public class CertificateDAO {
         return false;
     }
 
-    // List all certificates
+    // List all
     public List<CertificateResponseDTO> findAll() {
         return certificateRepository.findAll()
                 .stream()

@@ -18,20 +18,20 @@ public class ReportsStaticsDAO {
     private final ReportStaticsRepository reportStatsRepository;
     private final ReportsStaticsMapper reportStatsMapper;
 
-    // Guardar un reporte generado
+    // Save
     public ReportStaticsDTO save(ReportStaticsDTO dto) {
         ReportStaticsEntity entity = reportStatsMapper.toEntity(dto);
         ReportStaticsEntity savedEntity = reportStatsRepository.save(entity);
         return reportStatsMapper.toDTO(savedEntity);
     }
 
-    // Buscar por ID
+    // Search by ID
     public Optional<ReportStaticsDTO> findById(Long id) {
         return reportStatsRepository.findById(id)
                 .map(reportStatsMapper::toDTO);
     }
 
-    // Actualizar
+    // Update
     public Optional<ReportStaticsDTO> update(Long id, ReportStaticsDTO dto) {
         return reportStatsRepository.findById(id)
                 .map(existingEntity -> {
@@ -41,7 +41,7 @@ public class ReportsStaticsDAO {
                 });
     }
 
-    // Eliminar
+    // Delete
     public boolean deleteById(Long id) {
         if (reportStatsRepository.existsById(id)) {
             reportStatsRepository.deleteById(id);

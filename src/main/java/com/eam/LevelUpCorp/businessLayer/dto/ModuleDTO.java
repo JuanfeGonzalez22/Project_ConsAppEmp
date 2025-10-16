@@ -5,24 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO that represents a module inside a course")
+@Schema(description = "DTO que representa un módulo dentro de un curso")
 public class ModuleDTO {
 
-
-    @Schema(description = "ID of the course this module belongs to", example = "1001")
+    @Schema(description = "ID del curso al que pertenece este módulo", example = "1001")
     private Long courseId;
 
-    @Schema(description = "Name or title of the module", example = "Introduction to the platform")
+    @Schema(description = "Nombre o título del módulo", example = "Introducción a la plataforma")
     private String title;
 
-    @Schema(description = "Type of module (video, text, quiz, or practice)", example = "video")
-    private String type; //video, text, quiz and practice
+    @Schema(description = "Tipo de módulo (video, texto, cuestionario o práctica)", example = "video")
+    private String type;
 
-    @Schema(description = "Order in which the module appears inside the course", example = "1")
+    @Schema(description = "Orden en el que aparece el módulo dentro del curso", example = "1")
     private int order;
-
 }

@@ -8,29 +8,26 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data transfer object that represents a course with description, title, estimated duration, and difficulty level.")
+@Schema(description = "Objeto de transferencia de datos que representa un curso con su descripción, título, duración estimada y nivel de dificultad.")
 public class CourseDTO {
 
-
-
-    @Schema(description = "Short description of the course")
+    @Schema(description = "Descripción breve del curso")
     private String description;
 
-    @Schema(description = "Title of the course")
+    @Schema(description = "Título del curso")
     private String title;
 
     @Schema(
-            description = "Estimated duration of the course in format HH:mm:ss",
+            description = "Duración estimada del curso en formato HH:mm:ss",
             type = "string",
             example = "02:15:00"
     )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime estimatedDuration;
 
-    @Schema(description = "Difficulty level of the course", example = "1")
+    @Schema(description = "Nivel de dificultad del curso", example = "1")
     private int level;
 }

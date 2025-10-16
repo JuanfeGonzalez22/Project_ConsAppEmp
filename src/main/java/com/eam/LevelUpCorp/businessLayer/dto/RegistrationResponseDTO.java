@@ -7,39 +7,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO for the registrations responses")
+@Schema(description = "DTO para las respuestas de registros")
 public class RegistrationResponseDTO {
 
-
-    @Schema(description = "ID of the registration", example = "1")
+    @Schema(description = "Identificador del registro", example = "1")
     private Long id;
 
-    @Schema(description = "ID of the user", example = "101")
+    @Schema(description = "ID del usuario", example = "101")
     private Long userId;
 
-    @Schema(description = "Name of the user", example = "Juan Pérez")
+    @Schema(description = "Nombre del usuario", example = "Juan Pérez")
     private String userName;
 
-    @Schema(description = "Email of the user", example = "juan@email.com")
+    @Schema(description = "Correo electrónico del usuario", example = "juan@email.com")
     private String userEmail;
 
-    @Schema(description = "ID of the course", example = "202")
+    @Schema(description = "ID del curso", example = "202")
     private Long courseId;
 
-    @Schema(description = "Title of the course", example = "Spring Boot Fundamentals")
+    @Schema(description = "Título del curso", example = "Fundamentos de Spring Boot")
     private String courseTitle;
 
-    @Schema(description = "Current progress percentage", example = "75.5")
+    @Schema(description = "Porcentaje de progreso actual", example = "75.5")
     private double progress;
 
-    @Schema(description = "Enrollment date", example = "2024-01-15")
+    @Schema(description = "Fecha de inscripción", example = "2024-01-15")
     private LocalDate enrollmentDate;
 
-    @Schema(description = "Status of registration", example = "ACTIVE")
+    @Schema(description = "Estado de la inscripción", example = "ACTIVO")
     private String status;
-
 }

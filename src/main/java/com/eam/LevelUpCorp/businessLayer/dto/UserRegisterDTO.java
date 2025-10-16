@@ -26,7 +26,7 @@ public class UserRegisterDTO {
     private String department;
 
     @Schema(description = "Tipo de usuario: 'Aprendiz' o 'Instructor'", example = "Aprendiz")
-    private String role; // opcional: si decides que el usuario elija el rol en registro
+    private String role;
 
 
 
