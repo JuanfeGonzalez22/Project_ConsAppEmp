@@ -1,5 +1,6 @@
 package com.eam.LevelUpCorp.business;
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
+import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.impl.CourseServiceImpl;
 import com.eam.LevelUpCorp.persistenceLayer.dao.CourseDAO;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 @DisplayName("CourseService - Pruebas Unitarias")
 public class CourseServiceTest {
@@ -28,13 +28,23 @@ public class CourseServiceTest {
 
     @InjectMocks
     private CourseServiceImpl courseService;
+
     private CourseDTO validCourseDTO;
+    private CourseResponseDTO validCourseResponseDTO;
 
     @BeforeEach
-    void  setUp(){
+    void setUp(){
         validCourseDTO = new CourseDTO(
                 "Curso de Spring Boot",
                 "Spring Boot Basico",
+                LocalTime.of(2, 30, 0),
+                1
+        );
+
+        validCourseResponseDTO = new CourseResponseDTO(
+                1L, // ID
+                "Spring Boot Basico",
+                "Curso de Spring Boot",
                 LocalTime.of(2, 30, 0),
                 1
         );
@@ -44,12 +54,12 @@ public class CourseServiceTest {
     @Test
     @DisplayName("CREATE - Curso válido debe crearse correctamente")
     void createCourse_ValidData_ShouldReturnCreatedCourse() {
-        when(courseDAO.save(any(CourseDTO.class))).thenReturn(validCourseDTO);
+        when(courseDAO.save(any(CourseDTO.class))).thenReturn(validCourseResponseDTO);
 
-        CourseDTO result = courseService.createCourse(validCourseDTO);
+        CourseResponseDTO result = courseService.createCourse(validCourseDTO);
 
         assertNotNull(result);
-        assertEquals("Spring Boot basico", result.getTitle());
+        assertEquals("Curso de Spring Boot", result.getTitle());
         verify(courseDAO, times(1)).save(any(CourseDTO.class));
     }
 
@@ -60,7 +70,7 @@ public class CourseServiceTest {
 
         assertThatThrownBy(() -> courseService.createCourse(validCourseDTO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("titulo del cuerso es obligatorio");
+                .hasMessageContaining("titulo del curso es obligatorio");
         verify(courseDAO, never()).save(any(CourseDTO.class));
     }
 
@@ -98,12 +108,12 @@ public class CourseServiceTest {
     @Test
     @DisplayName("READ - Curso existente debe retornarse correctamente")
     void getCourse_Existing_ShouldReturnCourse() {
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseDTO));
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
 
-        CourseDTO result = courseService.getCourse(1L);
+        CourseResponseDTO result = courseService.getCourse(1L);
 
         assertNotNull(result);
-        assertEquals("Spring Boot basico", result.getTitle());
+        assertEquals("Curso de Spring Boot", result.getTitle());
         verify(courseDAO, times(1)).findById(1L);
     }
 
@@ -117,15 +127,14 @@ public class CourseServiceTest {
 
         assertEquals("Curso no encontrado con el ID: 99", ex.getMessage());
         verify(courseDAO, times(1)).findById(99L);
-
     }
 
     @Test
     @DisplayName("READ - Lista de cursos existente debe retornarse correctamente")
     void getCourses_ShouldReturnList() {
-        when(courseDAO.findAll()).thenReturn(List.of(validCourseDTO));
+        when(courseDAO.findAll()).thenReturn(List.of(validCourseResponseDTO));
 
-        List<CourseDTO> result = courseService.getCourses();
+        List<CourseResponseDTO> result = courseService.getCourses();
 
         assertThat(result).hasSize(1);
         verify(courseDAO, times(1)).findAll();
@@ -147,19 +156,28 @@ public class CourseServiceTest {
     @Test
     @DisplayName("UPDATE - Curso existente debe actualizarse correctamente")
     void updateCourse_Existing_ShouldReturnUpdatedCourse() {
-        CourseDTO updateCourse = new CourseDTO(
-                "Curso de Spring Boot",
+        CourseDTO updateCourseDTO = new CourseDTO( // ✅ Para el request
+                "Curso de Spring Boot Actualizado",
                 "Spring Boot Avanzado",
                 LocalTime.of(3,0,0),
                 2
         );
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseDTO));
-        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updateCourse));
 
-        CourseDTO result = courseService.updateCourse(1L, updateCourse);
+        CourseResponseDTO updatedResponseDTO = new CourseResponseDTO(
+                1L,
+                "Spring Boot Avanzado",
+                "Curso de Spring Boot Actualizado",
+                LocalTime.of(3,0,0),
+                2
+        );
+
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
+        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updatedResponseDTO));
+
+        CourseResponseDTO result = courseService.updateCourse(1L, updateCourseDTO);
 
         assertNotNull(result);
-        assertEquals("Spring Boot Avanzado", result.getTitle());
+        assertEquals("Spring Boot Avanzado", result.getDescription());
         assertEquals(2, result.getLevel());
         verify(courseDAO, times(1)).update(eq(1L), any(CourseDTO.class));
     }
@@ -167,7 +185,7 @@ public class CourseServiceTest {
     @Test
     @DisplayName("UPDATE - Curso inexistente debe lanzar excepción")
     void updateCourse_NonExistent_ShouldThrowException() {
-        CourseDTO updateCourse = new CourseDTO(
+        CourseDTO updateCourseDTO = new CourseDTO(
                 "Curso de Spring Boot",
                 "Spring Boot Avanzado",
                 LocalTime.of(3,0,0),
@@ -177,7 +195,7 @@ public class CourseServiceTest {
         when(courseDAO.findById(99L)).thenReturn(Optional.empty());
 
         RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> courseService.updateCourse(99L, updateCourse));
+                () -> courseService.updateCourse(99L, updateCourseDTO));
 
         assertEquals("Curso no encontrado con el ID: 99", ex.getMessage());
         verify(courseDAO, never()).update(anyLong(), any(CourseDTO.class));
@@ -186,7 +204,7 @@ public class CourseServiceTest {
     @Test
     @DisplayName("UPDATE - Falla en DAO debe lanzar excepción")
     void updateCourse_DAOError_ShouldThrowException() {
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseDTO));
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
         when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.empty());
 
         RuntimeException ex = assertThrows(RuntimeException.class,
@@ -200,7 +218,7 @@ public class CourseServiceTest {
     @Test
     @DisplayName("DELETE - Curso existente debe eliminarse correctamente")
     void deleteCourse_Existing_ShouldDeleteSuccessfully() {
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseDTO));
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
         when(courseDAO.deleteById(1L)).thenReturn(true);
 
         assertDoesNotThrow(() -> courseService.deleteCourse(1L));
@@ -223,7 +241,7 @@ public class CourseServiceTest {
     @Test
     @DisplayName("DELETE - Falla en DAO al eliminar curso existente debe lanzar excepción")
     void deleteCourse_DAOFailure_ShouldThrowException() {
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseDTO));
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
         when(courseDAO.deleteById(1L)).thenReturn(false);
 
         RuntimeException ex = assertThrows(RuntimeException.class,

@@ -5,17 +5,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data transfer object for creating an evaluation answer")
-
+@Schema(description = "DTO para enviar una respuesta a una evaluación")
 public class SubmitAnswerDTO {
 
-
-    @Schema(description = "Unique identifier of the evaluation to submit the answer for", example = "12")
+    @Schema(description = "Identificador único de la evaluación a la que se enviará la respuesta", example = "12")
     private Long evaluationId;
 
-
 }
+

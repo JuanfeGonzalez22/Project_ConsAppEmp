@@ -8,33 +8,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data transfer object that represents a course with description, title, estimated duration, and difficulty level.")
+@Schema(description = "DTO que representa un curso con su descripción, título, duración estimada y nivel de dificultad.")
 public class CourseResponseDTO {
 
-
-    @Schema(description = "ID del curso", example = "1")
+    @Schema(description = "Identificador del curso", example = "1")
     private Long id;
 
-    @Schema(description = "Short description of the course")
+    @Schema(description = "Descripción breve del curso", example = "Curso introductorio sobre los fundamentos de Java y programación orientada a objetos.")
     private String description;
 
-    @Schema(description = "Title of the course")
+    @Schema(description = "Título del curso", example = "Fundamentos de Java")
     private String title;
 
     @Schema(
-            description = "Estimated duration of the course in format HH:mm:ss",
+            description = "Duración estimada del curso en formato HH:mm:ss",
             type = "string",
             example = "02:15:00"
     )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime estimatedDuration;
 
-    @Schema(description = "Difficulty level of the course", example = "1")
+    @Schema(description = "Nivel de dificultad del curso", example = "1")
     private int level;
-
-
 }

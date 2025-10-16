@@ -21,13 +21,11 @@ public interface CourseMapper {
 
     /*
     Converts a single CourseEntity to CourseDTO
-    Used for reading or showing a course.
      */
     CourseResponseDTO toDTO(CourseEntity courseEntity);
 
     /*
     Converts a CourseDTO to CourseEntity
-    Used for creating new courses en the db.
      */
     @Mapping(target = "id", ignore = true)
     CourseEntity toEntity(CourseDTO courseDTO);

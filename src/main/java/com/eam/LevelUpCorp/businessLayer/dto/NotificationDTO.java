@@ -9,24 +9,24 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO that represents a notification sent to a user. It includes who receives it, the type, the message, when it was sent, and the current status.")
+@Schema(description = "DTO que representa una notificación enviada a un usuario. Incluye quién la recibe, el tipo, el mensaje, cuándo fue enviada y su estado actual.")
 public class NotificationDTO {
 
-    @Schema(description = "ID of the notification", example = "1")
+    @Schema(description = "ID de la notificación", example = "1")
     private Long id;
 
-    @Schema(description = "ID of the user", example = "101")
+    @Schema(description = "ID del usuario", example = "101")
     private Long userId;
 
-    @Schema(description = "Type of notification", example = "PROGRESS_UPDATE")
+    @Schema(description = "Tipo de notificación", example = "ACTUALIZACIÓN_DE_PROGRESO")
     private String type;
 
-    @Schema(description = "Notification message", example = "¡Curso completado!")
+    @Schema(description = "Mensaje de la notificación", example = "¡Curso completado!")
     private String message;
 
-    @Schema(description = "Sent date", example = "2024-01-15")
+    @Schema(description = "Fecha en que se envió la notificación", example = "2024-01-15")
     private LocalDate sentDate;
 
-    @Schema(description = "Status of notification", example = "UNREAD")
+    @Schema(description = "Estado de la notificación", example = "NO_LEÍDA")
     private String status;
 }

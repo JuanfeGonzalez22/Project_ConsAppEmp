@@ -17,14 +17,14 @@ import java.util.Map;
 )
 public interface ReportMapper {
 
-    // De Entity a DTO
+    // Entity a DTO
     @Mapping(target = "userId", source = "userId")
     @Mapping(target = "courseId", source = "courseId")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "description", source = "description")
     ReportDTO toDTO(ReportEntity entity);
 
-    // De DTO a Entity
+    // DTO to Entity
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "date", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updateDate", expression = "java(java.time.LocalDateTime.now())")
@@ -34,7 +34,7 @@ public interface ReportMapper {
     @Mapping(target = "description", source = "description")
     ReportEntity toEntity(ReportDTO dto);
 
-    // Actualizar una entidad existente con datos de un DTO
+    //Update an entity existing with dates of a DTO
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "date", ignore = true)
     @Mapping(target = "updateDate", expression = "java(java.time.LocalDateTime.now())")
@@ -44,7 +44,7 @@ public interface ReportMapper {
     @Mapping(target = "description", source = "description")
     void updateEntityFromDTO(ReportDTO dto, @MappingTarget ReportEntity entity);
 
-    // Mapear a GeneralReportDTO desde parámetros individuales
+    // Map to GeneralReportDTO from individual parameters
     @Mapping(target = "totalUsers", source = "totalUsers")
     @Mapping(target = "totalCourses", source = "totalCourses")
     @Mapping(target = "totalRegistrations", source = "totalRegistrations")

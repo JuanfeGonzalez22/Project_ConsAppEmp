@@ -7,23 +7,18 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO that represents a report of an instructor and their assigned courses")
+@Schema(description = "DTO que representa un reporte de un instructor y los cursos que tiene asignados")
 public class InstructorReportDTO {
 
-
-
-    @Schema(description = "Unique identifier of the instructor", example = "12")
+    @Schema(description = "Identificador único del instructor", example = "12")
     private Long instructorId;
 
-    @Schema(description = "Full name of the instructor", example = "Erickson jonson")
+    @Schema(description = "Nombre completo del instructor", example = "Erickson Jonson")
     private String instructorName;
 
-    @Schema(description = "List of courses assigned to the instructor with their statistics")
+    @Schema(description = "Lista de cursos asignados al instructor junto con sus estadísticas")
     private List<CourseSummaryDTO> assignedCourses;
-
-
 }

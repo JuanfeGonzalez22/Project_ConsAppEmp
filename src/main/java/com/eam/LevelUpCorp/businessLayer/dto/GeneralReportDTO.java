@@ -6,38 +6,31 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO that represents general system statistics across all entities")
+@Schema(description = "DTO que representa las estadísticas generales del sistema en todas las entidades")
 public class GeneralReportDTO {
 
-
-
-    @Schema(description = "Total number of users in the platform", example = "162")
+    @Schema(description = "Número total de usuarios en la plataforma", example = "162")
     private long totalUsers;
 
-    @Schema(description = "Total number of courses available in the platform", example = "25")
+    @Schema(description = "Número total de cursos disponibles en la plataforma", example = "25")
     private long totalCourses;
 
-    @Schema(description = "Total number of course registrations", example = "480")
+    @Schema(description = "Número total de inscripciones a cursos", example = "480")
     private long totalRegistrations;
 
-    @Schema(description = "Total number of certificates issued", example = "320")
+    @Schema(description = "Número total de certificados emitidos", example = "320")
     private long totalCertificates;
 
-    @Schema(description = "Average progress percentage of all users in their courses", example = "65.4")
+    @Schema(description = "Porcentaje promedio de progreso de todos los usuarios en sus cursos", example = "65.4")
     private double averageProgress;
 
-    @Schema(description = "Average score of all evaluations answered by users", example = "78.9")
+    @Schema(description = "Puntaje promedio de todas las evaluaciones respondidas por los usuarios", example = "78.9")
     private double averageScores;
 
-    @Schema(description = "Distribution of users by role (e.g. ADMIN, INSTRUCTOR, APPRENTICE)",
-            example = "{ \"ADMIN\": 2, \"INSTRUCTOR\": 10, \"APPRENTICE\": 150 }")
+    @Schema(description = "Distribución de usuarios por rol (por ejemplo: ADMIN, INSTRUCTOR, APRENDIZ)",
+            example = "{ \"ADMIN\": 2, \"INSTRUCTOR\": 10, \"APRENDIZ\": 150 }")
     private Map<String, Long> usersByRole;
-
-
-
-
 }

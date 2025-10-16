@@ -8,26 +8,24 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "DTO that represents the basic information of a user in the platform")
+@Schema(description = "DTO que representa la información básica de una calificación de usuario en la plataforma")
 public class UserRatingResponseDTO {
 
-
-
-    @Schema(description = "Unique identifier of the rating record", example = "1")
+    @Schema(description = "Identificador único del registro de calificación", example = "1")
     private Long id;
 
-
-    @Schema(description = "ID of the user being rated", example = "123")
+    @Schema(description = "ID del usuario que está siendo calificado", example = "123")
     private Long userId;
 
-
-    @Schema(description = "ID of the specific rating", example = "456")
+    @Schema(description = "ID de la calificación específica", example = "456")
     private Long ratingId;
 
+    @Schema(description = "Fecha en la que se otorgó la calificación", example = "2024-01-15")
+    private LocalDate date;
 
-    @Schema(description = "Date when the rating was given", example = "2024-01-15")
-    private LocalDate date = LocalDate.now();
+
 }

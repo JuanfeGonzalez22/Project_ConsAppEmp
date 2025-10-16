@@ -20,13 +20,11 @@ public interface ModuleMapper {
 
     /*
     Converts a single ModuleEntity to ModuleDTO
-    Used for reading or showing a module.
      */
     ModuleDTO toDTO(ModuleEntity moduleEntity);
 
     /*
     Converts a ModuleDTO to ModuleEntity
-    Used for creating new modules in the db.
      */
     @Mapping(target = "id", ignore = true)
     ModuleEntity toEntity(ModuleDTO moduleDTO);

@@ -19,21 +19,21 @@ public interface CourseInstructorMapper {
 
 
 
-    // Lista de entidades → lista de DTOs
+    // List of entity to list of DTOs
     List<CourseInstructorResponseDTO> toDTOList(List<CourseInstructorEntity> entities);
 
-    // Entidad → ResponseDTO
+    // Entity to ResponseDTO
     @Mapping(target = "courseName", ignore = true)
     @Mapping(target = "instructorName", ignore = true)
     @Mapping(source = "assignedDate", target = "assignedAt")
     CourseInstructorResponseDTO toResponseDTO(CourseInstructorEntity entity);
 
-    // CreateDTO → Entidad
+    // CreateDTO to Entity
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "assignedDate", ignore = true)
     CourseInstructorEntity toEntity(CourseInstructorDTO dto);
 
-    // Update desde CreateDTO → Entidad
+    // Update from CreateDTO to Entity
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "assignedDate", ignore = true)
     void updateEntityFromDTO(CourseInstructorDTO dto, @MappingTarget CourseInstructorEntity entity);

@@ -25,7 +25,6 @@ public interface EvaluationMapper {
 
     /*
     Converts a EvaluationDTO to EvaluationEntity.
-    Used for creating new evaluations in the db.
      */
     @Mapping(target = "id", ignore = true) // id is auto-generated
     EvaluationEntity toEntity(EvaluationDTO evaluationDTO);

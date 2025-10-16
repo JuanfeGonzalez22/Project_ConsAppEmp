@@ -32,6 +32,7 @@ public class ModuleDAO {
 
     //Search
     public Optional<ModuleDTO> findById(Long id){
+
         return moduleRepository.findById(id).map(moduleMapper::toDTO);
     }
 
@@ -56,7 +57,7 @@ public class ModuleDAO {
     }
 
     //All modules
-    public List<ModuleDTO> findAll(){
+    public List<ModuleDTO> findAll() {
         return moduleRepository.findAll().stream().map(moduleMapper::toDTO).toList();
     }
 }

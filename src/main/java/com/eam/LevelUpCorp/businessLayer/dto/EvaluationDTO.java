@@ -3,24 +3,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data transfer object that represents an evaluation with moduleId, title, type, and maximum score.")
+@Schema(description = "DTO que representa una evaluación con el ID del módulo, título, tipo y puntaje máximo.")
 public class EvaluationDTO {
 
-    @Schema(description = "ID of the module inside the course", example = "001")
+    @Schema(description = "ID del módulo dentro del curso", example = "1")
     private Long moduleId;
 
-    @Schema(description = "Title of the evaluation on the platform", example = "Final evaluation")
+    @Schema(description = "Título de la evaluación en la plataforma", example = "Evaluación final")
     private String title;
 
-    @Schema(description = "Type of the evaluation", example = "quiz")
+    @Schema(description = "Tipo de evaluación", example = "quiz")
     private String type;
 
-    @Schema(description = "Maximum score that can be achieved in the evaluation", example = "10")
+    @Schema(description = "Puntaje máximo que se puede alcanzar en la evaluación", example = "10")
     private int maxScore;
-
-
 }

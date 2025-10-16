@@ -8,18 +8,18 @@ import java.util.Optional;
 public interface ReportsStaticsService {
 
 
-    // Crear un nuevo reporte generado
+    // Create a report new
     ReportStaticsDTO createReport(ReportStaticsDTO dto);
 
-    // Buscar por ID
+    //Search by ID
     Optional<ReportStaticsDTO> getReportById(Long id);
 
     // Listar todos
     List<ReportStaticsDTO> getAllReports();
 
-    // Actualizar un reporte existente
+    // Update a report existing
     Optional<ReportStaticsDTO> updateReport(Long id, ReportStaticsDTO dto);
 
-    // Eliminar por ID
+    // Delete
     boolean deleteReport(Long id);
 }
