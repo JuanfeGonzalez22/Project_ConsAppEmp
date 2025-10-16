@@ -47,7 +47,7 @@ public class UserDAO {
 
 
     //Login.
-    public Optional<UserDTO> finByEmail(String email) {
+    public Optional<UserDTO> findByEmail(String email) {
         return userRepository.findByEmail(email).map(userMapper::toDTO);
     }
 
