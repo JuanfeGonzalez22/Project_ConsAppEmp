@@ -3,12 +3,14 @@ package com.eam.LevelUpCorp.businessLayer.service.impl;
 
 import com.eam.LevelUpCorp.businessLayer.dto.NotificationDTO;
 import com.eam.LevelUpCorp.businessLayer.service.NotificationService;
+import com.eam.LevelUpCorp.businessLayer.validate.NotificationValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.NotificationDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,12 +19,14 @@ import java.util.List;
 @Slf4j
 public class NotificationServiceImpl implements NotificationService {
 
-
     private final NotificationDAO notificationDAO;
+    private final NotificationValidate notificationValidate;
 
     @Override
     @Transactional(readOnly = true)
     public List<NotificationDTO> getUserNotifications(Long userId) {
+        notificationValidate.validateUserSearch(userId);
+
         log.info("Getting notifications for user ID: {}", userId);
         List<NotificationDTO> notifications = notificationDAO.findUnreadByUserId(userId);
 
@@ -38,6 +42,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional(readOnly = true)
     public List<NotificationDTO> getUnreadNotifications(Long userId) {
+        notificationValidate.validateUserSearch(userId);
+
         log.info("Getting unread notifications for user ID: {}", userId);
         List<NotificationDTO> unreadNotifications = notificationDAO.findUnreadByUserId(userId);
         log.info("Found {} unread notifications for user ID: {}", unreadNotifications.size(), userId);
@@ -46,6 +52,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public NotificationDTO markAsRead(Long notificationId) {
+        notificationValidate.validateNotificationId(notificationId);
+
         log.info("Marking notification as read - ID: {}", notificationId);
         NotificationDTO updatedNotification = notificationDAO.markAsRead(notificationId)
                 .orElseThrow(() -> {
@@ -59,6 +67,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional(readOnly = true)
     public int getUnreadCount(Long userId) {
+        notificationValidate.validateUserSearch(userId);
+
         log.debug("Counting unread notifications for user ID: {}", userId);
         int count = notificationDAO.countUnreadByUserId(userId);
         log.debug("User ID: {} has {} unread notifications", userId, count);
@@ -67,16 +77,18 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void createProgressNotification(Long userId, String type, String message) {
+        notificationValidate.validateProgressNotification(userId, type, message);
+
         log.info("Creating progress notification for user ID: {} - Type: {}", userId, type);
 
         NotificationDTO notificationDTO = new NotificationDTO();
         notificationDTO.setUserId(userId);
-        notificationDTO.setType(type);
-        notificationDTO.setMessage(message);
+        notificationDTO.setType(type.trim());
+        notificationDTO.setMessage(message.trim());
         notificationDTO.setStatus("UNREAD");
+        notificationDTO.setSentDate(LocalDate.now());
 
         NotificationDTO savedNotification = notificationDAO.save(notificationDTO);
         log.info("Progress notification created successfully - ID: {}", savedNotification.getId());
     }
-
 }

@@ -227,7 +227,7 @@ public class RatingServiceImpl implements RatingService {
 
         // Logro: Perfecto en evaluación (score = 100%)
         Optional<AnswerResponseDTO> respuesta = answerDAO.findByEvaluationIdAndUserId(evaluationId, userId);
-        if (respuesta.isPresent() && respuesta.get().getScore() == 100.0) {
+        if (respuesta.isPresent() && Double.compare(respuesta.get().getScore(), 100.0) == 0) {
             asignarLogroUsuario(userId, "PERFECTO_EVALUACION");
         }
 

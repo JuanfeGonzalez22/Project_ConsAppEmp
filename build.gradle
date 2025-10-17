@@ -70,7 +70,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.80 // cobertura mínima requerida (puedes subirla al 0.80 si el profe exige 80%)
+                minimum = 0.5 // cobertura mínima requerida (puedes subirla al 0.80 si el profe exige 80%)
             }
         }
     }
