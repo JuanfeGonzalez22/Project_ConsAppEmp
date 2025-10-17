@@ -30,10 +30,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO createUser(UserDTO createDTO) {
         log.info("Create a new User: {}", createDTO.getFullName());
         valiUser.validateCreate(createDTO);
-        UserDTO createdUSer = userDAO.save(createDTO);
-        log.info("Create user successfully whit ID: {}", createdUSer.getId());
-
-        return createdUSer;
+        UserDTO createdUser = userDAO.save(createDTO);
+        if (createdUser == null) {
+            throw new RuntimeException("Error while saving user");
+        }
+        log.info("Create user successfully with ID: {}", createdUser.getId());
+        return createdUser;
     }
 
 
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
         log.info("Get user by ID: {}", id);
         return userDAO.findById(id).orElseThrow(() -> {
             log.warn("Get user by ID failure: {}", id);
-            return new RuntimeException("User not found whit ID:" + id);
+            return new RuntimeException("User not found with ID:" + id);
         });
     }
 
@@ -75,12 +77,12 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public UserDTO login(String email, String password) {
-    log.info("Login User: {}", email);
-    UserDTO user = userDAO.finByEmail(email)
-            .orElseThrow(() -> {
-                log.warn("Login User failure: {}", email);
-                return new RuntimeException("Invalid credentials");
-            });
+        log.info("Login User: {}", email);
+        UserDTO user = userDAO.findByEmail(email)
+                .orElseThrow(() -> {
+                    log.warn("Login User failure: {}", email);
+                    return new RuntimeException("Invalid credentials");
+                });
         if (!user.getPassword().equals(password)) {
             log.warn("Login failed - invalid password for email: {}", email);
             throw new RuntimeException("Invalid credentials");
@@ -120,8 +122,8 @@ public class UserServiceImpl implements UserService {
 
         valiUser.validateUpdate(id, userDTO);
         UserDTO userUpdated = userDAO.update(id, userDTO)
-        .orElseThrow(() -> new RuntimeException("Error al actualizar"));
-        log.info("Usurious actualization existosamente ID: {}", id);
+                .orElseThrow(() -> new RuntimeException("Error al actualizar"));
+        log.info("User successfully updated ID: {}", id);
         return userUpdated;
 
     }

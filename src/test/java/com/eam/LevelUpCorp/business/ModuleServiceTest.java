@@ -50,9 +50,8 @@ public class ModuleServiceTest {
         validModule.setOrder(1);
     }
 
-    // ======================================
-    // CREATE TESTS
-    // ======================================
+
+    // CREATE
     @Test
     @DisplayName("CREATE - crear módulo válido debe funcionar correctamente")
     void createModule_ValidData_ShouldReturnCreatedModule() {
@@ -68,6 +67,8 @@ public class ModuleServiceTest {
     @DisplayName("CREATE - crear módulo con título nulo debe lanzar excepción")
     void createModule_NullTitle_ShouldThrowException() {
         validModule.setTitle(null);
+        doThrow(new IllegalArgumentException("El título del módulo es obligatorio"))
+                .when(moduleValidate).validateCreate(any(ModuleDTO.class));
         assertThatThrownBy(() -> moduleService.createModule(validModule))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("título del módulo es obligatorio");
@@ -77,6 +78,8 @@ public class ModuleServiceTest {
     @DisplayName("CREATE - crear módulo con tipo vacío debe lanzar excepción")
     void createModule_EmptyType_ShouldThrowException() {
         validModule.setType("  ");
+        doThrow(new IllegalArgumentException("El tipo del módulo es obligatorio"))
+                .when(moduleValidate).validateCreate(any(ModuleDTO.class));
         assertThatThrownBy(() -> moduleService.createModule(validModule))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("tipo del módulo es obligatorio");
@@ -86,6 +89,8 @@ public class ModuleServiceTest {
     @DisplayName("CREATE - crear módulo con orden inválido debe lanzar excepción")
     void createModule_InvalidOrder_ShouldThrowException() {
         validModule.setOrder(0);
+        doThrow(new IllegalArgumentException("El orden del módulo es obligatorio y debe ser mayor a 0"))
+                .when(moduleValidate).validateCreate(any(ModuleDTO.class));
         assertThatThrownBy(() -> moduleService.createModule(validModule))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("orden del módulo es obligatorio y debe ser mayor a 0");
@@ -95,14 +100,15 @@ public class ModuleServiceTest {
     @DisplayName("CREATE - crear módulo con courseId inválido debe lanzar excepción")
     void createModule_InvalidCourseId_ShouldThrowException() {
         validModule.setCourseId(0L);
+        doThrow(new IllegalArgumentException("El cursoId es obligatorio y debe ser válido"))
+                .when(moduleValidate).validateCreate(any(ModuleDTO.class));
         assertThatThrownBy(() -> moduleService.createModule(validModule))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("cursoId es obligatorio y debe ser válido");
     }
 
-    // ======================================
-    // READ TESTS
-    // ======================================
+
+    // READ
     @Test
     @DisplayName("READ - obtener módulo existente debe retornar módulo")
     void getModule_Existing_ShouldReturnModule() {
@@ -136,9 +142,8 @@ public class ModuleServiceTest {
         assertThat(ex.getMessage()).contains("No hay módulos disponibles");
     }
 
-    // ======================================
-    // UPDATE TESTS
-    // ======================================
+
+    // UPDATE
     @Test
     @DisplayName("UPDATE - actualizar módulo existente debe retornar módulo actualizado")
     void updateModule_Existing_ShouldReturnUpdatedModule() {
@@ -174,9 +179,8 @@ public class ModuleServiceTest {
         assertThat(ex.getMessage()).contains("Error al actualizar módulo con ID: 1");
     }
 
-    // ======================================
-    // DELETE TESTS
-    // ======================================
+
+    // DELETE
     @Test
     @DisplayName("DELETE - eliminar módulo existente debe funcionar correctamente")
     void deleteModule_Existing_ShouldDeleteSuccessfully() {

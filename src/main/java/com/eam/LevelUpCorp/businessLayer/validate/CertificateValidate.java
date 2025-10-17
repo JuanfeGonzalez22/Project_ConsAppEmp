@@ -8,25 +8,25 @@ public class CertificateValidate {
 
     public void validateCreate(CertificateDTO certificateDTO) {
         if (certificateDTO == null) {
-            throw new IllegalArgumentException("Certificate is null");
+            throw new IllegalArgumentException("El certificado es nulo");
         }
         if (certificateDTO.getUserId() <= 0) {
-            throw new IllegalArgumentException("Invalid user ID");
+            throw new IllegalArgumentException("userId invalido");
         }
         if (certificateDTO.getCourseId() <= 0) {
-            throw new IllegalArgumentException("Invalid course ID");
+            throw new IllegalArgumentException("courseId invalido");
         }
         if (certificateDTO.getIssueDate() == null) {
-            throw new IllegalArgumentException("Issue date is required");
+            throw new IllegalArgumentException("fecha de emision es obligatoria");
         }
         if (certificateDTO.getHash() == null || certificateDTO.getHash().trim().isEmpty()) {
-            throw new IllegalArgumentException("Hash is required");
+            throw new IllegalArgumentException("hash es obligatorio");
         }
     }
 
     public void validateSearch(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("Invalid certificate ID");
+            throw new IllegalArgumentException("ID de certificado invalido");
         }
     }
 

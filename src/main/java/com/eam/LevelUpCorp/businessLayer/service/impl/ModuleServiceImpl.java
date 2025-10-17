@@ -40,7 +40,7 @@ public class ModuleServiceImpl implements ModuleService {
     public ModuleDTO getModule(Long id){
         log.info("Get module by ID : {}", id);
         moduleValidate.validateSearch(id);
-        return moduleDAO.findById(id).orElseThrow(() -> new IllegalArgumentException("Módulo no encontrado con id: " + id));
+        return moduleDAO.findById(id).orElseThrow(() -> new IllegalArgumentException("Módulo no encontrado con ID: " + id));
     }
 
     /*
@@ -51,8 +51,8 @@ public class ModuleServiceImpl implements ModuleService {
         log.info("Get modules by module");
         List<ModuleDTO> modules = moduleDAO.findAll();
         if(modules.isEmpty()){
-            log.warn("No module found");
-            throw new RuntimeException("No module available");
+            log.warn("No hay módulos disponibles");
+            throw new RuntimeException("No hay módulos disponibles");
         }
         log.info("Found {} modules", modules.size());
         return modules;
@@ -69,7 +69,7 @@ public class ModuleServiceImpl implements ModuleService {
 
         boolean deleted = moduleDAO.deleteById(id);
         if(!deleted){
-            throw new RuntimeException("Error al eliminar el modulo con ID: " + id);
+            throw new RuntimeException("Error al eliminar el módulo con ID: " + id);
         }
         log.info("Module successfully deleted ID: {}", id);
     }
@@ -81,7 +81,7 @@ public class ModuleServiceImpl implements ModuleService {
         log.info("Update module by ID: {}", id);
         getModule(id);
         moduleValidate.validateUpdate(id, moduleDTO);
-        ModuleDTO updateModule = moduleDAO.update(id, moduleDTO).orElseThrow(() -> new RuntimeException("Error al actualizar curso con ID: " + id));
+        ModuleDTO updateModule = moduleDAO.update(id, moduleDTO).orElseThrow(() -> new RuntimeException("Error al actualizar módulo con ID: " + id));
         log.info("Module updated successfully ID: {}", id);
         return updateModule;
     }
