@@ -2,6 +2,7 @@ package com.eam.LevelUpCorp.business;
 import com.eam.LevelUpCorp.businessLayer.dto.CourseDTO;
 import com.eam.LevelUpCorp.businessLayer.dto.CourseResponseDTO;
 import com.eam.LevelUpCorp.businessLayer.service.impl.CourseServiceImpl;
+import com.eam.LevelUpCorp.businessLayer.validate.CourseValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.CourseDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
@@ -26,11 +28,17 @@ public class CourseServiceTest {
     @Mock
     private CourseDAO courseDAO;
 
+    @Spy
+    private CourseValidate courseValidate;
+
+
     @InjectMocks
     private CourseServiceImpl courseService;
 
     private CourseDTO validCourseDTO;
     private CourseResponseDTO validCourseResponseDTO;
+
+    private CourseResponseDTO updateCourseResponse;
 
     @BeforeEach
     void setUp(){
@@ -42,11 +50,18 @@ public class CourseServiceTest {
         );
 
         validCourseResponseDTO = new CourseResponseDTO(
-                1L, // ID
+                1L,
                 "Spring Boot Basico",
                 "Curso de Spring Boot",
-                LocalTime.of(2, 30, 0),
+                LocalTime.of(2,30,0),
                 1
+        );
+        updateCourseResponse = new CourseResponseDTO(
+                1L,
+                "Spring Boot Avanzado",
+                "Curso de Spring Boot",
+                LocalTime.of(3,0,0),
+                2
         );
     }
 
@@ -59,7 +74,8 @@ public class CourseServiceTest {
         CourseResponseDTO result = courseService.createCourse(validCourseDTO);
 
         assertNotNull(result);
-        assertEquals("Curso de Spring Boot", result.getTitle());
+
+        assertEquals("Spring Boot Basico", result.getTitle());
         verify(courseDAO, times(1)).save(any(CourseDTO.class));
     }
 
@@ -70,7 +86,7 @@ public class CourseServiceTest {
 
         assertThatThrownBy(() -> courseService.createCourse(validCourseDTO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("titulo del curso es obligatorio");
+                .hasMessageContaining("El título del curso es obligatorio");
         verify(courseDAO, never()).save(any(CourseDTO.class));
     }
 
@@ -81,7 +97,7 @@ public class CourseServiceTest {
 
         assertThatThrownBy(() -> courseService.createCourse(validCourseDTO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("descripcion del curso vacia");
+                .hasMessageContaining("La descripción del curso es obligatoria");
     }
 
     @Test
@@ -91,7 +107,7 @@ public class CourseServiceTest {
 
         assertThatThrownBy(() -> courseService.createCourse(validCourseDTO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("nivel del curso debe estar entre 1 (básico) y 3 (avanzado)");
+                .hasMessageContaining("El nivel del curso debe estar entre 1 (básico) y 3 (avanzado)");
     }
 
     @Test
@@ -101,7 +117,7 @@ public class CourseServiceTest {
 
         assertThatThrownBy(() -> courseService.createCourse(validCourseDTO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("duracion estimada es obligatorio");
+                .hasMessageContaining("La duración estimada es obligatoria y debe ser mayor a 0");
     }
 
     //Read
@@ -113,7 +129,8 @@ public class CourseServiceTest {
         CourseResponseDTO result = courseService.getCourse(1L);
 
         assertNotNull(result);
-        assertEquals("Curso de Spring Boot", result.getTitle());
+
+        assertEquals("Spring Boot Basico", result.getTitle());
         verify(courseDAO, times(1)).findById(1L);
     }
 
@@ -125,7 +142,7 @@ public class CourseServiceTest {
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> courseService.getCourse(99L));
 
-        assertEquals("Curso no encontrado con el ID: 99", ex.getMessage());
+        assertEquals("Course not found whit ID: 99", ex.getMessage());
         verify(courseDAO, times(1)).findById(99L);
     }
 
@@ -148,7 +165,7 @@ public class CourseServiceTest {
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> courseService.getCourses());
 
-        assertEquals("Cursos no disponibles", ex.getMessage());
+        assertEquals("No courses available", ex.getMessage());
         verify(courseDAO, times(1)).findAll();
     }
 
@@ -163,16 +180,8 @@ public class CourseServiceTest {
                 2
         );
 
-        CourseResponseDTO updatedResponseDTO = new CourseResponseDTO(
-                1L,
-                "Spring Boot Avanzado",
-                "Curso de Spring Boot Actualizado",
-                LocalTime.of(3,0,0),
-                2
-        );
-
         when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
-        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updatedResponseDTO));
+        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updateCourseResponse));
 
         CourseResponseDTO result = courseService.updateCourse(1L, updateCourseDTO);
 
@@ -197,7 +206,7 @@ public class CourseServiceTest {
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> courseService.updateCourse(99L, updateCourseDTO));
 
-        assertEquals("Curso no encontrado con el ID: 99", ex.getMessage());
+        assertEquals("Course not found whit ID: 99", ex.getMessage());
         verify(courseDAO, never()).update(anyLong(), any(CourseDTO.class));
     }
 
@@ -233,7 +242,7 @@ public class CourseServiceTest {
 
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> courseService.deleteCourse(99L));
-        assertEquals("Curso no encontrado con el ID: 99", ex.getMessage());
+        assertEquals("Course not found whit ID: 99", ex.getMessage());
         verify(courseDAO, times(1)).findById(99L);
         verify(courseDAO, never()).deleteById(anyLong());
     }

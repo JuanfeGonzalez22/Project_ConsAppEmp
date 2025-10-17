@@ -48,7 +48,7 @@ public class CourseServiceImpl implements CourseService {
         courseValidate.validateSearch(id);
         return courseDAO.findById(id).orElseThrow(() -> {
             log.warn("Get course by ID failure: {}", id);
-            return new RuntimeException("Course not found whit ID:" + id);
+            return new RuntimeException("Course not found whit ID: " + id);
         });
     }
 
