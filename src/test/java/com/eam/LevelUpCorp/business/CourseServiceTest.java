@@ -180,13 +180,23 @@ public class CourseServiceTest {
                 2
         );
 
-        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
-        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updateCourseResponse));
 
+        CourseResponseDTO updatedResponse = new CourseResponseDTO(
+                1L,
+                "Spring Boot Avanzado", // title
+                "Curso de Spring Boot Actualizado", // description ← ACTUALIZADO
+                LocalTime.of(3,0,0), // estimatedDuration
+                2 // level
+        );
+
+        when(courseDAO.findById(1L)).thenReturn(Optional.of(validCourseResponseDTO));
+
+        when(courseDAO.update(eq(1L), any(CourseDTO.class))).thenReturn(Optional.of(updatedResponse));
         CourseResponseDTO result = courseService.updateCourse(1L, updateCourseDTO);
 
         assertNotNull(result);
-        assertEquals("Spring Boot Avanzado", result.getDescription());
+        assertEquals("Spring Boot Avanzado", result.getTitle());
+        assertEquals("Curso de Spring Boot Actualizado", result.getDescription());
         assertEquals(2, result.getLevel());
         verify(courseDAO, times(1)).update(eq(1L), any(CourseDTO.class));
     }
