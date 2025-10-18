@@ -31,6 +31,9 @@ public class EvaluationServiceImpl implements EvaluationService {
      */
     @Override
     public EvaluationDTO create(EvaluationDTO evaluationDTO) {
+        if(evaluationDTO == null){
+            throw new IllegalArgumentException("Evaluation cannot be null");
+        }
         log.info("Creating a new evaluation: {}", evaluationDTO.getTitle());
         evaluationValidate.validateCreate(evaluationDTO);
         EvaluationDTO createdEvaluation = evaluationDAO.save(evaluationDTO);

@@ -129,14 +129,14 @@ public class ReportServiceImpl  implements ReportService {
     @Override
     public GeneralReportDTO updateReport(Long id, ReportDTO reportDTO) {
         log.info("Actualizando reporte manual con ID: {}", id);
+
+        reportDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reporte no encontrado"));
+
         reportValidate.validateUpdate(id, reportDTO);
 
         reportDAO.updateReport(id, reportDTO)
-                .orElseThrow(() -> {
-                    log.warn("No se pudo actualizar el reporte con ID: {}", id);
-                    return new RuntimeException("Reporte no encontrado con ID: " + id);
-                });
-
+                .orElseThrow(() -> new RuntimeException("Error al actualizar el reporte con ID: " + id));
 
         return buildGeneralReport();
     }

@@ -33,6 +33,10 @@ public class AnswerServiceImpl implements AnswerService {
      */
     @Override
     public AnswerResponseDTO submitAnswer(SubmitAnswerDTO submitAnswerDTO, Long userId, Long fileId) {
+        if (submitAnswerDTO == null){
+            throw new IllegalArgumentException("Los datos de la respuesta son nulos");
+        }
+
         log.info("Estudiante {} enviando respuesta para evaluación: {}", userId, submitAnswerDTO.getEvaluationId());
 
         answerValidate.validateSubmitAnswer(submitAnswerDTO, userId);
