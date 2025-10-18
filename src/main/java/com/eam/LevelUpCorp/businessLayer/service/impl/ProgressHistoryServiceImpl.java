@@ -4,6 +4,7 @@ package com.eam.LevelUpCorp.businessLayer.service.impl;
 import com.eam.LevelUpCorp.businessLayer.dto.ProgressHistoryDTO;
 import com.eam.LevelUpCorp.businessLayer.service.NotificationService;
 import com.eam.LevelUpCorp.businessLayer.service.ProgressHistoryService;
+import com.eam.LevelUpCorp.businessLayer.validate.ProgressHistoryValidate;
 import com.eam.LevelUpCorp.persistenceLayer.dao.ProgressHistoryDAO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.CourseEntity;
 import com.eam.LevelUpCorp.persistenceLayer.entity.ModuleEntity;
@@ -32,36 +33,34 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
     private final ModuleRepository moduleRepository;
     private final NotificationService notificationService;
     private final CourseRepository courseRepository;
-
+    private final ProgressHistoryValidate progressHistoryValidate;
 
 
 
 
     @Override
     public ProgressHistoryDTO markModuleAsCompleted(Long registrationId, Long moduleId, LocalTime timeDedicated) {
+       progressHistoryValidate.validateMarkModuleAsCompleted(registrationId, moduleId, timeDedicated);
         log.info("Marking module as completed - Registration: {}, Module: {}", registrationId, moduleId);
 
-        // Verificar que la inscripción existe
+
         RegistrationEntity registration = registrationRepository.findById(registrationId)
                 .orElseThrow(() -> {
                     log.warn("Registration not found: {}", registrationId);
                     return new RuntimeException("Registration not found with ID: " + registrationId);
                 });
 
-        // Verificar que el módulo existe
         ModuleEntity module = moduleRepository.findById(moduleId)
                 .orElseThrow(() -> {
                     log.warn("Module not found: {}", moduleId);
                     return new RuntimeException("Module not found with ID: " + moduleId);
                 });
 
-        // Calcular nuevo progreso
         Long courseId = registration.getCourseId();
         int totalModules = moduleRepository.countByCourseId(courseId);
         int completedModules = progressHistoryDAO.countCompletedModules(registrationId, courseId);
         double newProgress = ((completedModules + 1.0) / totalModules) * 100.0;
 
-        // Crear DTO para guardar
         ProgressHistoryDTO progressDTO = new ProgressHistoryDTO();
         progressDTO.setUserId(registration.getUserId());
         progressDTO.setCourseId(courseId);
@@ -70,12 +69,10 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
         progressDTO.setTimeDedicated(timeDedicated);
         progressDTO.setStatus("COMPLETED");
         progressDTO.setModuleProgress(100.0);
-        progressDTO.setEvaluationAttempts(0); // Por defecto
+        progressDTO.setEvaluationAttempts(0);
 
-        // Guardar en historial
         ProgressHistoryDTO savedProgress = progressHistoryDAO.save(progressDTO);
 
-        // Actualizar progreso en registration
         registration.setProgress(newProgress);
         if (newProgress >= 100.0) {
             registration.setStatus("COMPLETED");
@@ -91,6 +88,7 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
     @Override
     @Transactional(readOnly = true)
     public ProgressHistoryDTO getCurrentProgress(Long registrationId) {
+        progressHistoryValidate.validateGetCurrentProgress(registrationId);
         log.info("Getting current progress for registration: {}", registrationId);
 
         RegistrationEntity registration = registrationRepository.findById(registrationId)
@@ -99,16 +97,15 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
                     return new RuntimeException("Registration not found with ID: " + registrationId);
                 });
 
-        // Calcular métricas actuales
+
         Long courseId = registration.getCourseId();
         LocalTime totalTime = progressHistoryDAO.calculateTotalTimeDedicated(registrationId, courseId);
         int evaluationAttempts = progressHistoryDAO.countCompletedModules(registrationId, courseId);
 
-        // Crear DTO con progreso actual
         ProgressHistoryDTO currentProgress = new ProgressHistoryDTO();
         currentProgress.setUserId(registration.getUserId());
         currentProgress.setCourseId(courseId);
-        currentProgress.setModuleId(currentProgress.getModuleId()); // Podemos mejorarlo después
+        currentProgress.setModuleId(currentProgress.getModuleId());
         currentProgress.setTimeDedicated(totalTime);
         currentProgress.setStatus(registration.getStatus());
         currentProgress.setModuleProgress(registration.getProgress());
@@ -122,6 +119,7 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
     @Override
     @Transactional(readOnly = true)
     public List<ProgressHistoryDTO> getProgressHistory(Long registrationId) {
+        progressHistoryValidate.validateGetProgressHistory(registrationId);
         log.info("Getting progress history for registration: {}", registrationId);
 
         RegistrationEntity registration = registrationRepository.findById(registrationId)
@@ -145,6 +143,7 @@ public class ProgressHistoryServiceImpl implements ProgressHistoryService {
     @Override
     @Transactional(readOnly = true)
     public boolean isModuleCompleted(Long registrationId, Long moduleId) {
+        progressHistoryValidate.validateIsModuleCompleted(registrationId, moduleId);
         log.info("Checking if module is completed - Registration: {}, Module: {}", registrationId, moduleId);
         boolean completed = progressHistoryDAO.isModuleCompleted(registrationId, moduleId);
         log.info("Module completed check - Result: {}", completed);
