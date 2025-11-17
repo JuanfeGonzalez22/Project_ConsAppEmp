@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Recursos de Archivo", description = "Gestión de archivos del sistema")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FileResourceController {
 
     private final FileResourceService fileResourceService;

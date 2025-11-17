@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Respuestas", description = "Gestión de respuestas a evaluaciones")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AnswerController {
 
     private final AnswerService answerService;

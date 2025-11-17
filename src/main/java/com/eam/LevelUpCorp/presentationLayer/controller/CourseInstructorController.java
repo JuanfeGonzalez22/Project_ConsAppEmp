@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Asignación de Instructores", description = "Gestión de asignaciones de instructores a cursos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CourseInstructorController {
 
     private final CourseInstructorService courseInstructorService;
