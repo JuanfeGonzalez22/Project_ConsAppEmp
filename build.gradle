@@ -93,6 +93,7 @@ allure {
     version = "2.24.0"
     autoconfigure = true
     aspectjweaver = true
+
 }
 
 sonarqube {
