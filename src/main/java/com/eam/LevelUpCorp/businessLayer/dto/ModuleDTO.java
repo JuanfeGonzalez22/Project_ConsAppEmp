@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @Schema(description = "DTO que representa un módulo dentro de un curso")
 public class ModuleDTO {
 
+    @Schema(description = "ID del módulo", example = "1")
+    private Long id; // ← AGREGAR ESTE CAMPO
+
     @Schema(description = "ID del curso al que pertenece este módulo", example = "1001")
     private Long courseId;
 

@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Progreso", description = "Seguimiento de progreso de usuarios en cursos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProgressHistoryController {
 
     private final ProgressHistoryService progressService;

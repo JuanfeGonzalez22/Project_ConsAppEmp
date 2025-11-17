@@ -1,4 +1,4 @@
-package com.eam.LevelUpCorp.config;
+package com.eam.LevelUpCorp.configJWT;
 
 
 

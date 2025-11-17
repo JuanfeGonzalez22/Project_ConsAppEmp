@@ -19,12 +19,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/reports")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Reportes", description = "Gestión de reportes de la plataforma")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReportController {
 
     private final ReportService reportService;

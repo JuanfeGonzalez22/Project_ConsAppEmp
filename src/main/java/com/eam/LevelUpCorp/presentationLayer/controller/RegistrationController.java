@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/registrations")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Registros", description = "Gestión de registros de usuarios en la plataforma")
 public class RegistrationController {
 
