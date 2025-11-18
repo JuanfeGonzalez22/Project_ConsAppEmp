@@ -1,6 +1,5 @@
 package com.eam.LevelUpCorp.persistenceLayer.mapper;
 
-
 import com.eam.LevelUpCorp.businessLayer.dto.EvaluationDTO;
 import com.eam.LevelUpCorp.persistenceLayer.entity.EvaluationEntity;
 import org.mapstruct.*;
@@ -21,20 +20,19 @@ public interface EvaluationMapper {
     /*
     Converts a single EvaluationEntity to EvaluationDTO.
      */
+    // ✅ QUITAR EL IGNORE DEL ID AQUÍ
     EvaluationDTO toDTO(EvaluationEntity evaluationEntity);
 
     /*
     Converts a EvaluationDTO to EvaluationEntity.
      */
-    @Mapping(target = "id", ignore = true) // id is auto-generated
+    @Mapping(target = "id", ignore = true) // id is auto-generated (mantener ignore aquí)
     EvaluationEntity toEntity(EvaluationDTO evaluationDTO);
 
     /*
     Updates an existing EvaluationEntity using data from an EvaluationDTO.
      */
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true) // mantener ignore aquí también
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(EvaluationDTO evaluationDTO, @MappingTarget EvaluationEntity evaluationEntity);
-
-
 }
