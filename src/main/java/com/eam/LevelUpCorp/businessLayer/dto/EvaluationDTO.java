@@ -1,13 +1,18 @@
 package com.eam.LevelUpCorp.businessLayer.dto;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "DTO que representa una evaluación con el ID del módulo, título, tipo y puntaje máximo.")
 public class EvaluationDTO {
+
+    @Schema(description = "ID de la evaluación", example = "1")
+    private Long id;  // ⚠️ AGREGAR ESTE CAMPO
 
     @Schema(description = "ID del módulo dentro del curso", example = "1")
     private Long moduleId;
