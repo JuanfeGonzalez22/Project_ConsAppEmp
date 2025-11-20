@@ -62,7 +62,7 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/project/api/v1/courses/**",
                                 "/api/v1/courses/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
                         .requestMatchers(
@@ -87,7 +87,7 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/project/api/v1/modules/**",
                                 "/api/v1/modules/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
                         .requestMatchers(
@@ -106,30 +106,34 @@ public class SecurityConfig {
                                 "/api/v1/modules/**"
                         ).hasRole("ADMIN")
 
-                        // ==================== 📝 INSCRIPCIONES (REGISTRATIONS) ====================
-                        // LECTURA (GET) - ADMIN E INSTRUCTOR
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/project/api/v1/registrations/**",
-                                "/api/v1/registrations/**"
-                        ).hasAnyRole("ADMIN", "INSTRUCTOR")
+                                // En SecurityConfig.java - REEMPLAZA la sección de REGISTRATIONS
 
-                        // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/project/api/v1/registrations/**",
-                                "/api/v1/registrations/**"
-                        ).hasRole("ADMIN")
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                "/project/api/v1/registrations/**",
-                                "/api/v1/registrations/**"
-                        ).hasRole("ADMIN")
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/project/api/v1/registrations/**",
-                                "/api/v1/registrations/**"
-                        ).hasRole("ADMIN")
+// ==================== 📝 INSCRIPCIONES (REGISTRATIONS) ====================
+// LECTURA (GET) - ADMIN, INSTRUCTOR Y ESTUDIANTE
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/project/api/v1/registrations/**",
+                                        "/api/v1/registrations/**"
+                                ).hasAnyRole("ADMIN", "TEACHER", "STUDENT")  // ⬅️ AGREGAR STUDENT
+
+// CREAR INSCRIPCIÓN (POST) - ADMIN Y ESTUDIANTE ✅
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/project/api/v1/registrations/**",
+                                        "/api/v1/registrations/**"
+                                ).hasAnyRole("ADMIN", "STUDENT")  // ⬅️ CAMBIAR ESTO
+
+// ACTUALIZAR Y ELIMINAR (PUT, DELETE) - SOLO ADMIN
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/project/api/v1/registrations/**",
+                                        "/api/v1/registrations/**"
+                                ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/project/api/v1/registrations/**",
+                                        "/api/v1/registrations/**"
+                                ).hasRole("ADMIN")
 
                         // ==================== 👨‍🏫 ASIGNACIÓN DE INSTRUCTORES ====================
                         // TODAS LAS OPERACIONES - SOLO ADMIN
@@ -144,7 +148,7 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/project/api/v1/evaluaciones/**",
                                 "/api/v1/evaluaciones/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
                         .requestMatchers(
@@ -169,14 +173,14 @@ public class SecurityConfig {
                                 HttpMethod.POST,
                                 "/project/api/v1/evaluation-attempts/**",
                                 "/api/v1/evaluation-attempts/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ")
+                        ).hasAnyRole("ADMIN", "STUDENT")
 
                         // VER RESULTADOS (GET) - TODOS LOS ROLES AUTENTICADOS
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/evaluation-attempts/**",
                                 "/api/v1/evaluation-attempts/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ==================== 📚 MATERIALES DEL CURSO ====================
                         .requestMatchers(
@@ -185,14 +189,14 @@ public class SecurityConfig {
                                 "/api/v1/materials/**",
                                 "/project/api/v1/course-materials/**",
                                 "/api/v1/course-materials/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ==================== ❓ QUIZZES ====================
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/quizzes/**",
                                 "/api/v1/quizzes/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // REALIZAR QUIZZES (POST) - ADMIN Y APRENDIZ
                         .requestMatchers(
@@ -201,7 +205,7 @@ public class SecurityConfig {
                                 "/api/v1/quiz-attempts/**",
                                 "/project/api/v1/quiz-submissions/**",
                                 "/api/v1/quiz-submissions/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ")
+                        ).hasAnyRole("ADMIN", "STUDENT")
 
                         // ==================== 📊 PROGRESO DEL ESTUDIANTE ====================
                         .requestMatchers(
@@ -209,26 +213,26 @@ public class SecurityConfig {
                                 "/api/v1/progress/**",
                                 "/project/api/v1/student-progress/**",
                                 "/api/v1/student-progress/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ==================== 🏆 CERTIFICADOS ====================
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/certificates/**",
                                 "/api/v1/certificates/**"
-                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "STUDENT", "TEACHER")
 
                         // ==================== 📈 REPORTES ====================
                         .requestMatchers(
                                 "/project/api/v1/reports/**",
                                 "/api/v1/reports/**"
-                        ).hasAnyRole("ADMIN", "INSTRUCTOR")
+                        ).hasAnyRole("ADMIN", "TEACHER")
 
                         // ==================== 👨‍🏫 RUTAS DE INSTRUCTOR ====================
                         .requestMatchers(
                                 "/project/api/v1/instructor/**",
                                 "/api/v1/instructor/**"
-                        ).hasRole("INSTRUCTOR")
+                        ).hasRole("TEACHER")
 
                         // ==================== 👨‍🎓 RUTAS DE APRENDIZ ====================
                         .requestMatchers(
@@ -236,7 +240,7 @@ public class SecurityConfig {
                                 "/api/v1/apprentice/**",
                                 "/project/api/v1/student/**",
                                 "/api/v1/student/**"
-                        ).hasRole("APRENDIZ")
+                        ).hasRole("STUDENT")
 
                         // ==================== 🔒 EL RESTO REQUIERE AUTENTICACIÓN ====================
                         .anyRequest().authenticated()
