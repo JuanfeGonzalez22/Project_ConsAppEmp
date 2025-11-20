@@ -138,6 +138,39 @@ public class SecurityConfig {
                                 "/api/v1/course-instructors/**"
                         ).hasRole("ADMIN")
 
+                        // ==================== 🎮 GAMIFICACIÓN (RATINGS) ====================
+                        // ✅ NUEVO: GESTIÓN DE GAMIFICACIÓN - SOLO ADMIN
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/project/api/v1/ratings/**",
+                                "/api/v1/ratings/**"
+                        ).hasAnyRole("ADMIN", "INSTRUCTOR") // Admin e instructores pueden ver
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/project/api/v1/ratings/**",
+                                "/api/v1/ratings/**"
+                        ).hasRole("ADMIN") // Solo admin puede crear
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/project/api/v1/ratings/**",
+                                "/api/v1/ratings/**"
+                        ).hasRole("ADMIN") // Solo admin puede actualizar
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/project/api/v1/ratings/**",
+                                "/api/v1/ratings/**"
+                        ).hasRole("ADMIN") // Solo admin puede eliminar
+
+                        // ✅ NUEVO: LOGROS DE USUARIOS - MULTIPLES ROLES
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/project/api/v1/ratings/users/**",
+                                "/api/v1/ratings/users/**"
+                        ).hasAnyRole("ADMIN", "INSTRUCTOR", "APRENDIZ") // Todos pueden ver sus logros
+
                         // ==================== 🧪 EVALUACIONES ====================
                         // LECTURA (GET) - TODOS LOS ROLES AUTENTICADOS
                         .requestMatchers(
