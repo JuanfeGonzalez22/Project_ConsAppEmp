@@ -36,113 +36,149 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
-                        // ✅ RUTAS PÚBLICAS (todos pueden acceder sin autenticación)
+                        // ==================== 🔓 RUTAS PÚBLICAS ====================
                         .requestMatchers(
                                 "/project/api/v1/auth/**",
+                                "/api/v1/auth/**",
                                 "/project/swagger-ui/**",
                                 "/project/v3/api-docs/**",
                                 "/project/api-docs/**",
-                                "/project/error",
-                                "/api/v1/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/api-docs/**"
+                                "/api-docs/**",
+                                "/project/error",
+                                "/error"
                         ).permitAll()
 
-                        // ✅ GESTIÓN DE USUARIOS - SOLO ADMIN
+                        // ==================== 👥 GESTIÓN DE USUARIOS ====================
                         .requestMatchers(
                                 "/project/api/v1/users/**",
                                 "/api/v1/users/**"
                         ).hasRole("ADMIN")
 
-                        // ✅ CURSOS - LECTURA (GET) PARA TODOS LOS ROLES AUTENTICADOS
+                        // ==================== 📚 CURSOS ====================
+                        // LECTURA (GET) - TODOS LOS ROLES AUTENTICADOS
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/courses/**",
                                 "/api/v1/courses/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ CURSOS - CREAR (POST) SOLO ADMIN
+                        // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/project/api/v1/courses/**",
                                 "/api/v1/courses/**"
                         ).hasRole("ADMIN")
-
-                        // ✅ CURSOS - ACTUALIZAR (PUT) SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/project/api/v1/courses/**",
                                 "/api/v1/courses/**"
                         ).hasRole("ADMIN")
-
-                        // ✅ CURSOS - ELIMINAR (DELETE) SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/project/api/v1/courses/**",
                                 "/api/v1/courses/**"
                         ).hasRole("ADMIN")
 
-                        // ✅ MÓDULOS - LECTURA (GET) PARA TODOS LOS ROLES AUTENTICADOS
-                        .requestMatchers(HttpMethod.GET, "/project/api/v1/modules/**").hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/modules/**").hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
+                        // ==================== 📑 MÓDULOS ====================
+                        // LECTURA (GET) - TODOS LOS ROLES AUTENTICADOS
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/project/api/v1/modules/**",
+                                "/api/v1/modules/**"
+                        ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ MÓDULOS - CREAR (POST) SOLO ADMIN
-                        .requestMatchers(HttpMethod.POST, "/project/api/v1/modules/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/modules/**").hasRole("ADMIN")
+                        // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/project/api/v1/modules/**",
+                                "/api/v1/modules/**"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/project/api/v1/modules/**",
+                                "/api/v1/modules/**"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/project/api/v1/modules/**",
+                                "/api/v1/modules/**"
+                        ).hasRole("ADMIN")
 
-                        // ✅ MÓDULOS - ACTUALIZAR (PUT) SOLO ADMIN
-                        .requestMatchers(HttpMethod.PUT, "/project/api/v1/modules/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/modules/**").hasRole("ADMIN")
+                        // ==================== 📝 INSCRIPCIONES (REGISTRATIONS) ====================
+                        // LECTURA (GET) - ADMIN E INSTRUCTOR
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/project/api/v1/registrations/**",
+                                "/api/v1/registrations/**"
+                        ).hasAnyRole("ADMIN", "INSTRUCTOR")
 
-                        // ✅ MÓDULOS - ELIMINAR (DELETE) SOLO ADMIN
-                        .requestMatchers(HttpMethod.DELETE, "/project/api/v1/modules/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/modules/**").hasRole("ADMIN")
+                        // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/project/api/v1/registrations/**",
+                                "/api/v1/registrations/**"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/project/api/v1/registrations/**",
+                                "/api/v1/registrations/**"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/project/api/v1/registrations/**",
+                                "/api/v1/registrations/**"
+                        ).hasRole("ADMIN")
 
-                        // ✅ EVALUACIONES - LECTURA (GET) PARA TODOS LOS ROLES AUTENTICADOS
-                        // APRENDIZ puede ver evaluaciones disponibles
+                        // ==================== 👨‍🏫 ASIGNACIÓN DE INSTRUCTORES ====================
+                        // TODAS LAS OPERACIONES - SOLO ADMIN
+                        .requestMatchers(
+                                "/project/api/v1/course-instructors/**",
+                                "/api/v1/course-instructors/**"
+                        ).hasRole("ADMIN")
+
+                        // ==================== 🧪 EVALUACIONES ====================
+                        // LECTURA (GET) - TODOS LOS ROLES AUTENTICADOS
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/evaluaciones/**",
                                 "/api/v1/evaluaciones/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ EVALUACIONES - CREAR (POST) SOLO ADMIN
+                        // ESCRITURA (POST, PUT, DELETE) - SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/project/api/v1/evaluaciones/**",
                                 "/api/v1/evaluaciones/**"
                         ).hasRole("ADMIN")
-
-                        // ✅ EVALUACIONES - ACTUALIZAR (PUT) SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/project/api/v1/evaluaciones/**",
                                 "/api/v1/evaluaciones/**"
                         ).hasRole("ADMIN")
-
-                        // ✅ EVALUACIONES - ELIMINAR (DELETE) SOLO ADMIN
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/project/api/v1/evaluaciones/**",
                                 "/api/v1/evaluaciones/**"
                         ).hasRole("ADMIN")
 
-                        // ✅ INTENTOS DE EVALUACIÓN - APRENDIZ puede realizar evaluaciones
+                        // ==================== 🎯 INTENTOS DE EVALUACIÓN ====================
+                        // REALIZAR EVALUACIONES (POST) - ADMIN Y APRENDIZ
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/project/api/v1/evaluation-attempts/**",
                                 "/api/v1/evaluation-attempts/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ")
 
-                        // ✅ INTENTOS DE EVALUACIÓN - LECTURA (para ver resultados)
+                        // VER RESULTADOS (GET) - TODOS LOS ROLES AUTENTICADOS
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/evaluation-attempts/**",
                                 "/api/v1/evaluation-attempts/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ MATERIALES DEL CURSO - LECTURA PARA APRENDIZ
+                        // ==================== 📚 MATERIALES DEL CURSO ====================
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/materials/**",
@@ -151,14 +187,14 @@ public class SecurityConfig {
                                 "/api/v1/course-materials/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ QUIZZES (si tienes endpoints separados de evaluaciones)
+                        // ==================== ❓ QUIZZES ====================
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/quizzes/**",
                                 "/api/v1/quizzes/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ QUIZ ATTEMPTS - REALIZAR QUIZ (POST) PARA APRENDIZ
+                        // REALIZAR QUIZZES (POST) - ADMIN Y APRENDIZ
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/project/api/v1/quiz-attempts/**",
@@ -167,7 +203,7 @@ public class SecurityConfig {
                                 "/api/v1/quiz-submissions/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ")
 
-                        // ✅ PROGRESO DEL ESTUDIANTE - LECTURA Y ESCRITURA PARA APRENDIZ
+                        // ==================== 📊 PROGRESO DEL ESTUDIANTE ====================
                         .requestMatchers(
                                 "/project/api/v1/progress/**",
                                 "/api/v1/progress/**",
@@ -175,20 +211,26 @@ public class SecurityConfig {
                                 "/api/v1/student-progress/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ CERTIFICADOS - LECTURA PARA APRENDIZ
+                        // ==================== 🏆 CERTIFICADOS ====================
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/project/api/v1/certificates/**",
                                 "/api/v1/certificates/**"
                         ).hasAnyRole("ADMIN", "APRENDIZ", "INSTRUCTOR")
 
-                        // ✅ RUTAS DE INSTRUCTOR
+                        // ==================== 📈 REPORTES ====================
+                        .requestMatchers(
+                                "/project/api/v1/reports/**",
+                                "/api/v1/reports/**"
+                        ).hasAnyRole("ADMIN", "INSTRUCTOR")
+
+                        // ==================== 👨‍🏫 RUTAS DE INSTRUCTOR ====================
                         .requestMatchers(
                                 "/project/api/v1/instructor/**",
                                 "/api/v1/instructor/**"
                         ).hasRole("INSTRUCTOR")
 
-                        // ✅ RUTAS ESPECÍFICAS DE APRENDIZ (dashboard, perfil, etc.)
+                        // ==================== 👨‍🎓 RUTAS DE APRENDIZ ====================
                         .requestMatchers(
                                 "/project/api/v1/apprentice/**",
                                 "/api/v1/apprentice/**",
@@ -196,7 +238,7 @@ public class SecurityConfig {
                                 "/api/v1/student/**"
                         ).hasRole("APRENDIZ")
 
-                        // ✅ EL RESTO REQUIERE CUALQUIER AUTENTICACIÓN
+                        // ==================== 🔒 EL RESTO REQUIERE AUTENTICACIÓN ====================
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
