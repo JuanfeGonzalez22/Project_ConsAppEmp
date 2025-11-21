@@ -1,6 +1,5 @@
 package com.eam.LevelUpCorp.presentationLayer.controller;
 
-
 import com.eam.LevelUpCorp.businessLayer.dto.FileResourceDTO;
 import com.eam.LevelUpCorp.businessLayer.service.FileResourceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,15 +11,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
-/**
- * Controlador REST para operaciones CRUD de recursos de archivo
- */
 @RestController
 @RequestMapping("/api/v1/file-resources")
 @RequiredArgsConstructor
@@ -30,6 +34,79 @@ import java.util.List;
 public class FileResourceController {
 
     private final FileResourceService fileResourceService;
+
+    // Directorio donde se guardarán los archivos
+    @Value("${file.upload-dir:uploads}")
+    private String uploadDir;
+
+    /**
+     * Endpoint para subir archivos al servidor
+     */
+    @PostMapping("/upload")
+    @Operation(summary = "Subir archivo", description = "Sube un archivo PDF al servidor y retorna la URL")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Archivo subido exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Archivo inválido o no permitido"),
+            @ApiResponse(responseCode = "500", description = "Error al guardar el archivo")
+    })
+    public ResponseEntity<String> uploadFile(
+            @Parameter(description = "Archivo a subir", required = true)
+            @RequestParam("file") MultipartFile file
+    ) {
+        log.info("POST /api/v1/file-resources/upload - Subiendo archivo: {}", file.getOriginalFilename());
+
+        // Validar que el archivo no esté vacío
+        if (file.isEmpty()) {
+            log.warn("El archivo está vacío");
+            return ResponseEntity.badRequest().body("El archivo está vacío");
+        }
+
+        // Validar tipo de archivo (solo PDF)
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.equals("application/pdf")) {
+            log.warn("Tipo de archivo no permitido: {}", contentType);
+            return ResponseEntity.badRequest().body("Solo se permiten archivos PDF");
+        }
+
+        // Validar tamaño (máximo 10MB)
+        long maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.getSize() > maxSize) {
+            log.warn("Archivo demasiado grande: {} bytes", file.getSize());
+            return ResponseEntity.badRequest().body("El archivo no debe superar los 10MB");
+        }
+
+        try {
+            // Crear directorio si no existe
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+                log.info("Directorio de uploads creado: {}", uploadPath);
+            }
+
+            // Generar nombre único para el archivo
+            String originalFilename = file.getOriginalFilename();
+            String fileExtension = originalFilename != null && originalFilename.contains(".")
+                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                    : ".pdf";
+            String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
+
+            // Guardar el archivo
+            Path filePath = uploadPath.resolve(uniqueFilename);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            log.info("Archivo guardado exitosamente: {}", filePath);
+
+            // Construir URL del archivo (ajusta según tu configuración)
+            String fileUrl = "http://localhost:8080/uploads/" + uniqueFilename;
+
+            return ResponseEntity.ok(fileUrl);
+
+        } catch (IOException e) {
+            log.error("Error al guardar el archivo: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al guardar el archivo: " + e.getMessage());
+        }
+    }
 
     /**
      * Crear un nuevo recurso de archivo
@@ -197,6 +274,4 @@ public class FileResourceController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 }
